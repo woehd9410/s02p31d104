@@ -79,15 +79,17 @@
       </v-col>
     </v-row>
     <b-button
+      @click="axiosTest"
       variant="outline-primary"
       v-b-tooltip.hover
       title="Bootstrap test tooltip👼"
-      ><b-icon-alarm /> Button</b-button
+      ><b-icon-alarm /> Axios Button check log</b-button
     >
   </v-container>
 </template>
 
 <script>
+import api from "../api/axiosScript.js";
 export default {
   name: "HelloWorld",
 
@@ -144,5 +146,13 @@ export default {
       },
     ],
   }),
+  methods: {
+    axiosTest() {
+      api.getTest(
+        (res) => console.log(res),
+        (error) => console.log(error)
+      );
+    },
+  },
 };
 </script>
