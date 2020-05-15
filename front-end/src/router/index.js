@@ -7,7 +7,10 @@ function route(path, view, name) {
   return {
     name: name || view,
     path,
-    component: (resolve) => import(`@/views/${view}.vue`).then(resolve),
+    components: {
+      default: (resolve) => import(`@/views/${view}.vue`).then(resolve),
+      sidebar: (resolve) => import(`@/views/sidebar/${view}.vue`).then(resolve),
+    },
   };
 }
 
