@@ -1,18 +1,8 @@
 <template>
-  <!-- <v-app id="inspire"> -->
-  <!-- <v-content> -->
   <v-container class="fill-height" fluid>
     <v-row align="center" justify="center">
       <v-col cols="12" sm="8" md="4">
         <v-card>
-          <!-- <v-toolbar flat src="@/assets/background/LoginToolbar.jpg" height="100%">
-                <v-spacer />
-                <v-img height="200" src="@/assets/logo.png"></v-img>
-                <v-spacer />
-              </v-toolbar> -->
-          <br />
-          <br />
-          <br />
           <v-card-text>
             <v-form>
               <v-text-field v-model="email" :rules="emailRules" prepend-icon="mdi-account" label="E-mail" required></v-text-field>
@@ -42,8 +32,6 @@
       </v-col>
     </v-row>
   </v-container>
-  <!-- </v-content> -->
-  <!-- </v-app> -->
 </template>
 
 <script>
@@ -62,11 +50,8 @@ export default {
     signup() {
       this.$router.push("/signup");
     },
-    kakaologin() {
-      window.open(
-        "https://kauth.kakao.com/oauth/authorize?client_id=791762a35cc406a821c1638cfb83b826&redirect_uri=http://localhost:8080/account/kakaoSucc&response_type=code"
-      );
-    },
+    kakaologin() {},
+    naverlogin() {},
   },
 };
 </script>
