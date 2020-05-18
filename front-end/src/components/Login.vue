@@ -1,39 +1,68 @@
 <template>
-  <v-container class="fill-height" fluid>
-    <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="4">
-        <v-card>
-          <v-card-text>
-            <v-form>
-              <v-text-field v-model="email" :rules="emailRules" prepend-icon="mdi-account" label="E-mail" required></v-text-field>
-              <v-text-field id="password" label="Password" name="password" prepend-icon="mdi-lock" type="password" />
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer />
-            <v-btn color="primary" @click="login">Login</v-btn>
-            <v-btn color="primary" @click="signup">SignUP</v-btn>
-            <v-btn color="primary" @click="backpage">Cancel</v-btn>
-            <v-spacer />
-          </v-card-actions>
-          <div>
-            <div>
-              <hr />
-              <div style="text-align: center;">SNS Login</div>
-              <v-card-actions>
-                <v-spacer />
-                <v-btn color="yellow" @click="kakaologin()">Kakao</v-btn>
-                <v-btn color="success" @click="naverlogin()">Naver</v-btn>
-                <v-spacer />
-              </v-card-actions>
+  <v-content>
+    <v-container>
+      <div class="container-fluid">
+        <div class="row no-gutter">
+          <div class="image">
+            <img
+              src="https://search.pstatic.net/common/?src=http%3A%2F%2Fpost.phinf.naver.net%2FMjAxODAxMDlfMjgy%2FMDAxNTE1NDcxOTgwNzMy.SwBdmOqNPVBGl00FcD_Qt1A7-oQ4Z91Y-vxcVYBcEB8g.1WACHs_iAy_reXQCyG7kNSPejearErbneyu0h122L6Ag.JPEG%2FIRhV1J37bSVke3lLZNsdWwj1aNGE.jpg&type=b400"
+            />
+          </div>
+          <div class="col-md-8 col-lg-6">
+            <div class="login d-flex align-items-center py-5">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-9 col-lg-8 mx-auto">
+                    <h3 class="login-heading mb-4">Login</h3>
+                    <form>
+                      <div class="form-label-group">
+                        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus />
+                      </div>
+                      <br />
+                      <div class="form-label-group">
+                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required />
+                      </div>
+
+                      <br />
+                      <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="button" @click="login()">
+                        Login
+                      </button>
+                      <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="button" @click="signup()">
+                        Sign in
+                      </button>
+                      <div class="text-center">
+                        <button @click="searchPW()"><a class="small">Forgot password?</a></button>
+                        <!-- <a class="small"><button @click="searchPW()"></button>Forgot password?</a> -->
+                      </div>
+                      <hr />
+                      <div style="text-align: center;">SNS Login</div>
+                      <br />
+                      <v-card-actions>
+                        <v-spacer />
+                        <v-btn color="yellow" large @click="kakaologin()">Kakao Login</v-btn>
+                        <v-btn color="success" large @click="naverlogin()">Naver Login</v-btn>
+                        <v-spacer />
+                      </v-card-actions>
+                    </form>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+        </div>
+      </div>
+    </v-container>
+  </v-content>
 </template>
 
+<style>
+.image img {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
 <script>
 export default {
   name: "Login",
@@ -64,8 +93,10 @@ export default {
       console.log("네이버 로그인 연결");
       alert("네이버 로그인 연결");
     },
+    searchPW() {
+      console.log("비밀번호 찾기");
+      alert("비밀번호 찾기");
+    },
   },
 };
 </script>
-
-<style></style>

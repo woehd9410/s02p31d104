@@ -20,8 +20,6 @@ export default {
     vfooter,
     vview,
   },
-  created() {
-    this.$vuetify.theme.dark = true;
-  },
+  created() {},
 };
 </script>
