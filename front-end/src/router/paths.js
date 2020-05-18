@@ -4,4 +4,9 @@ export default [
     view: "Home",
     name: "Home",
   },
+  {
+    path: "/Login",
+    view: "LoginPage",
+    name: "LoginPage",
+  },
 ];
