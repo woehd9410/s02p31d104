@@ -21,7 +21,7 @@ public class HelloController {
         return "hello";
     }
 
-    @GetMapping("/list")
+    @GetMapping("/user")
     public List<User> getUser(){
 
         return userService.getUsers();
@@ -47,6 +47,19 @@ public class HelloController {
             System.out.println(user.toString());
             int ans = userService.updateUser(user);
             System.out.println("수정 성공  : " + ans);
+            return new ResponseEntity(HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @DeleteMapping("/user")
+    public ResponseEntity deleteUser(@RequestParam("user_id") String user_id) throws Exception{
+        try {
+            System.out.println("유저 삭제");
+            System.out.println(user_id);
+            int ans = userService.deleteUser(user_id);
+            System.out.println("삭제 성공  : " + ans);
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);

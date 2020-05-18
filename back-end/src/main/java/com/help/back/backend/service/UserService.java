@@ -8,4 +8,5 @@ public interface UserService {
     List<User> getUsers();
     int postUser(User user);
     int updateUser(User user);
+    int deleteUser(String user_id);
 }
