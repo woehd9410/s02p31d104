@@ -5,5 +5,10 @@
     <select id="getUsers" resultType="com.help.back.backend.domain.User">
         select * from user
     </select>
+    <insert id="postUser" parameterType="com.help.back.backend.domain.User">
+        INSERT INTO
+        user(user_id, password, name, email, birthday, phone_number)
+        Values(#{user_id}, #{password}, #{name}, #{email}, #{birthday}, #{phone_number})
+    </insert>
 
 </mapper>

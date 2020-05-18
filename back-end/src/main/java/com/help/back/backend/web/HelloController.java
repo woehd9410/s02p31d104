@@ -3,8 +3,9 @@ package com.help.back.backend.web;
 import com.help.back.backend.domain.User;
 import com.help.back.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,5 +25,19 @@ public class HelloController {
     public List<User> getUser(){
 
         return userService.getUsers();
+    }
+
+    @PostMapping("/user")
+    public ResponseEntity postUser(@RequestBody User user) throws Exception{
+        try {
+            User test = new User();
+            System.out.println("유저 추가");
+            System.out.println(user.toString());
+            int ans = userService.postUser(user);
+            System.out.println("추가 성공  : " + ans);
+            return new ResponseEntity(HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
     }
 }
