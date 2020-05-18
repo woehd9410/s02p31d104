@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <appbar />
-    <vview/>
+    <vview />
     <vfooter />
   </v-app>
 </template>
@@ -21,8 +21,6 @@ export default {
     vfooter,
     vview,
   },
-  created() {
-    this.$vuetify.theme.dark = true;
-  },
 };
 </script>
+
