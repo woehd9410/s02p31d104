@@ -7,4 +7,5 @@ import java.util.List;
 public interface UserDao {
     List<User> getUsers();
     int postUser(User user);
+    int updateUser(User user);
 }

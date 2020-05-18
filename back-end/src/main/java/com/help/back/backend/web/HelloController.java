@@ -30,11 +30,23 @@ public class HelloController {
     @PostMapping("/user")
     public ResponseEntity postUser(@RequestBody User user) throws Exception{
         try {
-            User test = new User();
             System.out.println("유저 추가");
             System.out.println(user.toString());
             int ans = userService.postUser(user);
             System.out.println("추가 성공  : " + ans);
+            return new ResponseEntity(HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @PutMapping("/user")
+    public ResponseEntity updateUser(@RequestBody User user) throws Exception{
+        try {
+            System.out.println("유저 수정");
+            System.out.println(user.toString());
+            int ans = userService.updateUser(user);
+            System.out.println("수정 성공  : " + ans);
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);

@@ -10,5 +10,8 @@
         user(user_id, password, name, email, birthday, phone_number)
         Values(#{user_id}, #{password}, #{name}, #{email}, #{birthday}, #{phone_number})
     </insert>
-
+    <update id="updateUser" parameterType="com.help.back.backend.domain.User">
+        UPDATE user SET password = #{password}, name = #{name}, email = #{email}, birthday = #{birthday}, phone_number = #{phone_number}
+        WHERE user_id = #{user_id}
+    </update>
 </mapper>
