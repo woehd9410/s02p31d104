@@ -13,7 +13,7 @@
 <script>
 import Login from "../components/Login.vue";
 export default {
-  name: "LoginPage",
+  name: "Login",
   component: { Login },
 };
 </script>

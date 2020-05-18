@@ -6,7 +6,7 @@ export default [
   },
   {
     path: "/Login",
-    view: "LoginPage",
-    name: "LoginPage",
+    view: "Login",
+    name: "Login",
   },
 ];

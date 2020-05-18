@@ -11,7 +11,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="primary">Login</v-btn>
+            <v-btn color="primary" @click="login">Login</v-btn>
             <v-btn color="primary" @click="signup">SignUP</v-btn>
             <v-btn color="primary" @click="backpage">Cancel</v-btn>
             <v-spacer />
@@ -44,14 +44,26 @@ export default {
     emailRules: [(v) => !!v || "E-mail is required", (v) => /.+@.+\..+/.test(v) || "E-mail must be valid"],
   }),
   methods: {
+    login() {
+      console.log("로그인 !!!");
+      alert("로그인!!!");
+    },
     backpage() {
       this.$router.go(-1);
     },
     signup() {
-      this.$router.push("/signup");
+      console.log("회원가입 페이지 이동");
+      alert("회원가입 페이지 이동");
+      // this.$router.push("/signup");
     },
-    kakaologin() {},
-    naverlogin() {},
+    kakaologin() {
+      console.log("카카오 로그인 연결");
+      alert("카카오 로그인 연결");
+    },
+    naverlogin() {
+      console.log("네이버 로그인 연결");
+      alert("네이버 로그인 연결");
+    },
   },
 };
 </script>
