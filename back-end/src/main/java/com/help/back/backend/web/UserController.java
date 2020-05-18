@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-public class HelloController {
+public class UserController {
 
     @Autowired
     UserService userService;
@@ -22,9 +22,17 @@ public class HelloController {
     }
 
     @GetMapping("/user")
-    public List<User> getUser(){
-
-        return userService.getUsers();
+    public ResponseEntity<List<User>> getUser(@RequestBody User user) throws Exception{
+        List<User> list = null;
+        try {
+            System.out.println("유저 검색");
+            System.out.println(user.toString());
+            list = userService.getUsers(user);
+            System.out.println(list);
+            return new ResponseEntity<List<User>>(list,HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity<List<User>>(list,HttpStatus.NO_CONTENT);
+        }
     }
 
     @PostMapping("/user")
