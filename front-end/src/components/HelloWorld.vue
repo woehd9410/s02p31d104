@@ -3,12 +3,12 @@
     <v-container>
       <div class="container-fluid">
         <div class="row no-gutter">
-          <div class="image">
+          <div class="image col-lg-6 col-md-12 col-sm-12">
             <img
               src="https://search.pstatic.net/common/?src=http%3A%2F%2Fpost.phinf.naver.net%2FMjAxODAxMDlfMjgy%2FMDAxNTE1NDcxOTgwNzMy.SwBdmOqNPVBGl00FcD_Qt1A7-oQ4Z91Y-vxcVYBcEB8g.1WACHs_iAy_reXQCyG7kNSPejearErbneyu0h122L6Ag.JPEG%2FIRhV1J37bSVke3lLZNsdWwj1aNGE.jpg&type=b400"
             />
           </div>
-          <div class="col-md-8 col-lg-6">
+          <div class="col-md-12 col-lg-6 col-sm-12">
             <div class="login d-flex align-items-center py-5">
               <div class="container">
                 <div class="row">
