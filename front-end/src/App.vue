@@ -10,7 +10,6 @@
 import appbar from "@/components/Appbar";
 import vfooter from "@/components/Footer";
 import vview from "@/components/View";
-
 export default {
   name: "App",
   data() {
