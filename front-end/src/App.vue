@@ -20,6 +20,6 @@ export default {
     vfooter,
     vview,
   },
-  created() {},
 };
 </script>
+
