@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  name: "HelloWorld",
+  name: "Profile",
 
   data: () => ({
     name: "애용",
