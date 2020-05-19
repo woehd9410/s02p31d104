@@ -22,12 +22,21 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<User>> getUser(@RequestBody User user) throws Exception{
+    public ResponseEntity<List<User>> getUser(@RequestParam("content") String content, @RequestParam("option") String option) throws Exception{
         List<User> list = null;
         try {
             System.out.println("유저 검색");
-            System.out.println(user.toString());
-            list = userService.getUsers(user);
+            System.out.println("조건 : " + option + " 내용 : " + content);
+            if(option.equals("이름")){
+                list = userService.getUsersByName(content);
+            }else if(option.equals("이메일")){
+                list = userService.getUsersByEmail(content);
+            }else if(option.equals("아이디")){
+                list = userService.getUsersById(content);
+            }else{
+                list = userService.getUsers();
+            }
+
             System.out.println(list);
             return new ResponseEntity<List<User>>(list,HttpStatus.OK);
         }catch(Exception e) {
