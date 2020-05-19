@@ -37,7 +37,7 @@ public class UserController {
             }else if(option.equals("email")){
                 list = userService.getUsersByEmail(content);
             }else if(option.equals("id")){
-                list = userService.getUsersById(content);
+                list = userService.getUsersById(Integer.parseInt(content));
             }else{
                 list = userService.getUsers();
             }
@@ -79,7 +79,7 @@ public class UserController {
 
     @ApiOperation(value = "유저 삭제", notes = "유저를 삭제합니다.")
     @DeleteMapping("/user")
-    public ResponseEntity deleteUser(@RequestParam("user_id") String user_id) throws Exception{
+    public ResponseEntity deleteUser(@RequestParam("user_id") int user_id) throws Exception{
         try {
             System.out.println("유저 삭제");
             System.out.println(user_id);
