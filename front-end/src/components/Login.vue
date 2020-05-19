@@ -101,25 +101,24 @@ export default {
     ],
   }),
   methods: {
+    closeDialog(type) {
+      this.$emit("loginEvent", type);
+    },
     login() {
-      console.log("로그인 !!!");
-      alert("로그인!!!");
+      this.closeDialog("Nomal");
     },
     backpage() {
       this.$router.go(-1);
     },
     signup() {
       console.log("회원가입 페이지 이동");
-      alert("회원가입 페이지 이동");
       // this.$router.push("/signup");
     },
     kakaologin() {
-      console.log("카카오 로그인 연결");
-      alert("카카오 로그인 연결");
+      this.closeDialog("Kakao");
     },
     naverlogin() {
-      console.log("네이버 로그인 연결");
-      alert("네이버 로그인 연결");
+      this.closeDialog("Naver");
     },
     searchPW() {
       console.log("비밀번호 찾기");

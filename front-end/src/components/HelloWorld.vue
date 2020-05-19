@@ -80,33 +80,16 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-dialog v-model="dialog" persistent max-width="1100">
-        <template v-slot:activator="{ on }">
-          <b-button
-            v-on="on"
-            @click="axiosTest"
-            variant="outline-primary"
-            v-b-tooltip.hover
-            title="Bootstrap test tooltip👼"
-            ><b-icon-alarm /> Axios Button check log</b-button
-          >
-        </template>
-        <login />
-      </v-dialog>
     </v-container>
   </v-content>
 </template>
 
 <script>
-import Login from "@/components/Login";
 import api from "../api/axiosScript.js";
 export default {
   name: "HelloWorld",
-  components: {
-    login: Login,
-  },
+  components: {},
   data: () => ({
-    dialog: false,
     ecosystem: [
       {
         text: "vuetify-loader",
@@ -159,6 +142,11 @@ export default {
       },
     ],
   }),
+  computed: {
+    userAuth() {
+      return this.$store.getters.userAuth;
+    },
+  },
   methods: {
     axiosTest() {
       api.getTest(
