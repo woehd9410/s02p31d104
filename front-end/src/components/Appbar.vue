@@ -10,7 +10,18 @@
     <v-app-bar-nav-icon @click.stop="switchSidebar"></v-app-bar-nav-icon>
 
     <template v-slot:extension>
-      <v-tabs align-with-title>
+      <v-tabs
+        v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
+        v-model="currentTab"
+      >
+        <v-tab
+          v-for="category in categorys"
+          :key="category.id"
+          @click="goRoute(category)"
+          >{{ category }}</v-tab
+        >
+      </v-tabs>
+      <v-tabs v-else align-with-title v-model="currentTab">
         <v-tab
           v-for="category in categorys"
           :key="category.id"
@@ -23,14 +34,18 @@
       >Helpromise</v-toolbar-title
     >
     <v-spacer></v-spacer>
-    <div>
+    <div v-if="userInfo.img">
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-avatar v-on="on" style="cursor: pointer;">
-            <img :src="userInfo.img" :alt="userInfo.name" @click="goRoute('profile')" />
+            <img
+              :src="userInfo.img"
+              :alt="userInfo.name"
+              @click="goRoute('profile')"
+            />
           </v-avatar>
         </template>
-        <span>{{userInfo.name}}</span>
+        <span>{{ userInfo.name }}</span>
       </v-tooltip>
     </div>
   </v-app-bar>
@@ -40,7 +55,8 @@
 export default {
   data() {
     return {
-      categorys: ["Home", "Schedule", "Board", "Alarm"],
+      currentTab: "home",
+      categorys: ["home", "schedule", "board", "alarm"],
       dialog: false,
     };
   },
@@ -63,11 +79,14 @@ export default {
       this.$store.commit("switchDrawer");
       console.log(`sidebar ${this.drawer ? "open" : "close"}`);
     },
-    goRoute(page = "") {
-      if (this.$route.path == `/${page}`) return;
+    goRoute(page = "home") {
+      if (page == "home") {
+        this.currentTab = 0;
+        page = "";
+      }
       console.log(`go to route ${page}.vue page`);
-      if (page == "") this.$router.push("/");
-      if (page == "profile") this.$router.push("/profile");
+      if (this.$route.path == `/${page}`) return;
+      this.$router.push(`/${page}`);
 
       // this.$router.push({ name: page });
     },
