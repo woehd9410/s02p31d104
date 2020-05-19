@@ -16,4 +16,34 @@ public class UserServiceImpl implements UserService{
     public List<User> getUsers() {
         return userDao.getUsers();
     }
+
+    @Override
+    public List<User> getUsersByName(String name) {
+        return userDao.getUsersByName(name);
+    }
+
+    @Override
+    public List<User> getUsersByEmail(String email) {
+        return userDao.getUsersByEmail(email);
+    }
+
+    @Override
+    public List<User> getUsersById(String user_id) {
+        return userDao.getUsersById(user_id);
+    }
+
+    @Override
+    public int postUser(User user) {
+        return userDao.postUser(user);
+    }
+
+    @Override
+    public int updateUser(User user) {
+        return userDao.updateUser(user);
+    }
+
+    @Override
+    public int deleteUser(String user_id) {
+        return userDao.deleteUser(user_id);
+    }
 }
