@@ -8,7 +8,7 @@
       <form>
         <input type="text" v-model="inputValue"/>
         <!-- <button class="btn-add">add</button> -->
-        <v-btn class="btn-add" small color="primary">add</v-btn>
+        <v-btn class="btn-add" small color="primary" @click="addSchedule()">add</v-btn>
       </form>
 
       <v-list class="list">
@@ -63,6 +63,7 @@
 import Vue from 'vue'
 import Datetime from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
+import addTodoList from '../api/schedule/todolist'
 
 Vue.use(Datetime)
 export default {
@@ -81,10 +82,6 @@ export default {
     }
   },
   methods:{
-    toSchedulePopup(){
-      this.scheduleModal = !this.scheduleModal;
-      
-    },
     changeScheduleId(){
       this.scheduleId = 1
       console.log(this.scheduleId)
@@ -92,6 +89,9 @@ export default {
     update(){
       console.log(this.startdate)
       this.schedulemodal = false
+    },
+    addSchedule(){
+      
     }
   }
 }
