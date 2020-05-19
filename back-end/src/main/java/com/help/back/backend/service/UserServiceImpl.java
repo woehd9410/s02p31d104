@@ -13,8 +13,23 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserDao userDao;
     @Override
-    public List<User> getUsers(User user) {
-        return userDao.getUsers(user);
+    public List<User> getUsers() {
+        return userDao.getUsers();
+    }
+
+    @Override
+    public List<User> getUsersByName(String name) {
+        return userDao.getUsersByName(name);
+    }
+
+    @Override
+    public List<User> getUsersByEmail(String email) {
+        return userDao.getUsersByEmail(email);
+    }
+
+    @Override
+    public List<User> getUsersById(String user_id) {
+        return userDao.getUsersById(user_id);
     }
 
     @Override

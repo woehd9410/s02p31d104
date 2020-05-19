@@ -27,12 +27,21 @@ public class UserController {
 
     @ApiOperation(value = "유저 조회", notes = "검색 조건에 맞는 유저를 조회합니다.")
     @GetMapping("/user")
-    public ResponseEntity<List<User>> getUser(@RequestBody User user) throws Exception{
+    public ResponseEntity<List<User>> getUser(@RequestParam("content") String content, @RequestParam("option") String option) throws Exception{
         List<User> list = null;
         try {
             System.out.println("유저 검색");
-            System.out.println(user.toString());
-            list = userService.getUsers(user);
+            System.out.println("조건 : " + option + " 내용 : " + content);
+            if(option.equals("name")){
+                list = userService.getUsersByName(content);
+            }else if(option.equals("email")){
+                list = userService.getUsersByEmail(content);
+            }else if(option.equals("id")){
+                list = userService.getUsersById(content);
+            }else{
+                list = userService.getUsers();
+            }
+
             System.out.println(list);
             return new ResponseEntity<List<User>>(list,HttpStatus.OK);
         }catch(Exception e) {
