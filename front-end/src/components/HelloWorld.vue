@@ -16,11 +16,11 @@
                     <h3 class="login-heading mb-4">Login</h3>
                     <form>
                       <div class="form-label-group">
-                        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus />
+                        <input type="id" id="id" v-model="id" class="form-control" placeholder="id" required autofocus />
                       </div>
                       <br />
                       <div class="form-label-group">
-                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required />
+                        <input type="password" id="password" v-model="password" class="form-control" placeholder="Password" required />
                       </div>
 
                       <br />
@@ -32,7 +32,6 @@
                       </button>
                       <div class="text-center">
                         <button @click="searchPW()"><a class="small">Forgot password?</a></button>
-                        <!-- <a class="small"><button @click="searchPW()"></button>Forgot password?</a> -->
                       </div>
                       <hr />
                       <div style="text-align: center;">SNS Login</div>
@@ -64,18 +63,32 @@
 }
 </style>
 <script>
+import axios from "axios";
 export default {
   name: "Login",
 
   data: () => ({
-    name: "",
-    email: "",
-    emailRules: [(v) => !!v || "E-mail is required", (v) => /.+@.+\..+/.test(v) || "E-mail must be valid"],
+    id: "",
+    password: "",
   }),
   methods: {
     login() {
       console.log("로그인 !!!");
       alert("로그인!!!");
+
+      const formData = {
+        id: this.id,
+        password: this.password,
+      };
+
+      console.log(formData);
+
+      axios
+        .post("/api/data", formData)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((error) => console.log(error));
     },
     backpage() {
       this.$router.go(-1);
@@ -86,7 +99,7 @@ export default {
       // this.$router.push("/signup");
     },
     kakaologin() {
-      console.log("카카오 로그인 연결");
+      console.log("카카오 로그인 연 결");
       alert("카카오 로그인 연결");
     },
     naverlogin() {
