@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <appbar />
-    <vview/>
+    <vview />
     <vfooter />
   </v-app>
 </template>
@@ -10,7 +10,6 @@
 import appbar from "@/components/Appbar";
 import vfooter from "@/components/Footer";
 import vview from "@/components/View";
-
 export default {
   name: "App",
   data() {
@@ -21,8 +20,6 @@ export default {
     vfooter,
     vview,
   },
-  created() {
-    this.$vuetify.theme.dark = true;
-  },
 };
 </script>
+
