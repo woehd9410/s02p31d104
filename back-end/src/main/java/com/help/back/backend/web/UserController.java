@@ -27,11 +27,11 @@ public class UserController {
         try {
             System.out.println("유저 검색");
             System.out.println("조건 : " + option + " 내용 : " + content);
-            if(option.equals("이름")){
+            if(option.equals("name")){
                 list = userService.getUsersByName(content);
-            }else if(option.equals("이메일")){
+            }else if(option.equals("email")){
                 list = userService.getUsersByEmail(content);
-            }else if(option.equals("아이디")){
+            }else if(option.equals("id")){
                 list = userService.getUsersById(content);
             }else{
                 list = userService.getUsers();
