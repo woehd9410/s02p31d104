@@ -4,11 +4,8 @@
     app
     :clipped-left="$vuetify.breakpoint.lgAndUp"
     :color="themeColor"
-    absolute
     dark
-    src="
-    https://images.unsplash.com/photo-1583078156135-8e04f60c2606?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60
-    "
+    src="https://images.unsplash.com/photo-1583078156135-8e04f60c2606?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
   >
     <v-app-bar-nav-icon @click.stop="switchSidebar"></v-app-bar-nav-icon>
 
@@ -22,18 +19,18 @@
         >
       </v-tabs>
     </template>
-    <v-toolbar-title id="appbarTitle" @click="goHome"
+    <v-toolbar-title id="appbarTitle" @click="goRoute()"
       >Helpromise</v-toolbar-title
     >
     <v-spacer></v-spacer>
-    <div id="sign">
+    <div>
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-avatar v-on="on" style="cursor: pointer;">
-            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+            <img :src="userInfo.img" :alt="userInfo.name" @click="goRoute('profile')" />
           </v-avatar>
         </template>
-        <span>User Name</span>
+        <span>{{userInfo.name}}</span>
       </v-tooltip>
     </div>
   </v-app-bar>
@@ -48,6 +45,9 @@ export default {
     };
   },
   computed: {
+    userInfo() {
+      return this.$store.getters.getUserInfo;
+    },
     themeColor() {
       return this.$store.getters.getThemeColor;
     },
@@ -63,18 +63,16 @@ export default {
       this.$store.commit("switchDrawer");
       console.log(`sidebar ${this.drawer ? "open" : "close"}`);
     },
-    goRoute(page) {
+    goRoute(page = "") {
+      if (this.$route.path == `/${page}`) return;
       console.log(`go to route ${page}.vue page`);
+      if (page == "") this.$router.push("/");
+      if (page == "profile") this.$router.push("/profile");
 
       // this.$router.push({ name: page });
     },
     login() {
       console.log(`show login modal`);
-    },
-    goHome() {
-      console.log(`go Home page`);
-
-      if (this.$route.path != "/") this.$router.push({ name: "Home" });
     },
   },
 };

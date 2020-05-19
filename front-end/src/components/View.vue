@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-row justify="center">
-      <v-dialog v-model="dialog" persistent max-width="1100">
+      <v-dialog v-model="showDialog" persistent max-width="1100">
         <login @loginEvent="loginEvent" />
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="dialog = false">강제 로그인</v-btn>
+          <v-btn @click="loginEvent('Force')">강제 로그인</v-btn>
         </v-card-actions>
       </v-dialog>
     </v-row>
@@ -18,22 +18,17 @@
 import login from "@/components/Login.vue";
 export default {
   data() {
-    return {
-      dialog: true,
-    };
-  },
-  mounted() {
-    this.dialog = !this.userAuth;
+    return {};
   },
   methods: {
     loginEvent(payload) {
       console.log(`${payload} Login Event`);
-      this.dialog = false;
+      this.$store.commit("login");
     },
   },
   computed: {
-    usreAuth() {
-      return this.$store.getters.userAuth;
+    showDialog() {
+      return !this.$store.getters.userAuth;
     },
   },
   components: {
