@@ -20,7 +20,9 @@
           전화번호 : {{ number }}
           <br />
           친구 추천 코드 : {{ name }}#{{ id }} <br /><br />
-          <v-btn color="primary" large @click="updateUser()">수정하기</v-btn>
+          <v-btn large @click="updateUser()">
+            <img src="https://cdn.icon-icons.com/icons2/906/PNG/512/cogwheel-1_icon-icons.com_70236.png" height="30px" />
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -31,7 +33,7 @@
 
 <script>
 export default {
-  name: "Profile",
+  name: "HelloWorld",
 
   data: () => ({
     name: "애용",
