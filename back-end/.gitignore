@@ -129,9 +129,9 @@ hs_err_pid*
 build/
 
 # Backend
-back-end/.classpath
-back-end/.project
-back-end/.settings/org.eclipse.buildship.core.prefs
+.classpath
+.project
+.settings/org.eclipse.buildship.core.prefs
 
 # Ignore Gradle GUI config
 gradle-app.setting
