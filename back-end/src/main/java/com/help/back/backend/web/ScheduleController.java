@@ -53,8 +53,8 @@ public class ScheduleController {
         }
     }
 
-    @DeleteMapping("/todo/delete")
-    public ResponseEntity deleteTodo(int id) throws Exception{
+    @DeleteMapping("/todo/delete/{id}")
+    public ResponseEntity deleteTodo(@PathVariable int id) throws Exception{
         try{
             System.out.println("todolist delete");
             int result = scheduleService.deleteTodo(id);
