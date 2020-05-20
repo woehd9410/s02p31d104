@@ -4,17 +4,17 @@
 <mapper namespace="com.help.back.backend.dao.ScheduleDao">
 
     <select id="getTodoLists" resultType="com.help.back.backend.domain.Schedule">
-        SELECT * FROM user_schedule WHERE start_time = 0
+        SELECT * FROM user_schedule WHERE start_time IS NULL
     </select>
     <insert id="addTodo" parameterType="com.help.back.backend.domain.Schedule">
-        INSERT INTO user_schedule (content, user_id)
-        VALUES(#{content}, #{user_id})
+        INSERT INTO user_schedule (content, title , type , user_id)
+        VALUES(#{content}, "", 0, #{user_id})
     </insert>
     <delete id="deleteTodo" parameterType="int">
         DELETE FROM user_schedule where id = #{value}
     </delete>
     <update id="updateTodo" parameterType="com.help.back.backend.domain.Schedule">
         UPDATE user_schedule SET start_date = #{start_date}, end_date = #{end_date}
-        WHERE user_id = #{user_id}
+        WHERE id = #{id}
     </update>
 </mapper>
