@@ -15,6 +15,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     @Override
     public List<Schedule> getTodoList() {
+        System.out.println("serviceImpl======================");
         return scheduleDao.getTodoLists();
     }
 

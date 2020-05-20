@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.help.back.backend.dao.todoListDao">
-    <insert id="" useGeneratedKeys="true"></insert>
+<mapper namespace="com.help.back.backend.dao.ScheduleDao">
+
     <select id="getTodoLists" resultType="com.help.back.backend.domain.Schedule">
-        select * from user_schedule where start_date = 0
+        select * from user_schedule 
     </select>
-    <update id=""></update>
-    <delete id=""></delete>
+   
 </mapper>

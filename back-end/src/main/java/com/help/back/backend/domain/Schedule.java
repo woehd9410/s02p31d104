@@ -17,8 +17,8 @@ public class Schedule {
     private int id;
     private String content;
     private char title;
-    private Date start_time;
-    private Date end_time;
+    private String start_time;
+    private String end_time;
     private char address;
     private int sche_type;
     private double latitude;
