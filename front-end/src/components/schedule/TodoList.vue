@@ -30,14 +30,14 @@
           label-for="name-input"
           invalid-feedback="Name is required"
         >
-        <datetime type="datetime" v-model="startdate" ></datetime>
+        <datetime type="datetime" v-model="start_time" ></datetime>
         </b-form-group>
         <b-form-group
           label="End"
           label-for="name-input"
           invalid-feedback="Name is required"
         >
-        <datetime type="datetime" v-model="enddate" ></datetime>
+        <datetime type="datetime" v-model="end_time" ></datetime>
         </b-form-group>
         
       </form>
@@ -73,8 +73,8 @@ export default {
   data() {
     return {
       inputValue: this.value,
-      startDate: 'Select Date',
-      endDate: 'Select Date',
+      start_time: 'Select Date',
+      end_time: 'Select Date',
       scheduleId: 0,
       schedulemodal: false,
     }
@@ -87,10 +87,14 @@ export default {
     },
     update(){
       console.log(this.startdate)
+      let {start_time, end_time} = this;
+      let data = {start_time, end_time};
+      await todoApi.updateTodo(data);
       this.schedulemodal = false
     },
     addTodo(){
-     
+     await todoApi.addTodo(this.inputValue);
+
     },
     getTodo: async function(){
       this.items = (await todoApi.getTodo());
