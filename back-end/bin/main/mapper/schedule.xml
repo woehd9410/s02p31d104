@@ -4,7 +4,7 @@
 <mapper namespace="com.help.back.backend.dao.ScheduleDao">
 
     <select id="getTodoLists" resultType="com.help.back.backend.domain.Schedule">
-        SELECT * FROM user_schedule 
+        SELECT * FROM user_schedule WHERE start_time = 0
     </select>
     <insert id="addTodo" parameterType="com.help.back.backend.domain.Schedule">
         INSERT INTO user_schedule (content, user_id)
