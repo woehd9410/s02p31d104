@@ -52,7 +52,7 @@ export default new Vuex.Store({
         email: "dhzm1aud@gmail.com",
         phoneNumber: "010-8262-3777",
         birthday: "19940527",
-        type: "Person account", // 개인 : Poerson account , 부서 : Department account
+        type: "Person", // 개인 : Poerson account , 부서 : Department account
       };
       return (state.user.auth = payload);
     },
