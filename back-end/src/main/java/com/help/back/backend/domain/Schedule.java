@@ -16,12 +16,12 @@ public class Schedule {
 
     private int id;
     private String content;
-    private char title;
+    private String title;
     private String start_time;
     private String end_time;
-    private char address;
+    private String address;
     private int sche_type;
     private double latitude;
     private double longitude;
-    private char user_id;
+    private int user_id;
 }
