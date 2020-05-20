@@ -1,5 +1,6 @@
 package com.help.back.backend.web;
 
+import com.help.back.backend.dto.Login;
 import com.help.back.backend.domain.User;
 import com.help.back.backend.service.UserService;
 import io.swagger.annotations.Api;
@@ -9,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Api(tags = {"1. User"})
@@ -88,6 +88,20 @@ public class UserController {
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @ApiOperation(value = "유저 로그인", notes = "유저 email & password를 통해 로그인 확인 ")
+    @PostMapping("/user/login")
+    public ResponseEntity<User> login(@RequestBody Login login) throws Exception{
+        User user = null;
+        try {
+            System.out.println("유저 로그인");
+            user = userService.login(login);
+            System.out.println(user);
+            return new ResponseEntity<User>(user,HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity<User>(user,HttpStatus.NO_CONTENT);
         }
     }
 }
