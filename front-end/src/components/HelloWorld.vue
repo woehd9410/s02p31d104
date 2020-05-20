@@ -1,48 +1,158 @@
+@@ -0,0 +1,160 @@
 <template>
   <v-content>
     <v-container>
       <v-row class="text-center">
         <v-col cols="12">
-          <div class="box">
-            <img
-              style="border-radius:70px"
-              src="https://search.pstatic.net/common/?src=http%3A%2F%2Fpost.phinf.naver.net%2FMjAxODAxMDlfMjgy%2FMDAxNTE1NDcxOTgwNzMy.SwBdmOqNPVBGl00FcD_Qt1A7-oQ4Z91Y-vxcVYBcEB8g.1WACHs_iAy_reXQCyG7kNSPejearErbneyu0h122L6Ag.JPEG%2FIRhV1J37bSVke3lLZNsdWwj1aNGE.jpg&type=b400"
-              height="200"
-            />
-          </div>
+          <v-img
+            :src="require('../assets/logo.svg')"
+            class="my-3"
+            contain
+            height="200"
+          />
+        </v-col>
+
+        <v-col class="mb-4">
+          <h1 class="display-2 font-weight-bold mb-3">
+            Welcome to Vuetify
+          </h1>
+
+          <p class="subheading font-weight-regular">
+            For help and collaboration with other Vuetify developers,
+            <br />please join our online
+            <a href="https://community.vuetifyjs.com" target="_blank"
+              >Discord Community</a
+            >
+          </p>
         </v-col>
 
         <v-col class="mb-5" cols="12">
-          <h2 class="headline font-weight-bold mb-3">{{ name }}</h2>
+          <h2 class="headline font-weight-bold mb-3">
+            What's next?
+          </h2>
 
-          이메일 : {{ email }}
-          <br />
-          전화번호 : {{ number }}
-          <br />
-          친구 추천 코드 : {{ name }}#{{ id }} <br /><br />
-          <v-btn color="primary" large @click="updateUser()">수정하기</v-btn>
+          <v-row justify="center">
+            <a
+              v-for="(next, i) in whatsNext"
+              :key="i"
+              :href="next.href"
+              class="subheading mx-3"
+              target="_blank"
+            >
+              {{ next.text }}
+            </a>
+          </v-row>
+        </v-col>
+
+        <v-col class="mb-5" cols="12">
+          <h2 class="headline font-weight-bold mb-3">
+            Important Links
+          </h2>
+
+          <v-row justify="center">
+            <a
+              v-for="(link, i) in importantLinks"
+              :key="i"
+              :href="link.href"
+              class="subheading mx-3"
+              target="_blank"
+            >
+              {{ link.text }}
+            </a>
+          </v-row>
+        </v-col>
+
+        <v-col class="mb-5" cols="12">
+          <h2 class="headline font-weight-bold mb-3">
+            Ecosystem
+          </h2>
+
+          <v-row justify="center">
+            <a
+              v-for="(eco, i) in ecosystem"
+              :key="i"
+              :href="eco.href"
+              class="subheading mx-3"
+              target="_blank"
+            >
+              {{ eco.text }}
+            </a>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
   </v-content>
 </template>
 
-<style></style>
-
 <script>
+import api from "../api/axiosScript.js";
 export default {
   name: "HelloWorld",
-
+  components: {},
   data: () => ({
-    name: "애용",
-    email: "dodyd@naver.com",
-    number: "010-1234-1234",
-    id: "A-yong",
+    ecosystem: [
+      {
+        text: "vuetify-loader",
+        href: "https://github.com/vuetifyjs/vuetify-loader",
+      },
+      {
+        text: "github",
+        href: "https://github.com/vuetifyjs/vuetify",
+      },
+      {
+        text: "awesome-vuetify",
+        href: "https://github.com/vuetifyjs/awesome-vuetify",
+      },
+    ],
+    importantLinks: [
+      {
+        text: "Documentation",
+        href: "https://vuetifyjs.com",
+      },
+      {
+        text: "Chat",
+        href: "https://community.vuetifyjs.com",
+      },
+      {
+        text: "Made with Vuetify",
+        href: "https://madewithvuejs.com/vuetify",
+      },
+      {
+        text: "Twitter",
+        href: "https://twitter.com/vuetifyjs",
+      },
+      {
+        text: "Articles",
+        href: "https://medium.com/vuetify",
+      },
+    ],
+    whatsNext: [
+      {
+        text: "Explore components",
+        href: "https://vuetifyjs.com/components/api-explorer",
+      },
+      {
+        text: "Select a layout",
+        href: "https://vuetifyjs.com/layout/pre-defined",
+      },
+      {
+        text: "Frequently Asked Questions",
+        href:
+          "https://vuetifyjs.com/getting-started/frequently-asked-questions",
+      },
+    ],
   }),
+  computed: {
+    userAuth() {
+      return this.$store.getters.userAuth;
+    },
+  },
   methods: {
-    updateUser() {
-      console.log("회원정보 수정하기");
-      alert("회원정보 수정하기");
+    axiosTest() {
+      api.getTest(
+        (res) => console.log(res),
+        (error) => console.log(error)
+      );
     },
   },
 };
