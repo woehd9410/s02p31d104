@@ -14,8 +14,7 @@ export default {
     },
     deleteTodo(params){
         console.log("todoApi 내 deleteTodo 함수")
-        return axios.delete('http://localhost:8080/todo/delete',{
-            params
+        return axios.delete('http://localhost:8080/todo/delete/' + params,{
         });
     },
     updateTodo(params){

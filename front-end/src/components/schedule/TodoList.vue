@@ -85,20 +85,16 @@ export default {
       this.scheduleId = 1
       console.log(this.scheduleId)
     },
-    update(){
+    update: async function(){
       console.log(this.startdate)
       let {start_time, end_time} = this;
       let data = {start_time, end_time};
       await todoApi.updateTodo(data);
       this.schedulemodal = false
     },
-    addTodo(){
+    addTodo: async function(){
      await todoApi.addTodo(this.inputValue);
 
-    },
-    getTodo: async function(){
-      this.items = (await todoApi.getTodo());
-      console.log(this.items.data[0].content)
     },
 
   }
