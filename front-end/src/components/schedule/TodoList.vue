@@ -1,19 +1,15 @@
 <template>
   <div class="container">
-      <schedule-modal
-        :scheduleModal.sync="scheduleModal"
-        >
-      </schedule-modal>
       <h2>Things To Do</h2>
       <form>
         <input type="text" v-model="inputValue"/>
         <!-- <button class="btn-add">add</button> -->
-        <v-btn class="btn-add" small color="primary" @click="addSchedule()">add</v-btn>
+        <v-btn class="btn-add" small color="primary" @click="addTodo(inputValue)">add</v-btn>
       </form>
 
       <v-list class="list">
-        <v-card class="items" v-for="(item, index) in data" :key="index">
-            <span class="todo">{{item}}</span>
+        <v-card class="items" v-for="(item, index) in items" :key="index">
+            <span class="todo">{{item.content}}</span>
             <div class="btns">
               <v-btn class="toschedule" small color="success" 
               v-b-modal.modal-prevent-closing @click="changeScheduleId()">To Schedule</v-btn>
@@ -61,27 +57,30 @@
 
 <script>
 import Vue from 'vue'
+import "@/assets/css/todolist.scss"
 import Datetime from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
-import addTodoList from '../api/schedule/todolist'
+import todoApi from '../../api/schedule/todoApi'
 
 Vue.use(Datetime)
 export default {
+  props:{
+    items:{
+      type : Object,
+      require: true,
+    }
+  },
   data() {
     return {
       inputValue: this.value,
-      data : ["todolist 만들기",
-              "직무면접 준비하기",
-              "여행계획 짜기"
-             ],
-      scheduleModal: false,
-      startdate: 'Select Date',
-      enddate: 'Select Date',
+      startDate: 'Select Date',
+      endDate: 'Select Date',
       scheduleId: 0,
       schedulemodal: false,
     }
   },
   methods:{
+  
     changeScheduleId(){
       this.scheduleId = 1
       console.log(this.scheduleId)
@@ -90,9 +89,14 @@ export default {
       console.log(this.startdate)
       this.schedulemodal = false
     },
-    addSchedule(){
-      
-    }
+    addTodo(){
+     
+    },
+    getTodo: async function(){
+      this.items = (await todoApi.getTodo());
+      console.log(this.items.data[0].content)
+    },
+
   }
 }
 </script>
