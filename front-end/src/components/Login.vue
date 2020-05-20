@@ -31,17 +31,29 @@
                         Sign in
                       </button>
                       <div class="text-center">
-                        <button @click="searchPW()"><a class="small">Forgot password?</a></button>
+                        <button @click="searchPW()">
+                          <a class="small">Forgot password?</a>
+                        </button>
+                        <button
+                          class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
+                          type="button"
+                          @click="signup()"
+                        >
+                          Sign in
+                        </button>
+                        <div class="text-center">
+                          <button @click="searchPW()"><a class="small">Forgot password?</a></button>
+                        </div>
+                        <hr />
+                        <div style="text-align: center;">SNS Login</div>
+                        <br />
+                        <v-card-actions>
+                          <v-spacer />
+                          <v-btn color="yellow" large @click="kakaologin()">Kakao Login</v-btn>
+                          <v-btn color="success" large @click="naverlogin()">Naver Login</v-btn>
+                          <v-spacer />
+                        </v-card-actions>
                       </div>
-                      <hr />
-                      <div style="text-align: center;">SNS Login</div>
-                      <br />
-                      <v-card-actions>
-                        <v-spacer />
-                        <v-btn color="yellow" large @click="kakaologin()">Kakao Login</v-btn>
-                        <v-btn color="success" large @click="naverlogin()">Naver Login</v-btn>
-                        <v-spacer />
-                      </v-card-actions>
                     </form>
                   </div>
                 </div>
@@ -72,6 +84,9 @@ export default {
     password: "",
   }),
   methods: {
+    closeDialog(type) {
+      this.$emit("loginEvent", type);
+    },
     login() {
       console.log("로그인 !!!");
       alert("로그인!!!");
@@ -95,16 +110,13 @@ export default {
     },
     signup() {
       console.log("회원가입 페이지 이동");
-      alert("회원가입 페이지 이동");
       // this.$router.push("/signup");
     },
     kakaologin() {
-      console.log("카카오 로그인 연결");
-      alert("카카오 로그인 연결");
+      this.closeDialog("Kakao");
     },
     naverlogin() {
-      console.log("네이버 로그인 연결");
-      alert("네이버 로그인 연결");
+      this.closeDialog("Naver");
     },
     searchPW() {
       console.log("비밀번호 찾기");
