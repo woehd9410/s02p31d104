@@ -3,16 +3,16 @@
 
 <mapper namespace="com.help.back.backend.dao.UserDao">
     <select id="getUsers"  resultType="com.help.back.backend.domain.User">
-        select id, email, name, phone_number, birthday from users
+        select id, email, name, phone_number as phoneNumber, birthday from users
     </select>
     <select id="getUsersByName" parameterType="String" resultType="com.help.back.backend.domain.User">
-        select id, email, name, phone_number, birthday from users where name LIKE "%${value}%"
+        select id, email, name, phone_number as phoneNumber , birthday from users where name LIKE "%${value}%"
     </select>
     <select id="getUsersByEmail" parameterType="String" resultType="com.help.back.backend.domain.User">
-        select id, email, name, phone_number, birthday from users where email LIKE "%${value}%"
+        select id, email, name, phone_number as phoneNumber, birthday from users where email LIKE "%${value}%"
     </select>
     <select id="getUsersById" parameterType="int" resultType="com.help.back.backend.domain.User">
-        select id, email, name, phone_number, birthday from users where id = #{value}
+        select id, email, name, phone_number as phoneNumber, birthday from users where id = #{value}
     </select>
     <insert id="postUser" parameterType="com.help.back.backend.domain.User" useGeneratedKeys="true" keyProperty="id" >
         INSERT INTO

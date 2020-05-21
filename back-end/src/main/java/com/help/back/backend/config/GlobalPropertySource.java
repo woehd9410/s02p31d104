@@ -7,8 +7,7 @@ import org.springframework.context.annotation.PropertySources;
 
 @Configuration
 @PropertySources({
-        @PropertySource( value = "classpath:properties/application_auth.properties", ignoreResourceNotFound = true),
-        @PropertySource( value = "classpath:properties/application.properties", ignoreResourceNotFound = true)
+        @PropertySource( value = "classpath:properties/application_auth.properties", ignoreResourceNotFound = true)
 })
 public class GlobalPropertySource {
 

@@ -14,7 +14,6 @@ import java.util.List;
 
 @Api(tags = {"1. User"})
 @RestController
-@RequestMapping("/api/v1")
 public class UserController {
 
     @Autowired
@@ -27,7 +26,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "유저 조회", notes = "검색 조건에 맞는 유저를 조회합니다.")
-    @GetMapping("/user")
+    @GetMapping("/api/v1/user")
     public ResponseEntity<List<User>> getUser(@RequestParam("content") String content, @RequestParam("option") String option) throws Exception{
         List<User> list = null;
         try {
@@ -51,7 +50,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "유저 추가", notes = "유저 정보를 추가합니다.")
-    @PostMapping("/user")
+    @PostMapping("/api/v1/user")
     public ResponseEntity<User> postUser(@RequestBody User user) throws Exception{
         try {
             System.out.println("유저 추가");
@@ -69,7 +68,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "유저 수정", notes = "유저를 수정합니다.")
-    @PutMapping("/user")
+    @PutMapping("/api/v1/user")
     public ResponseEntity updateUser(@RequestBody User user) throws Exception{
         try {
             System.out.println("유저 수정");
@@ -83,7 +82,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "유저 삭제", notes = "유저를 삭제합니다.")
-    @DeleteMapping("/user")
+    @DeleteMapping("/api/v1/user")
     public ResponseEntity deleteUser(@RequestParam("user_id") int user_id) throws Exception{
         try {
             System.out.println("유저 삭제");
@@ -97,7 +96,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "유저 로그인", notes = "유저 email & password를 통해 로그인 확인 ")
-    @PostMapping("/user/login")
+    @PostMapping("/api/v1/user/login")
     public ResponseEntity<User> login(@RequestBody Login login) throws Exception{
         User user = null;
         try {
@@ -111,15 +110,16 @@ public class UserController {
     }
 
     @ApiOperation(value = "유저 카카오 로그인", notes = "카카오 로그인 email 확인 ")
-    @GetMapping("/user/kakao-login")
-    public ResponseEntity kakaologin(@RequestParam String email) throws Exception{
+    @GetMapping("/api/v1/user/kakao-login")
+    public ResponseEntity<User> kakaologin(@RequestParam String email) throws Exception{
         List<User> user = null;
         try {
             System.out.println("카카오 로그인");
             user = userService.getUsersByEmail(email);
             System.out.println(user);
             if(user != null){
-                return new ResponseEntity(HttpStatus.OK);
+                User ans = user.get(0);
+                return new ResponseEntity<User>(ans,HttpStatus.OK);
             }else {
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
