@@ -25,23 +25,24 @@ public class UserController {
         return "hello";
     }
 
-    @ApiOperation(value = "유저 조회", notes = "검색 조건에 맞는 유저를 조회합니다.")
+    @ApiOperation(value = "유저 조회", notes = "검색조건에 맞는 유저를 조회합니다.")
     @GetMapping("/api/v1/user")
-    public ResponseEntity<List<User>> getUser(@RequestParam("content") String content, @RequestParam("option") String option) throws Exception{
+    public ResponseEntity<List<User>> getUserByName(@RequestParam(value = "id", required = false) String id, @RequestParam(value = "email", required = false) String email, @RequestParam(value = "name", required = false) String name) throws Exception{
         List<User> list = null;
         try {
-            System.out.println("유저 검색");
-            System.out.println("조건 : " + option + " 내용 : " + content);
-            if(option.equals("name")){
-                list = userService.getUsersByName(content);
-            }else if(option.equals("email")){
-                list = userService.getUsersByEmail(content);
-            }else if(option.equals("id")){
-                list = userService.getUsersById(Integer.parseInt(content));
-            }else{
+            if(id == null && email == null && name != null) {
+                System.out.println("유저 name으로 검색");
+                list = userService.getUsersByName(name);
+            }else if(id == null && email != null && name == null){
+                System.out.println("유저 email로 검색");
+                list = userService.getUsersByEmail(email);
+            }else if(id != null && email == null && name == null){
+                System.out.println("유저 id로 검색");
+                list = userService.getUsersById(Integer.parseInt(id));
+            }else if(id == null && email == null && name == null){
+                System.out.println("유저 전체 조회");
                 list = userService.getUsers();
             }
-
             System.out.println(list);
             return new ResponseEntity<List<User>>(list,HttpStatus.OK);
         }catch(Exception e) {
