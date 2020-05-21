@@ -16,7 +16,7 @@ public class User {
     private String name;
     private String email;
     private String birthday;
-    private String phone_number;
+    private String phoneNumber;
 
 
 

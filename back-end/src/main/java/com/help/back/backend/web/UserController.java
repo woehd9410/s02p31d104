@@ -14,6 +14,7 @@ import java.util.List;
 
 @Api(tags = {"1. User"})
 @RestController
+@RequestMapping("/api/v1")
 public class UserController {
 
     @Autowired
@@ -51,13 +52,17 @@ public class UserController {
 
     @ApiOperation(value = "유저 추가", notes = "유저 정보를 추가합니다.")
     @PostMapping("/user")
-    public ResponseEntity postUser(@RequestBody User user) throws Exception{
+    public ResponseEntity<User> postUser(@RequestBody User user) throws Exception{
         try {
             System.out.println("유저 추가");
             System.out.println(user.toString());
             int ans = userService.postUser(user);
-            System.out.println("추가 성공  : " + ans);
-            return new ResponseEntity(HttpStatus.OK);
+            if(ans == 1){
+                System.out.println("추가 : " + user.toString());
+                return new ResponseEntity<User>(user,HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
         }catch(Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
@@ -102,6 +107,24 @@ public class UserController {
             return new ResponseEntity<User>(user,HttpStatus.OK);
         }catch(Exception e) {
             return new ResponseEntity<User>(user,HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @ApiOperation(value = "유저 카카오 로그인", notes = "카카오 로그인 email 확인 ")
+    @GetMapping("/user/kakao-login")
+    public ResponseEntity kakaologin(@RequestParam String email) throws Exception{
+        List<User> user = null;
+        try {
+            System.out.println("카카오 로그인");
+            user = userService.getUsersByEmail(email);
+            System.out.println(user);
+            if(user != null){
+                return new ResponseEntity(HttpStatus.OK);
+            }else {
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 }
