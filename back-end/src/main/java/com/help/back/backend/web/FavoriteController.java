@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = {"Favorite"})
+@Api(tags = {"1. Favorite"})
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @RestController
@@ -25,13 +25,13 @@ public class FavoriteController {
     }
 
     @PostMapping("/v1/favorite")
-    public ResponseEntity post(@RequestBody Favorite favorite){
+    public ResponseEntity post(@RequestBody Favorite favorite) {
         int result = favoriteService.postFavorite(favorite);
-        return result > 0 ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return result > 0 ? new ResponseEntity(HttpStatus.CREATED) : new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/v1/favorite")
-    public ResponseEntity delete(@RequestBody Favorite favorite){
+    public ResponseEntity delete(@RequestBody Favorite favorite) {
         int result = favoriteService.deleteFavorite(favorite);
         return result > 0 ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
