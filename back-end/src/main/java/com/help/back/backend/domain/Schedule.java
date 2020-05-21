@@ -20,7 +20,7 @@ public class Schedule {
     private String start_time;
     private String end_time;
     private String address;
-    private int sche_type;
+    private int type;
     private double latitude;
     private double longitude;
     private int user_id;
