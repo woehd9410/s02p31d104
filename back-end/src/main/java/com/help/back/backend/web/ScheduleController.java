@@ -22,7 +22,6 @@ public class ScheduleController {
         List<Schedule> list = null;
         try{
             list = scheduleService.getTodoLists();    
-            System.out.println(list.get(0));
             return new ResponseEntity<List<Schedule>>(list,HttpStatus.OK); 
         }catch(Exception e){
             return new ResponseEntity<List<Schedule>>(list,HttpStatus.NO_CONTENT); 
@@ -30,7 +29,7 @@ public class ScheduleController {
     }
 
     @PostMapping("/todo/add")
-    public ResponseEntity addTodo(Schedule schedule) throws Exception{
+    public ResponseEntity addTodo(@RequestBody Schedule schedule) throws Exception{
         try{
             System.out.println("todolist 추가");
             int result = scheduleService.addTodo(schedule);
@@ -42,9 +41,16 @@ public class ScheduleController {
     }
 
     @PutMapping("/todo/update")
-    public ResponseEntity updateTodo(Schedule schedule) throws Exception{
+    public ResponseEntity updateTodo(@RequestBody Schedule schedule) throws Exception{
         try{
             System.out.println("todolist update");
+            String[] startTemp = schedule.getStartTime().split("T");
+            String startTemp1 = startTemp[1].substring(0,8);
+            schedule.setStartTime(startTemp[0] + " " + startTemp1);
+            String[] endTemp = schedule.getEndTime().split("T");
+            String endTemp1 = endTemp[1].substring(0,8);
+            schedule.setEndTime(endTemp[0] + " " + endTemp1);
+            
             int result = scheduleService.updateTodo(schedule);
             System.out.println("todolist update result " + result);
             return new ResponseEntity<>(HttpStatus.OK);
