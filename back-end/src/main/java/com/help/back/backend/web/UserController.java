@@ -1,5 +1,6 @@
 package com.help.back.backend.web;
 
+import com.help.back.backend.dto.Login;
 import com.help.back.backend.domain.User;
 import com.help.back.backend.service.UserService;
 import io.swagger.annotations.Api;
@@ -9,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Api(tags = {"1. User"})
@@ -25,23 +25,24 @@ public class UserController {
         return "hello";
     }
 
-    @ApiOperation(value = "유저 조회", notes = "검색 조건에 맞는 유저를 조회합니다.")
-    @GetMapping("/user")
-    public ResponseEntity<List<User>> getUser(@RequestParam("content") String content, @RequestParam("option") String option) throws Exception{
+    @ApiOperation(value = "유저 조회", notes = "검색조건에 맞는 유저를 조회합니다.")
+    @GetMapping("/api/v1/user")
+    public ResponseEntity<List<User>> getUserByName(@RequestParam(value = "id", required = false) String id, @RequestParam(value = "email", required = false) String email, @RequestParam(value = "name", required = false) String name) throws Exception{
         List<User> list = null;
         try {
-            System.out.println("유저 검색");
-            System.out.println("조건 : " + option + " 내용 : " + content);
-            if(option.equals("name")){
-                list = userService.getUsersByName(content);
-            }else if(option.equals("email")){
-                list = userService.getUsersByEmail(content);
-            }else if(option.equals("id")){
-                list = userService.getUsersById(Integer.parseInt(content));
-            }else{
+            if(id == null && email == null && name != null) {
+                System.out.println("유저 name으로 검색");
+                list = userService.getUsersByName(name);
+            }else if(id == null && email != null && name == null){
+                System.out.println("유저 email로 검색");
+                list = userService.getUsersByEmail(email);
+            }else if(id != null && email == null && name == null){
+                System.out.println("유저 id로 검색");
+                list = userService.getUsersById(Integer.parseInt(id));
+            }else if(id == null && email == null && name == null){
+                System.out.println("유저 전체 조회");
                 list = userService.getUsers();
             }
-
             System.out.println(list);
             return new ResponseEntity<List<User>>(list,HttpStatus.OK);
         }catch(Exception e) {
@@ -50,21 +51,25 @@ public class UserController {
     }
 
     @ApiOperation(value = "유저 추가", notes = "유저 정보를 추가합니다.")
-    @PostMapping("/user")
-    public ResponseEntity postUser(@RequestBody User user) throws Exception{
+    @PostMapping("/api/v1/user")
+    public ResponseEntity<User> postUser(@RequestBody User user) throws Exception{
         try {
             System.out.println("유저 추가");
             System.out.println(user.toString());
             int ans = userService.postUser(user);
-            System.out.println("추가 성공  : " + ans);
-            return new ResponseEntity(HttpStatus.OK);
+            if(ans == 1){
+                System.out.println("추가 : " + user.toString());
+                return new ResponseEntity<User>(user,HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
         }catch(Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
 
     @ApiOperation(value = "유저 수정", notes = "유저를 수정합니다.")
-    @PutMapping("/user")
+    @PutMapping("/api/v1/user")
     public ResponseEntity updateUser(@RequestBody User user) throws Exception{
         try {
             System.out.println("유저 수정");
@@ -78,7 +83,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "유저 삭제", notes = "유저를 삭제합니다.")
-    @DeleteMapping("/user")
+    @DeleteMapping("/api/v1/user")
     public ResponseEntity deleteUser(@RequestParam("user_id") int user_id) throws Exception{
         try {
             System.out.println("유저 삭제");
@@ -88,6 +93,39 @@ public class UserController {
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @ApiOperation(value = "유저 로그인", notes = "유저 email & password를 통해 로그인 확인 ")
+    @PostMapping("/api/v1/user/login")
+    public ResponseEntity<User> login(@RequestBody Login login) throws Exception{
+        User user = null;
+        try {
+            System.out.println("유저 로그인");
+            user = userService.login(login);
+            System.out.println(user);
+            return new ResponseEntity<User>(user,HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity<User>(user,HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @ApiOperation(value = "유저 카카오 로그인", notes = "카카오 로그인 email 확인 ")
+    @GetMapping("/api/v1/user/kakao-login")
+    public ResponseEntity<User> kakaologin(@RequestParam String email) throws Exception{
+        List<User> user = null;
+        try {
+            System.out.println("카카오 로그인");
+            user = userService.getUsersByEmail(email);
+            System.out.println(user);
+            if(user != null){
+                User ans = user.get(0);
+                return new ResponseEntity<User>(ans,HttpStatus.OK);
+            }else {
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 }
