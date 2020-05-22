@@ -2,6 +2,24 @@
   <!-- npm install vuelidate -->
   <v-content>
     <v-container fluid wrap>
+      <v-layout class="justify-center">
+        <v-flex>
+          <v-row justify="space-around">
+            <button @click="person()">
+              <v-avatar color="indigo" size="120">
+                <span class="white--text headline">개인</span>
+              </v-avatar>
+            </button>
+
+            <button @click="department()">
+              <v-avatar color="teal" size="120">
+                <span class="white--text headline">부서</span>
+              </v-avatar>
+            </button>
+          </v-row>
+        </v-flex>
+      </v-layout>
+
       <v-layout row my-10 class="justify-center">
         <v-flex lg3 md3 sm3 xs8>
           <v-carousel v-model="model2" height="300">
@@ -247,6 +265,13 @@ export default {
     emailCheck() {
       console.log("이메일 중복 검사");
       alert("이메일 중복 검사");
+    },
+    person() {
+      alert("개인 로그인");
+    },
+
+    department() {
+      alert("부서 로그인");
     },
   },
 };
