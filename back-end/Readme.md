@@ -17,10 +17,10 @@
     1. resources - Properties 폴더 안에 application_auth.properties 파일 생성.
     2. application_auth.properties 파일 안에 사용할 DB 설정 작성
 
-> spring.datasource.driver-class-name=  Database driver name
-spring.datasource.url= Database Url
-spring.datasource.username= Database 유저네임
-spring.datasource.password= Database 패스워드
+> spring.datasource.driver-class-name=  Database driver name    
+spring.datasource.url= Database Url    
+spring.datasource.username= Database 유저네임    
+spring.datasource.password= Database 패스워드    
 
 
 ## Getting Started
