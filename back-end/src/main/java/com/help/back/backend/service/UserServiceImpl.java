@@ -2,10 +2,12 @@ package com.help.back.backend.service;
 
 import com.help.back.backend.dao.UserDao;
 import com.help.back.backend.domain.User;
+import com.help.back.backend.dto.Login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -28,8 +30,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<User> getUsersById(int user_id) {
-        return userDao.getUsersById(user_id);
+    public List<User> getUsersById(int id) {
+        return userDao.getUsersById(id);
+    }
+
+    @Override
+    public User login(Login login) {
+        return userDao.login(login);
     }
 
     @Override
@@ -43,7 +50,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public int deleteUser(int user_id) {
-        return userDao.deleteUser(user_id);
+    public int deleteUser(int id) {
+        return userDao.deleteUser(id);
     }
 }
