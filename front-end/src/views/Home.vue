@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- <HelloWorld /> -->
-    <TodoList :items="items"/>
+    <TodoList :items="items" @addEvent="getTodo"/>
   </div>
 </template>
 
@@ -15,11 +15,7 @@ export default {
   name: "Home",
   data(){
     return{
-      items:[
-        { content:"todolist 만들기" },
-        { content:"직무면접 준비하기" },
-        { content:"여행계획 짜기" },
-      ]
+      items:{}
     }
   },
   components: {
@@ -27,12 +23,11 @@ export default {
     TodoList
   },
   mounted(){
-    // this.getTodo();
+    this.getTodo();
   },
   methods:{
     getTodo: async function(){
       this.items = (await todoApi.getTodo());
-      console.log(this.items.data[0].content)
     },
   }
 };

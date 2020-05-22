@@ -8,12 +8,12 @@
       </form>
 
       <v-list class="list">
-        <v-card class="items" v-for="(item, index) in items" :key="index">
+        <v-card class="items" v-for="(item, index) in items.data" :key="index">
             <span class="todo">{{item.content}}</span>
             <div class="btns">
               <v-btn class="toschedule" small color="success" 
-              v-b-modal.modal-prevent-closing @click="changeScheduleId()">To Schedule</v-btn>
-              <v-btn class="finish" small color="error">finish</v-btn>
+              v-b-modal.modal-prevent-closing @click="changeScheduleId(item.id)">To Schedule</v-btn>
+              <v-btn class="finish" small color="error" @click="deleteTodo(item.id)">finish</v-btn>
             </div>
         </v-card>
       </v-list>
@@ -26,18 +26,25 @@
     >
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group
+          label="Title"
+          label-for="name-input"
+          invalid-feedback="Name is required"
+        >
+        <b-input v-model="title"></b-input>
+        </b-form-group>
+        <b-form-group
           label="Start"
           label-for="name-input"
           invalid-feedback="Name is required"
         >
-        <datetime type="datetime" v-model="start_time" ></datetime>
+        <datetime type="datetime" v-model="startTime" format="yyyy-MM-dd HH:mm:ss"></datetime>
         </b-form-group>
         <b-form-group
           label="End"
           label-for="name-input"
           invalid-feedback="Name is required"
         >
-        <datetime type="datetime" v-model="end_time" ></datetime>
+        <datetime type="datetime" v-model="endTime" format="yyyy-MM-dd HH:mm:ss"></datetime>
         </b-form-group>
         
       </form>
@@ -73,30 +80,55 @@ export default {
   data() {
     return {
       inputValue: this.value,
-      start_time: 'Select Date',
-      end_time: 'Select Date',
+      title: '',
+      startTime: 'Select Date',
+      endTime: 'Select Date',
       scheduleId: 0,
       schedulemodal: false,
+      userId : 5,
     }
   },
   methods:{
   
-    changeScheduleId(){
-      this.scheduleId = 1
-      console.log(this.scheduleId)
+    changeScheduleId(id){
+      this.scheduleId = id
     },
     update: async function(){
-      console.log(this.startdate)
-      let {start_time, end_time} = this;
-      let data = {start_time, end_time};
+      let start = new Date(this.startTime);
+      let end = new Date(this.endTime);
+      start.setHours(start.getHours() + 9);
+      end.setHours(end.getHours() + 9);
+      let data = {
+        id : this.scheduleId,
+        title : this.title,
+        start_time : start,
+        end_time : end
+      };
       await todoApi.updateTodo(data);
       this.schedulemodal = false
+      this.$emit("addEvent")
+      this.title = null; this.startTime = null; this.endTime=null
+      
     },
     addTodo: async function(){
-     await todoApi.addTodo(this.inputValue);
+     let content = this.inputValue; 
+     let type = 0;
+     let userId = this.userId
 
+    let data = 
+      { content : content,
+        type : type,
+        user_id : userId}
+
+     await todoApi.addTodo(data);
+     this.$emit("addEvent")
+     this.inputValue = null
     },
-
+    deleteTodo: async function(id){
+      await todoApi.deleteTodo(id);
+      this.$emit("addEvent")
+    }
+    
   }
 }
 </script>
