@@ -8,7 +8,7 @@
       </form>
 
       <v-list class="list">
-        <v-card class="items" v-for="(item, index) in items.data" :key="index">
+        <v-card class="items" v-for="(item, index) in items" :key="index">
             <span class="todo">{{item.content}}</span>
             <div class="btns">
               <v-btn class="toschedule" small color="success" 
@@ -49,7 +49,6 @@
         
       </form>
       <template v-slot:modal-footer="{ ok, cancel}">
-      <!-- Emulate built in modal footer ok and cancel button actions -->
       <b-button variant="primary" @click="update()">
         OK
       </b-button>
@@ -67,13 +66,13 @@ import Vue from 'vue'
 import "@/assets/css/todolist.scss"
 import Datetime from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
-import todoApi from '../../api/schedule/todoApi'
+import axiosScript from '@/api/axiosScript.js';
 
 Vue.use(Datetime)
 export default {
   props:{
     items:{
-      type : Object,
+      type : Array,
       require: true,
     }
   },
@@ -93,7 +92,7 @@ export default {
     changeScheduleId(id){
       this.scheduleId = id
     },
-    update: async function(){
+    update(){
       let start = new Date(this.startTime);
       let end = new Date(this.endTime);
       start.setHours(start.getHours() + 9);
@@ -104,29 +103,54 @@ export default {
         start_time : start,
         end_time : end
       };
-      await todoApi.updateTodo(data);
-      this.schedulemodal = false
-      this.$emit("addEvent")
-      this.title = null; this.startTime = null; this.endTime=null
+    
+      axiosScript.updateToDo(
+        data,
+        () => {
+           this.schedulemodal = false
+           this.$emit("deleteEvent", data.id)
+           this.title = null; this.startTime = null; this.endTime=null
+        },
+        (error) => {console.log(error)}
+      )
+     
       
     },
-    addTodo: async function(){
+    addTodo(){
      let content = this.inputValue; 
      let type = 0;
      let userId = this.userId
 
     let data = 
       { content : content,
+        title : "todo",
         type : type,
         user_id : userId}
 
-     await todoApi.addTodo(data);
-     this.$emit("addEvent")
+     axiosScript.addToDo(
+       data,
+       (res) => {
+          console.log(res.data)
+          this.$emit("addEvent",res.data)
+          
+       },
+       (error) => {
+          console.log(error)
+       }
+     )
+     console.log("addToDo Finish")
      this.inputValue = null
     },
-    deleteTodo: async function(id){
-      await todoApi.deleteTodo(id);
-      this.$emit("addEvent")
+    deleteTodo(id){
+      console.log("delete")
+      axiosScript.deleteToDo(
+        id,
+        (res) =>{
+           console.log(res);
+           this.$emit("deleteEvent", id)
+        },
+        (error) => console.log(error)
+      )
     }
     
   }

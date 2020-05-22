@@ -1,34 +1,55 @@
 <template>
   <div class="home">
-    <!-- <HelloWorld /> -->
-    <TodoList :items="items" @addEvent="getTodo"/>
+    <TodoList :items="items" @addEvent="addList" @deleteEvent="deleteList"/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
+import axiosScript from '@/api/axiosScript';
 import TodoList from "@/components/schedule/TodoList.vue";
-import todoApi from '../api/schedule/todoApi'
 
 export default {
   name: "Home",
   data(){
     return{
-      items:{}
+      items:[],
+      userId: 5,
     }
   },
   components: {
-    // HelloWorld,
     TodoList
   },
   mounted(){
-    this.getTodo();
+    this.getToDo();
   },
   methods:{
-    getTodo: async function(){
-      this.items = (await todoApi.getTodo());
+    getToDo(){
+      axiosScript.getToDo(
+        this.userId,
+        (res)=>{
+          console.log(res)
+          this.items = res.data},
+        (error) =>{console.log(error);
+        }
+      )
     },
+    addList(params){
+      console.log(params);
+      this.items.push(params);
+      console.log("addList Finish")
+    },
+    deleteList(id){
+      for(var i = 0; i < this.items.length; i++){
+        if(id == this.items[i].id){
+           this.items.splice(i,1);
+           break;
+        }
+      }
+    }
+    // getTodo: async function(){
+    //   this.items = (await todoApi.getTodo());
+    // },
   }
 };
 </script>
