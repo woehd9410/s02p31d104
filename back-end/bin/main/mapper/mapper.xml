@@ -3,27 +3,32 @@
 
 <mapper namespace="com.help.back.backend.dao.UserDao">
     <select id="getUsers"  resultType="com.help.back.backend.domain.User">
-        select * from users
+        select id, email, name, phone_number as phoneNumber, birthday from users
     </select>
     <select id="getUsersByName" parameterType="String" resultType="com.help.back.backend.domain.User">
-        select * from users where name LIKE "%${value}%"
+        select id, email, name, phone_number as phoneNumber , birthday from users where name LIKE "%${value}%"
     </select>
     <select id="getUsersByEmail" parameterType="String" resultType="com.help.back.backend.domain.User">
-        select * from users where email LIKE "%${value}%"
+        select id, email, name, phone_number as phoneNumber, birthday from users where email LIKE "%${value}%"
     </select>
     <select id="getUsersById" parameterType="int" resultType="com.help.back.backend.domain.User">
-        select * from users where user_id = #{value}
+        select id, email, name, phone_number as phoneNumber, birthday from users where id = #{value}
     </select>
-    <insert id="postUser" parameterType="com.help.back.backend.domain.User">
+    <insert id="postUser" parameterType="com.help.back.backend.domain.User" useGeneratedKeys="true" keyProperty="id" >
         INSERT INTO
         users(password, name, email, birthday, phone_number)
-        Values(#{password}, #{name}, #{email}, #{birthday}, #{phone_number})
+        Values(SHA2(#{password},256), #{name}, #{email}, #{birthday}, #{phoneNumber})
     </insert>
     <update id="updateUser" parameterType="com.help.back.backend.domain.User">
-        UPDATE users SET password = #{password}, name = #{name}, email = #{email}, birthday = #{birthday}, phone_number = #{phone_number}
-        WHERE user_id = #{user_id}
+        UPDATE users SET password = #{password}, name = #{name}, email = #{email}, birthday = #{birthday}, phone_number = #{phoneNumber}
+        WHERE id = #{id}
     </update>
     <delete id="deleteUser" parameterType="int">
-        DELETE FROM users WHERE user_id = #{value}
+        DELETE FROM users WHERE id = #{value}
     </delete>
+    <select id="login" parameterType="com.help.back.backend.dto.Login" resultType="com.help.back.backend.domain.User">
+        SELECT id, email, name, phone_number, birthday
+        FROM users
+        WHERE email = #{email} AND password = SHA2(#{password}, 256)
+    </select>
 </mapper>

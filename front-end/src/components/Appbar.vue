@@ -34,7 +34,7 @@
       >Helpromise</v-toolbar-title
     >
     <v-spacer></v-spacer>
-    <div>
+    <div v-if="userInfo.img">
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-avatar v-on="on" style="cursor: pointer;">
