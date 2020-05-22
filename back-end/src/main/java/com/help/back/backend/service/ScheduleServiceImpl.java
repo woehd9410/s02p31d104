@@ -14,8 +14,8 @@ public class ScheduleServiceImpl implements ScheduleService{
     private ScheduleDao scheduleDao;
 
     @Override
-    public List<Schedule> getTodoLists() {
-        return scheduleDao.getTodoLists();
+    public List<Schedule> getTodoLists(int userId) {
+        return scheduleDao.getTodoLists(userId);
     }
 
     @Override

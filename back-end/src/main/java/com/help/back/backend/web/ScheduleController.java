@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -17,30 +16,34 @@ public class ScheduleController {
     @Autowired
     ScheduleService scheduleService;
     
-    @GetMapping("/todo/get")
-    public ResponseEntity<List<Schedule>> getTodoLists() throws Exception{
+    @GetMapping("/api/v1/todo/{userId}")
+    public ResponseEntity<List<Schedule>> getTodoLists(@PathVariable int userId) throws Exception{
         List<Schedule> list = null;
         try{
-            list = scheduleService.getTodoLists();    
+            list = scheduleService.getTodoLists(userId);    
+            System.out.println(list.get(0));
             return new ResponseEntity<List<Schedule>>(list,HttpStatus.OK); 
         }catch(Exception e){
             return new ResponseEntity<List<Schedule>>(list,HttpStatus.NO_CONTENT); 
         }
     }
 
-    @PostMapping("/todo/add")
-    public ResponseEntity addTodo(@RequestBody Schedule schedule) throws Exception{
+    @PostMapping("/api/v1/todo")
+    public ResponseEntity<Schedule> addTodo(@RequestBody Schedule schedule) throws Exception{
         try{
             System.out.println("todolist 추가");
             int result = scheduleService.addTodo(schedule);
-            System.out.println("todolist 추가 결과" + result);
-            return new ResponseEntity(HttpStatus.OK);
+            if(result == 1){
+                return new ResponseEntity<Schedule>(schedule, HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
 
-    @PutMapping("/todo/update")
+    @PutMapping("/api/v1/todo")
     public ResponseEntity updateTodo(@RequestBody Schedule schedule) throws Exception{
         try{
             System.out.println("todolist update");
@@ -59,7 +62,7 @@ public class ScheduleController {
         }
     }
 
-    @DeleteMapping("/todo/delete/{id}")
+    @DeleteMapping("api/v1/todo/{id}")
     public ResponseEntity deleteTodo(@PathVariable int id) throws Exception{
         try{
             System.out.println("todolist delete");

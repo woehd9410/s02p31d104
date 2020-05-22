@@ -3,10 +3,11 @@
 
 <mapper namespace="com.help.back.backend.dao.ScheduleDao">
 
-    <select id="getTodoLists" resultType="com.help.back.backend.domain.Schedule">
-        SELECT * FROM user_schedule WHERE start_time IS NULL
+    <select id="getTodoLists" parameterType="int" resultType="com.help.back.backend.domain.Schedule">
+        SELECT * FROM user_schedule WHERE start_time IS NULL AND user_id = #{value}
     </select>
-    <insert id="addTodo" parameterType="com.help.back.backend.domain.Schedule">
+    <insert id="addTodo" parameterType="com.help.back.backend.domain.Schedule" useGeneratedKeys="true"
+     keyProperty="id">
         INSERT INTO user_schedule (content, title , type , user_id)
         VALUES(#{content}, #{title}, #{type}, #{userId})
     </insert>
