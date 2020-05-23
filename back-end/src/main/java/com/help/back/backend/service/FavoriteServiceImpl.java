@@ -25,6 +25,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Override
     @Transactional
     public int postFavorite(Favorite favorite) {
+        if(favorite.getToUserId() == favorite.getFromUserId()) return 0;
         return favoriteDao.postFavorite(favorite);
     }
 
