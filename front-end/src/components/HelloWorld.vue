@@ -1,3 +1,4 @@
+@@ -0,0 +1,160 @@
 <template>
   <v-content>
     <v-container>
@@ -6,47 +7,74 @@
   </v-content>
 </template>
 
-<style>
-.image img {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-</style>
 <script>
+import api from "../api/axiosScript.js";
 export default {
-  name: "Login",
-
+  name: "HelloWorld",
+  components: {},
   data: () => ({
-    name: "",
-    email: "",
-    emailRules: [(v) => !!v || "E-mail is required", (v) => /.+@.+\..+/.test(v) || "E-mail must be valid"],
+    ecosystem: [
+      {
+        text: "vuetify-loader",
+        href: "https://github.com/vuetifyjs/vuetify-loader",
+      },
+      {
+        text: "github",
+        href: "https://github.com/vuetifyjs/vuetify",
+      },
+      {
+        text: "awesome-vuetify",
+        href: "https://github.com/vuetifyjs/awesome-vuetify",
+      },
+    ],
+    importantLinks: [
+      {
+        text: "Documentation",
+        href: "https://vuetifyjs.com",
+      },
+      {
+        text: "Chat",
+        href: "https://community.vuetifyjs.com",
+      },
+      {
+        text: "Made with Vuetify",
+        href: "https://madewithvuejs.com/vuetify",
+      },
+      {
+        text: "Twitter",
+        href: "https://twitter.com/vuetifyjs",
+      },
+      {
+        text: "Articles",
+        href: "https://medium.com/vuetify",
+      },
+    ],
+    whatsNext: [
+      {
+        text: "Explore components",
+        href: "https://vuetifyjs.com/components/api-explorer",
+      },
+      {
+        text: "Select a layout",
+        href: "https://vuetifyjs.com/layout/pre-defined",
+      },
+      {
+        text: "Frequently Asked Questions",
+        href: "https://vuetifyjs.com/getting-started/frequently-asked-questions",
+      },
+    ],
   }),
+  computed: {
+    userAuth() {
+      return this.$store.getters.userAuth;
+    },
+  },
   methods: {
-    login() {
-      console.log("로그인 !!!");
-      alert("로그인!!!");
-    },
-    backpage() {
-      this.$router.go(-1);
-    },
-    signup() {
-      console.log("회원가입 페이지 이동");
-      alert("회원가입 페이지 이동");
-      // this.$router.push("/signup");
-    },
-    kakaologin() {
-      console.log("카카오 로그인 연결");
-      alert("카카오 로그인 연결");
-    },
-    naverlogin() {
-      console.log("네이버 로그인 연결");
-      alert("네이버 로그인 연결");
-    },
-    searchPW() {
-      console.log("비밀번호 찾기");
-      alert("비밀번호 찾기");
+    axiosTest() {
+      api.getTest(
+        (res) => console.log(res),
+        (error) => console.log(error)
+      );
     },
   },
 };
