@@ -15,4 +15,9 @@ public class ScheduleServiceImpl implements ScheduleService{
     public int postPersonalSchedule(Schedule schedule) {
         return scheduleDao.postPersonalSchedule(schedule);
     }
+
+    @Override
+    public int updatePersonalSchedule(Schedule schedule) {
+        return scheduleDao.updatePersonalSchedule(schedule);
+    }
 }

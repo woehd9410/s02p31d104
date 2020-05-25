@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = {"1. Schedule"})
 @RequiredArgsConstructor
@@ -31,6 +28,23 @@ public class ScheduleController {
             if(ans == 1){
                 System.out.println("추가 : " + schedule.toString());
                 return new ResponseEntity<Schedule>(schedule, HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @PutMapping("v1/personal-schedule")
+    public ResponseEntity updatePersonalSchedule(@RequestBody Schedule schedule) throws Exception{
+        try {
+            System.out.println("개인 스케쥴 수정");
+            System.out.println(schedule.toString());
+            int ans = scheduleService.updatePersonalSchedule(schedule);
+            if(ans == 1){
+                System.out.println("수정 성공  : " + ans);
+                return new ResponseEntity(HttpStatus.OK);
             }else{
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }

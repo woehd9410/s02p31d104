@@ -4,4 +4,5 @@ import com.help.back.backend.domain.Schedule;
 
 public interface ScheduleService {
     int postPersonalSchedule(Schedule schedule);
+    int updatePersonalSchedule(Schedule schedule);
 }
