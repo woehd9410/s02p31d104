@@ -2,277 +2,107 @@
   <!-- npm install vuelidate -->
   <v-content>
     <v-container fluid wrap>
-      <v-layout class="justify-center">
-        <v-flex>
+      <v-layout class="justify-center" v-if="flag == 1">
+        <v-flex class="mt-5">
           <v-row justify="space-around">
-            <button @click="person()">
-              <v-avatar color="indigo" size="120">
-                <span class="white--text headline">개인</span>
-              </v-avatar>
-            </button>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <v-hover elevation="0" v-slot:default="{ hover }">
+                <v-card @click="person()" height="60vh">
+                  <div style="text-align:center; height:50vh">
+                    <v-img
+                      style="height:100%"
+                      src="https://vipinestates.com/wp-content/uploads/2016/02/3ffdb08aafb723e161722847da87a058-male-man-avatar.jpg"
+                    />
+                  </div>
 
-            <button @click="department()">
-              <v-avatar color="teal" size="120">
-                <span class="white--text headline">부서</span>
-              </v-avatar>
-            </button>
+                  <v-flex class="text-center">
+                    <v-card-text class="display-1">개인</v-card-text>
+                  </v-flex>
+                  <v-expand-transition>
+                    <div
+                      v-if="hover"
+                      class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
+                      style="height: 100%;"
+                    >
+                      개인입니다아아(문구 임시로 한거임)
+                    </div>
+                  </v-expand-transition>
+                </v-card>
+              </v-hover>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <v-hover elevation="0" v-slot:default="{ hover }">
+                <v-card @click="department()">
+                  <div style="text-align:center; height:50vh">
+                    <v-img style="height:100%" src="https://image.flaticon.com/icons/svg/1642/1642256.svg" />
+                  </div>
+
+                  <v-flex class="text-center">
+                    <v-card-text class="display-1">부서</v-card-text>
+                  </v-flex>
+                  <v-expand-transition>
+                    <div
+                      v-if="hover"
+                      class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
+                      style="height: 100%;"
+                    >
+                      부서입니다아아(문구 임시로 한거임)
+                    </div>
+                  </v-expand-transition>
+                </v-card>
+              </v-hover>
+            </div>
           </v-row>
         </v-flex>
       </v-layout>
 
-      <v-layout row my-10 class="justify-center">
-        <v-flex lg3 md3 sm3 xs8>
-          <v-carousel v-model="model2" height="300">
-            <v-carousel-item v-for="(color, i) in colors" :key="color">
-              <v-sheet :color="color" height="100%" tile>
-                <v-row class="fill-height" align="center" justify="center">
-                  <div class="display-3">Slide {{ i + 1 }}</div>
-                </v-row>
-              </v-sheet>
-            </v-carousel-item>
-          </v-carousel>
-        </v-flex>
-      </v-layout>
-
-      <v-layout row my-10 class="justify-center">
-        <v-flex lg4 md4 sm6 xs8>
-          <form>
-            아이디
-            <div class="row">
-              <v-textarea
-                v-model="name"
-                :clearable="clearable"
-                :auto-grow="autoGrow"
-                :outlined="outlined"
-                :placeholder="placeholder_name"
-                :rounded="rounded"
-                :rows="rows"
-                :error-messages="nameErrors"
-                required
-              ></v-textarea>
-            </div>
-            이메일
-            <div class="row">
-              <v-textarea
-                v-model="email"
-                :auto-grow="autoGrow"
-                :outlined="outlined"
-                :placeholder="placeholder_email"
-                :rounded="rounded"
-                :rows="rows"
-                :clearable="clearable"
-                :error-messages="emailErrors"
-                required
-              ></v-textarea>
-              <v-btn class="ml-2 mt-1" large @click="emailCheck()">중복확인</v-btn>
-            </div>
-
-            비밀번호
-            <div class="row">
-              <v-textarea
-                v-model="password"
-                :auto-grow="autoGrow"
-                :outlined="outlined"
-                :placeholder="placeholder_password"
-                :rounded="rounded"
-                :rows="rows"
-                :clearable="clearable"
-                :error-messages="passwordErrors"
-                required
-              ></v-textarea>
-            </div>
-
-            비밀번호 확인
-            <div class="row">
-              <v-textarea
-                v-model="passwordCheck"
-                :auto-grow="autoGrow"
-                :outlined="outlined"
-                :placeholder="placeholder_passwordCheck"
-                :rounded="rounded"
-                :rows="rows"
-                :clearable="clearable"
-                :error-messages="passwordCheckErrors"
-                required
-              ></v-textarea>
-            </div>
-
-            휴대폰 번호
-            <div class="row">
-              <v-textarea
-                v-model="number"
-                :auto-grow="autoGrow"
-                :outlined="outlined"
-                :placeholder="placeholder_number"
-                :rounded="rounded"
-                :rows="rows"
-                :clearable="clearable"
-                :error-messages="numberErrors"
-                required
-              ></v-textarea>
-            </div>
-
-            생년월일
-            <div class="row">
-              <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
-                <template v-slot:activator="{ on }">
-                  <v-textarea
-                    v-model="date"
-                    :auto-grow="autoGrow"
-                    :outlined="outlined"
-                    :placeholder="placeholder_birthday"
-                    :rounded="rounded"
-                    :rows="rows"
-                    readonly
-                    v-on="on"
-                    :error-messages="birthdayErrors"
-                    required
-                  ></v-textarea>
-                </template>
-                <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
-              </v-menu>
-            </div>
-
-            <div class="row">
-              <v-checkbox v-model="checkbox" :error-messages="checkboxErrors" label="회원가입을 동의합니다." required color="black"></v-checkbox>
-            </div>
-
-            <v-btn class="mr-4" @click="join()">가입하기</v-btn>
-          </form>
-        </v-flex>
-      </v-layout>
+      <div v-if="flag == 2">
+        <Test></Test>
+      </div>
     </v-container>
   </v-content>
 </template>
 
 <script>
-import { validationMixin } from "vuelidate";
-import { required, maxLength, email } from "vuelidate/lib/validators";
-import { mdiAccountCircle } from "@mdi/js";
+import { mdiAccount } from "@mdi/js";
+import Test from "./Test.vue";
+import { EventBus } from "../api/eventBus.js";
 export default {
-  mixins: [validationMixin],
-
-  validations: {
-    name: { required, maxLength: maxLength(10) },
-    email: { required, email },
-    password: { required },
-    passwordCheck: { required },
-    number: { required },
-    birthday: { required },
-    checkbox: {
-      checked(val) {
-        return val;
-      },
-    },
-  },
-
   data: () => ({
-    name: "",
-    email: "",
-    password: "",
-    passwordCheck: "",
-    number: "",
-    checkbox: false,
-
-    date: "",
-    menu2: false,
-
-    autoGrow: true,
-    label: "",
-    model: "",
-    outlined: true,
-
-    placeholder_name: "이름 입력",
-    placeholder_email: "이메일 입력",
-    placeholder_password: "비밀번호 입력",
-    placeholder_passwordCheck: "비밀번호 확인",
-    placeholder_number: "휴대폰 번호(숫자만 입력)",
-    placeholder_birthday: "생년월일 입력",
-    rounded: true,
-    rows: 1,
-    clearable: true,
-
-    colors: ["primary", "secondary", "yellow darken-2", "red", "orange"],
-    model2: 0,
-
-    icon_name: mdiAccountCircle,
+    flag: 1,
+    hover: false,
+    icon_person: mdiAccount,
   }),
-
-  computed: {
-    checkboxErrors() {
-      const errors = [];
-      if (!this.$v.checkbox.$dirty) return errors;
-      !this.$v.checkbox.checked && errors.push("동의하기를 눌러주세요!");
-      return errors;
-    },
-
-    emailErrors() {
-      const errors = [];
-      if (!this.$v.email.$dirty) return errors;
-      !this.$v.email.email && errors.push("이메일 형식을 확인해주세요.");
-      !this.$v.email.required && errors.push("이메일을 입력해주세요!");
-      return errors;
-    },
-
-    nameErrors() {
-      const errors = [];
-      if (!this.$v.name.$dirty) return errors;
-      // !this.$v.name.name && errors.push("이메일 형식을 확인해주세요.");
-      !this.$v.name.required && errors.push("이름을 입력해주세요!");
-      return errors;
-    },
-
-    passwordErrors() {
-      const errors = [];
-      if (!this.$v.password.$dirty) return errors;
-      // !this.$v.name.name && errors.push("이메일 형식을 확인해주세요.");
-      !this.$v.password.required && errors.push("비밀번호를 입력해 주세요!");
-      return errors;
-    },
-
-    passwordCheckErrors() {
-      const errors = [];
-      if (!this.$v.passwordCheck.$dirty) return errors;
-      // !this.$v.name.name && errors.push("이메일 형식을 확인해주세요.");
-      !this.$v.passwordCheck.required && errors.push("비밀번호 확인을 입력해 주세요!");
-      return errors;
-    },
-
-    numberErrors() {
-      const errors = [];
-      if (!this.$v.number.$dirty) return errors;
-      // !this.$v.name.name && errors.push("이메일 형식을 확인해주세요.");
-      !this.$v.number.required && errors.push("휴대폰 번호를 입력해 주세요!");
-      return errors;
-    },
-
-    birthdayErrors() {
-      const errors = [];
-      if (!this.$v.birthday.$dirty) return errors;
-      // !this.$v.name.name && errors.push("이메일 형식을 확인해주세요.");
-      !this.$v.birthday.required && errors.push("생일을 선택해 주세요!");
-      return errors;
-    },
+  components: {
+    Test,
   },
-
+  created() {
+    EventBus.$on("use-eventbus", (flag) => {
+      this.flag = flag;
+    });
+  },
   methods: {
-    join() {
-      // this.$v.$touch();
-      console.log("회원가입");
-      alert("회원가입 하기!!");
-    },
-
-    emailCheck() {
-      console.log("이메일 중복 검사");
-      alert("이메일 중복 검사");
-    },
     person() {
+      console.log("개인 로그인 폼 띄우기");
       alert("개인 로그인");
+      this.flag = 2;
     },
 
     department() {
-      alert("부서 로그인");
+      console.log("부서 로그인 폼 띄우기");
+      alert("서비스 준비 중 입니다.");
     },
   },
 };
 </script>
+<style scoped>
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+}
+</style>
