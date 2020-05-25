@@ -1,6 +1,5 @@
 <template>
   <!-- npm install vuelidate 
-       npm install vue
     -->
   <div>
     <v-layout row my-10 class="justify-center mt-10">
@@ -138,7 +137,7 @@
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
 import { mdiArrowLeft } from "@mdi/js";
-import { EventBus } from "../api/eventBus.js";
+import { EventBus } from "../plugins/eventBus.js";
 export default {
   mixins: [validationMixin],
 

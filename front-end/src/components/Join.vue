@@ -58,7 +58,7 @@
       </v-layout>
 
       <div v-if="flag == 2">
-        <Test></Test>
+        <Join_Person></Join_Person>
       </div>
     </v-container>
   </v-content>
@@ -66,8 +66,8 @@
 
 <script>
 import { mdiAccount } from "@mdi/js";
-import Test from "./Test.vue";
-import { EventBus } from "../api/eventBus.js";
+import Join_Person from "./Join_Person.vue";
+import { EventBus } from "../plugins/eventBus.js";
 export default {
   data: () => ({
     flag: 1,
@@ -75,7 +75,7 @@ export default {
     icon_person: mdiAccount,
   }),
   components: {
-    Test,
+    Join_Person,
   },
   created() {
     EventBus.$on("use-eventbus", (flag) => {
