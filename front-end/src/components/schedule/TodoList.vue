@@ -13,64 +13,7 @@
       <v-toolbar-title>ToDoList</v-toolbar-title>
 
       <v-spacer></v-spacer>
-
-    <v-dialog v-model="todoModal" persistent max-width="500px">
-      <template v-slot:activator="{ on }">
-        <v-btn icon dark v-on="on">
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </template>
-      <v-card>
-        <v-card-title>
-          <span class="headline" style="padding-left=20px;">To Do</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols="12" >
-                <v-text-field label="Title" v-model="title" required></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="content" v-model="content"  required></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-            <v-col cols="12">
-              
-              <v-menu
-                ref="todoEnd"
-                v-model="todoEnd"
-                :close-on-content-click="false"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on }">
-                  <v-icon>mdi-calendar</v-icon>
-                  <v-text-field
-                    v-model="endTime"
-                    label="Choose Daedline"
-                    readonly
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker v-model="endTime" no-title scrollable>
-                  <v-spacer></v-spacer>
-                  <v-btn text color="grey" @click="todoEnd = false">OK</v-btn>
-                </v-date-picker>
-              </v-menu>
-            </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="todoModal = false">Cancle</v-btn>
-          <v-btn color="blue darken-1" text @click="addTodo()">Save</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>  
-
+    
     <v-dialog v-model="toScheduleModal" persistent max-width="450px">
       <v-card>
         <v-card-title>
@@ -225,40 +168,57 @@
     </v-dialog>  
     </v-toolbar>
 
-    <v-list>
-
+     <v-row style="min-height:56px; border-bottom:2px solid rgba(0, 0, 0, 0.12); width:100%; margin-left:0px">
+       <v-col cols="12" sm="10" style="max-width:81%;">
+          <v-text-field
+           v-model="title"
+           @keyup.enter="addTodo"
+          ></v-text-field>
+        </v-col>
+        <v-col sm="2">
+          <v-btn style="margin-left:-15px; margin-top:15px;" @click="addTodo()">
+            Add
+          </v-btn>
+        </v-col>
+     </v-row>
+    <v-list style="padding-top:0px;">
+       
         <template v-for="(item, index) in items">
           <v-list-item two-line :key="item.index">
     
               <v-list-item-content>
-                
-                <v-list-item-title style="margin-top:20px; margin-bottom:10px;" v-text="item.content"></v-list-item-title>
-
-                <v-list-item-subtitle v-text="'Deadline : '"></v-list-item-subtitle>
-                <v-list-item-subtitle v-text='tmp'></v-list-item-subtitle>
-
+                <v-row style="padding-top:5px;">
+                    
+                      <v-icon 
+                      @click="isCompleteTodo()"
+                      v-if="!isComplete"
+                      style="margin:10px 10px 0 35px;"
+                      >mdi-check-circle-outline
+                      </v-icon> 
+                      <v-icon 
+                       @click="isCompleteTodo()"
+                       v-else
+                       style="margin:10px 10px 0 35px;"
+                       color="primary"
+                      >mdi-check-circle-outline
+                      </v-icon> 
+                    <v-list-item-title 
+                      v-if="isComplete"
+                      style="margin: 12px 0 10px 10px; flex:0; overflow:inherit; text-decoration:line-through;"
+                      v-text="item.title">
+                    </v-list-item-title>
+                    <v-list-item-title 
+                      v-else
+                      style="margin: 12px 0 10px 10px; flex:0; overflow:inherit;"
+                      v-text="item.title">
+                    </v-list-item-title>
+                </v-row>
               </v-list-item-content>
               <v-list-item-action>
                 <v-row style="margin-bottom:5px; margin-right:-1px;">
-                  <v-btn icon style="margin-top:10px;" @click="toScheduleModal = true; changeScheduleId(item.id);"><v-icon> mdi-tab </v-icon></v-btn>
+                  <v-btn icon style="margin-top:10px;" @click="toScheduleModal = true; changeScheduleId(item.id);"><v-icon> mdi-calendar </v-icon></v-btn>
                   <v-btn icon style="margin-top:9.5px;" @click="deleteTodo(item.id)"><v-icon > mdi-delete </v-icon></v-btn>
                 </v-row>
-                <!-- <v-icon
-                  style="padding-right: 5px"
-                  v-if="!active"
-                  color="grey lighten-1"
-                >
-                  mdi-star
-                </v-icon>
-  
-                <v-icon
-                  style="padding-right: 5px"
-                  v-else
-                  color="error"
-                >
-                  mdi-star
-                </v-icon> -->
-                
               </v-list-item-action>
           </v-list-item>
 
@@ -275,7 +235,6 @@
 
 <script>
 import Vue from 'vue'
-import "@/assets/css/todolist.scss"
 import Datetime from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
 import axiosScript from '@/api/axiosScript.js';
@@ -290,7 +249,6 @@ export default {
   },
   data() {
     return {
-      todoModal : false,
       startCalendar: false,
       startClock : false,
       endCalendar : false,
@@ -311,7 +269,7 @@ export default {
       schedulemodal: false,
       userId : 5,
       typeName:'',
-      tmp : '2020:05:20'
+      isComplete: false,
     }
   },
   methods:{
@@ -333,7 +291,7 @@ export default {
         start_time : start,
         end_time : end,
         address : this.address,
-        type : type,
+        public_type : type,
         user_id : this.userId
       };
     
@@ -353,13 +311,11 @@ export default {
     addTodo(){
      let type = 0;
      let userId = this.userId;
-     this.todoModal = false;
-    let data = 
-      { content : this.content,
-        title : this.title,
-        end_time : this.endTime,
+     let data = 
+      { title : this.title,
         type : type,
-        user_id : userId}
+        user_id : userId
+      }
 
      axiosScript.addToDo(
        data,
@@ -370,11 +326,9 @@ export default {
           console.log(error)
        }
      )
-     console.log("addToDo Finish")
-     this.inputValue = null
+     this.title = null
     },
     deleteTodo(id){
-      console.log("delete")
       axiosScript.deleteToDo(
         id,
         () =>{
@@ -382,6 +336,10 @@ export default {
         },
         (error) => console.log(error)
       )
+    },
+    isCompleteTodo(){
+      if(this.isComplete == true) this.isComplete = false;
+      else this.isComplete = true;
     }
     
   }
@@ -389,16 +347,8 @@ export default {
 </script>
 
 <style>
-.vdatetime{
-  width:220px;
-  border: double;
-}
-.vdatetime input{
-  width: 200px;
-  margin-left: 10px;
-} 
-.theme--light.v-list-item .v-list-item__subtitle, 
-.theme--light.v-list-item .v-list-item__action-text{
-  display: contents;
+.v-icon.v-icon.v-icon--link{
+  width:0px;
+  height:0px;
 }
 </style>
