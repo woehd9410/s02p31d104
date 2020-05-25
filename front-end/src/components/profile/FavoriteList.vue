@@ -80,7 +80,7 @@ export default {
       }
 
       for (let item of this.items) {
-        if (item.title.search(this.searchItem) > 0) {
+        if (item.title.toUpperCase().indexOf(this.searchItem.toUpperCase()) >= 0) {
           this.showItems.push(item);
           console.log(`add favoriteList ${item.title}`);
         }

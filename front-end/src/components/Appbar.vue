@@ -11,17 +11,9 @@
 
     <template v-slot:extension>
       <v-tabs
-        v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
+        :align-with-title="!($vuetify.breakpoint.xs || $vuetify.breakpoint.sm)"
         v-model="currentTab"
       >
-        <v-tab
-          v-for="category in categorys"
-          :key="category.id"
-          @click="goRoute(category)"
-          >{{ category }}</v-tab
-        >
-      </v-tabs>
-      <v-tabs v-else align-with-title v-model="currentTab">
         <v-tab
           v-for="category in categorys"
           :key="category.id"
@@ -56,7 +48,7 @@ export default {
   data() {
     return {
       currentTab: "home",
-      categorys: ["home", "schedule", "board", "alarm"],
+      categorys: ["home", "schedule", "board", "alarm","profile"],
       dialog: false,
     };
   },
@@ -83,6 +75,8 @@ export default {
       if (page == "home") {
         this.currentTab = 0;
         page = "";
+      }else if(page == 'profile'){
+        this.currentTab = this.categorys.length-1;
       }
       console.log(`go to route ${page}.vue page`);
       if (this.$route.path == `/${page}`) return;

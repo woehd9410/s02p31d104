@@ -1,21 +1,27 @@
 <template>
-  <v-content>
+  <v-content class="mt-12">
     <v-container fluid wrap>
       <v-layout row my-10 class="justify-center">
         <v-flex lg6 md8 xs12 class="text-center">
-          <v-avatar size="164"
-            ><v-img
-              style="border-radius:70px"
-              src="https://search.pstatic.net/common/?src=http%3A%2F%2Fpost.phinf.naver.net%2FMjAxODAxMDlfMjgy%2FMDAxNTE1NDcxOTgwNzMy.SwBdmOqNPVBGl00FcD_Qt1A7-oQ4Z91Y-vxcVYBcEB8g.1WACHs_iAy_reXQCyG7kNSPejearErbneyu0h122L6Ag.JPEG%2FIRhV1J37bSVke3lLZNsdWwj1aNGE.jpg&type=b400"
-            >
-            </v-img>
+          <v-avatar v-if="userInfo.img" size="164"
+            ><v-img style="border-radius:70px" :src="userInfo.img"></v-img>
           </v-avatar>
           <v-list>
             <v-list-item>
               <v-list-item-content>
-                <h2 class="headline font-weight-bold mb-3">
-                  <div class="underlined">{{ name }}</div>
-                </h2>
+                <v-list-item class="justify-center">
+                  <h2 class="headline font-weight-bold mb-3">
+                    <div class="underlined">{{ userInfo.name }}</div>
+                  </h2>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon @click="updateUser()" v-on="on"
+                        >mdi-cog-outline</v-icon
+                      >
+                    </template>
+                    <span>프로필을 수정하세요!</span>
+                  </v-tooltip>
+                </v-list-item>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -26,7 +32,7 @@
               </v-list-item-content>
               <v-list-item-content>
                 <v-list-item-title>
-                  {{ email }}
+                  {{ userInfo.email }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -38,7 +44,7 @@
               </v-list-item-content>
               <v-list-item-content>
                 <v-list-item-title>
-                  {{ number }}
+                  {{ userInfo.phoneNumber }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -49,18 +55,10 @@
                 </v-list-item-title>
               </v-list-item-content>
               <v-list-item-content>
-                <v-list-item-title> {{ name }}#{{ id }} </v-list-item-title>
+                <v-list-item-title>
+                  {{ userInfo.name }}#{{ userInfo.id }}
+                </v-list-item-title>
               </v-list-item-content>
-            </v-list-item>
-            <v-list-item class="justify-center">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-btn large @click="updateUser()" v-on="on" text>
-                    <img src="https://cdn.icon-icons.com/icons2/906/PNG/512/cogwheel-1_icon-icons.com_70236.png" height="30px" />
-                  </v-btn>
-                </template>
-                <span>프로필을 수정하세요!</span>
-              </v-tooltip>
             </v-list-item>
           </v-list>
         </v-flex>
@@ -73,7 +71,16 @@
 import { mdiEmailOutline, mdiKey, mdiPhone } from "@mdi/js";
 export default {
   name: "HelloWorld",
-
+  mounted() {
+    if (this.$route.params.id == null) {
+      console.log(`My Profile page`);
+    }
+  },
+  computed: {
+    userInfo() {
+      return this.$store.getters.getUserInfo;
+    },
+  },
   data: () => ({
     name: "애용",
     email: "dodyd@naver.com",
@@ -86,7 +93,6 @@ export default {
   methods: {
     updateUser() {
       console.log("회원정보 수정하기");
-      alert("회원정보 수정하기");
     },
   },
 };
