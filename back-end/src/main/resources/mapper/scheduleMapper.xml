@@ -17,4 +17,8 @@
         DELETE FROM user_schedule WHERE id = #{value}
     </delete>
 
+    <select id="getPersonalSchedule" parameterType="int" resultType="schedule">
+        SELECT * FROM user_schedule WHERE user_id = #{value}
+    </select>
+
 </mapper>

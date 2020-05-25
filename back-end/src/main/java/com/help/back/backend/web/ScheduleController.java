@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Api(tags = {"1. Schedule"})
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -68,5 +70,19 @@ public class ScheduleController {
         }catch(Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
+    }
+
+    @GetMapping("/v1/personal-schedule")
+    public ResponseEntity<List<Schedule>> getPersonalSchedule(@RequestParam("user_id") int user_id) throws Exception{
+        List<Schedule> list = null;
+        try {
+            System.out.println("개인 스케쥴 검색");
+            list = scheduleService.getPersonalSchedule(user_id);
+            System.out.println(list);
+            return new ResponseEntity<List<Schedule>>(list,HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity<List<Schedule>>(list,HttpStatus.NO_CONTENT);
+        }
+
     }
 }
