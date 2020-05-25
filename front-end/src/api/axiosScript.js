@@ -33,6 +33,7 @@ const addToDo = (params, success , error) =>{
   http
   .post('/api/v1/todo',params)
   .then((res) => {
+    console.log(res.data);
     success(res);
   })
   .catch((err) => {

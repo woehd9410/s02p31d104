@@ -27,17 +27,13 @@ export default {
     getToDo(){
       axiosScript.getToDo(
         this.userId,
-        (res)=>{
-          console.log(res)
-          this.items = res.data},
+        (res)=>{this.items = res.data},
         (error) =>{console.log(error);
         }
       )
     },
     addList(params){
-      console.log(params);
       this.items.push(params);
-      console.log("addList Finish")
     },
     deleteList(id){
       for(var i = 0; i < this.items.length; i++){
@@ -47,9 +43,6 @@ export default {
         }
       }
     }
-    // getTodo: async function(){
-    //   this.items = (await todoApi.getTodo());
-    // },
   }
 };
 </script>
