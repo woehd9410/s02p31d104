@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import FavoriteList from "@/components/FavoriteList.vue";
+import FavoriteList from "@/components/profile/FavoriteList.vue";
 export default {
   data() {
     return {
