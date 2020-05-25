@@ -47,13 +47,6 @@ public class ScheduleController {
     public ResponseEntity updateTodo(@RequestBody Schedule schedule) throws Exception{
         try{
             System.out.println("todolist update");
-            String[] startTemp = schedule.getStartTime().split("T");
-            String startTemp1 = startTemp[1].substring(0,8);
-            schedule.setStartTime(startTemp[0] + " " + startTemp1);
-            String[] endTemp = schedule.getEndTime().split("T");
-            String endTemp1 = endTemp[1].substring(0,8);
-            schedule.setEndTime(endTemp[0] + " " + endTemp1);
-            
             int result = scheduleService.updateTodo(schedule);
             System.out.println("todolist update result " + result);
             return new ResponseEntity<>(HttpStatus.OK);
