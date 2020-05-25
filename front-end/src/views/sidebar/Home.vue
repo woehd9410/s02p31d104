@@ -5,11 +5,16 @@
     app
     clipped
   >
+    <SimpleScheduleCalendar />
   </v-navigation-drawer>
 </template>
 
 <script>
+import SimpleScheduleCalendar from "@/components/home/SimpleScheduleCalendar.vue";
 export default {
+  components: {
+    SimpleScheduleCalendar,
+  },
   computed: {
     themeColor() {
       return this.$store.getters.getThemeColor;
