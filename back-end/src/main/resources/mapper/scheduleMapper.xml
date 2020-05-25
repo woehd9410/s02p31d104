@@ -13,4 +13,8 @@
         WHERE id = #{id} AND user_id = #{userId}
     </update>
 
+    <delete id="deletePersonalSchedule" parameterType="int">
+        DELETE FROM user_schedule WHERE id = #{value}
+    </delete>
+
 </mapper>

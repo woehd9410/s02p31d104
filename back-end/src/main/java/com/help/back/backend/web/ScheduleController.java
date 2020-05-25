@@ -52,4 +52,21 @@ public class ScheduleController {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
+
+    @DeleteMapping("/v1/personal-schedule")
+    public ResponseEntity deletePersonalSchedule(@RequestParam("id") int id) throws Exception{
+        try {
+            System.out.println("개인 스케쥴 삭제");
+            System.out.println(id);
+            int ans = scheduleService.deletePersonalSchedule(id);
+            if(ans == 1){
+                System.out.println("삭제 성공  : " + ans);
+                return new ResponseEntity(HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
 }

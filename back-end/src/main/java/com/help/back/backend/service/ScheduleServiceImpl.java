@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ScheduleServiceImpl implements ScheduleService{
+public class ScheduleServiceImpl implements ScheduleService {
+
 
     @Autowired
     ScheduleDao scheduleDao;
@@ -20,4 +21,10 @@ public class ScheduleServiceImpl implements ScheduleService{
     public int updatePersonalSchedule(Schedule schedule) {
         return scheduleDao.updatePersonalSchedule(schedule);
     }
+
+    @Override
+    public int deletePersonalSchedule(int id) {
+        return scheduleDao.deletePersonalSchedule(id);
+    }
+
 }
