@@ -7,7 +7,7 @@
     clipped
   >
     <template v-slot:prepend>
-      <v-list-item two-line>
+      <v-list-item two-line @click="showMyProfile" class="viewClick" :inactive="isMyProfile">
         <v-list-item-avatar>
           <img :src="userInfo.img" />
         </v-list-item-avatar>
@@ -32,14 +32,24 @@
 <script>
 import FavoriteList from "@/components/FavoriteList.vue";
 export default {
+  data() {
+    return {
+      isMyProfile: true
+    }
+  },
   components: {
     FavoriteList,
   },
   methods: {
+    showMyProfile() {
+      if (this.$route.path == `/profile`) return;
+      this.$router.push({name : "Profile"});
+    },
     logout() {
       console.log(`logout`);
       this.$store.commit("logout");
     },
+
   },
   computed: {
     userInfo() {
@@ -52,4 +62,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.viewClick {
+  cursor: pointer;
+}
+</style>
