@@ -2,6 +2,7 @@ package com.help.back.backend.service;
 
 import com.help.back.backend.dao.GroupDao;
 import com.help.back.backend.domain.Group;
+import com.help.back.backend.domain.GroupUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,10 @@ public class GroupServiceImpl implements GroupService{
     @Override
     public int updateGroup(Group group) {
         return groupDao.updateGroup(group);
+    }
+
+    @Override
+    public int postGroupUser(GroupUser groupUser) {
+        return groupDao.postGroupUser(groupUser);
     }
 }

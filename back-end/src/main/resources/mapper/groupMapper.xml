@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.help.back.backend.dao.GroupDao">
+    <!-- group crud   -->
     <insert id="postGroup" parameterType="group" useGeneratedKeys="true" keyProperty="id" >
         INSERT INTO
         groups(name) Values(#{name})
@@ -18,4 +19,12 @@
     <select id="getGroup" parameterType="int" resultType="group">
         SELECT id, name FROM groups WHERE id = #{value}
     </select>
+
+
+    <!-- groupuser crud   -->
+    <insert id="postGroupUser" parameterType="groupUser" useGeneratedKeys="true" keyProperty="ugId" >
+        INSERT INTO
+        user_group(user_id, group_id, is_host) Values(#{userId}, #{groupId}, #{isHost})
+    </insert>
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.help.back.backend.web;
 
 import com.help.back.backend.domain.Group;
+import com.help.back.backend.domain.GroupUser;
 import com.help.back.backend.domain.Schedule;
 import com.help.back.backend.service.GroupService;
 import io.swagger.annotations.Api;
@@ -62,6 +63,24 @@ public class GroupController {
             if(ans == 1){
                 System.out.println("수정성공");
                 return new ResponseEntity( HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @PostMapping("v1/group-user")
+    public ResponseEntity<GroupUser> postGroupUser(@RequestBody GroupUser groupUser) throws Exception{
+        try {
+            System.out.println("그룹 멤버 추가");
+            System.out.println(groupUser.toString());
+            int ans = groupService.postGroupUser(groupUser);
+            System.out.println(ans);
+            if(ans == 1){
+                System.out.println("추가 : " + groupUser.toString());
+                return new ResponseEntity<GroupUser>(groupUser, HttpStatus.OK);
             }else{
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
