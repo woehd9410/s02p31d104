@@ -5,7 +5,10 @@
         INSERT INTO
         groups(name) Values(#{name})
     </insert>
-    
+
+    <delete id="deleteGroup" parameterType="int">
+        DELETE FROM groups WHERE id = #{value}
+    </delete>
 
 
 </mapper>

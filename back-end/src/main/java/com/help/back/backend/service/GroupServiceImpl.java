@@ -15,4 +15,9 @@ public class GroupServiceImpl implements GroupService{
     public int postGroup(Group group) {
         return groupDao.postGroup(group);
     }
+
+    @Override
+    public int deleteGroup(int id) {
+        return groupDao.deleteGroup(id);
+    }
 }
