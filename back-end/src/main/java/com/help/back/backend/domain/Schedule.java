@@ -3,7 +3,6 @@ package com.help.back.backend.domain;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.*;
 
-
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Getter
 @Setter
@@ -11,7 +10,6 @@ import lombok.*;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Schedule {
-
     private int id;
     private String content;
     private String title;
@@ -23,6 +21,8 @@ public class Schedule {
     private double latitude;
     private double longitude;
     private int isCompleted;
-    private int userId; 
+    private int userId;
     private int groupId;
+
+
 }

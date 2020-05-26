@@ -1,9 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.help.back.backend.dao.ScheduleDao">
+    <insert id="postPersonalSchedule" parameterType="schedule" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO
+        user_schedule(content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, user_id)
+        Values(#{content}, #{title}, #{startTime}, #{endTime}, #{address}, #{publicType}, 0, #{latitude}, #{longitude}, 0, #{userId})
+    </insert>
 
-    <select id="getTodoLists" parameterType="int" resultType="com.help.back.backend.domain.Schedule">
+    <update id="updatePersonalSchedule" parameterType="schedule">
+        UPDATE user_schedule SET content = #{content}, title = #{title}, start_time = #{startTime}, end_time = #{endTime}, address = #{address},
+        public_type = #{publicType}, latitude = #{latitude}, longitude = #{longitude}, is_completed = #{isCompleted}
+        WHERE id = #{id} AND user_id = #{userId}
+    </update>
+
+    <delete id="deletePersonalSchedule" parameterType="int">
+        DELETE FROM user_schedule WHERE id = #{value}
+    </delete>
+
+    <select id="getPersonalSchedule" parameterType="int" resultType="schedule">
+        SELECT id,content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, user_id FROM user_schedule WHERE user_id = #{value}
+    </select>
+
+    <select id="getPersonalScheduleByDate" parameterType="scheduleDate" resultType="schedule">
+        SELECT id, content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, user_id FROM user_schedule WHERE user_id = #{userId} AND start_time BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+	 <select id="getTodoLists" parameterType="int" resultType="com.help.back.backend.domain.Schedule">
         SELECT * FROM user_schedule WHERE start_time IS NULL AND user_id = #{value}
     </select>
     <insert id="addTodo" parameterType="com.help.back.backend.domain.Schedule" useGeneratedKeys="true"
