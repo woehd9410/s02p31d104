@@ -3,10 +3,6 @@
     <v-row justify="center">
       <v-dialog v-model="showDialog" persistent max-width="1100">
         <login @loginEvent="loginEvent" />
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn @click="loginEvent('Force')">강제 로그인</v-btn>
-        </v-card-actions>
       </v-dialog>
     </v-row>
     <router-view name="sidebar" />

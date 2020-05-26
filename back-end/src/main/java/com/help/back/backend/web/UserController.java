@@ -102,6 +102,7 @@ public class UserController {
         User user = null;
         try {
             System.out.println("유저 로그인");
+            System.out.println(login.toString());
             user = userService.login(login);
             System.out.println(user);
             return new ResponseEntity<User>(user,HttpStatus.OK);
