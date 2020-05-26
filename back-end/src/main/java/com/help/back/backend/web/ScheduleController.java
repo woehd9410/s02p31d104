@@ -16,7 +16,7 @@ public class ScheduleController {
     @Autowired
     ScheduleService scheduleService;
     
-    @GetMapping("/api/v1/todo/{userId}")
+    @GetMapping("/api/v1/user/{userId}/to-do-list")
     public ResponseEntity<List<Schedule>> getTodoLists(@PathVariable int userId) throws Exception{
         List<Schedule> list = null;
         try{
@@ -28,7 +28,7 @@ public class ScheduleController {
         }
     }
 
-    @PostMapping("/api/v1/todo")
+    @PostMapping("/api/v1/to-do-list")
     public ResponseEntity<Schedule> addTodo(@RequestBody Schedule schedule) throws Exception{
         try{
             System.out.println("todolist 추가");
@@ -43,7 +43,7 @@ public class ScheduleController {
         }
     }
 
-    @PutMapping("/api/v1/todo/state")
+    @PutMapping("/api/v1/to-do-list/{id}?is-completed=true")
     public ResponseEntity updateTodoState(@RequestBody Schedule schedule) throws Exception{
         try{
             System.out.println("todolist update");
@@ -55,7 +55,7 @@ public class ScheduleController {
         }
     }
 
-    @DeleteMapping("api/v1/todo/{id}")
+    @DeleteMapping("api/v1/to-do-list/{id}")
     public ResponseEntity deleteTodo(@PathVariable int id) throws Exception{
         try{
             System.out.println("todolist delete");
@@ -67,7 +67,7 @@ public class ScheduleController {
         }
     }
 
-    @PutMapping("/api/v1/todo/toSchedule")
+    @PutMapping("/api/v1/to-do-list")
     public ResponseEntity todoListToSchedule(@RequestBody Schedule schedule) throws Exception{
         try{
             System.out.println("todolist update");
