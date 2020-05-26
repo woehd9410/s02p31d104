@@ -18,8 +18,11 @@ public class Schedule {
     private String startTime;
     private String endTime;
     private String address;
-    private int type;
+    private int publicType;
+    private int scheduleType;
     private double latitude;
     private double longitude;
+    private int isCompleted;
     private int userId; 
+    private int groupId;
 }

@@ -29,8 +29,13 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
 
     @Override
-    public int updateTodo(Schedule schedule) {
-        return scheduleDao.updateTodo(schedule);
+    public int updateTodoState(Schedule schedule) {
+        return scheduleDao.updateTodoState(schedule);
+    }
+
+    @Override
+    public int todoListToSchedule(Schedule schedule) {
+        return scheduleDao.todoListToSchedule(schedule);
     }
 
 }

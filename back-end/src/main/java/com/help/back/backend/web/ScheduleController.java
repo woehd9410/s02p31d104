@@ -43,11 +43,11 @@ public class ScheduleController {
         }
     }
 
-    @PutMapping("/api/v1/todo")
-    public ResponseEntity updateTodo(@RequestBody Schedule schedule) throws Exception{
+    @PutMapping("/api/v1/todo/state")
+    public ResponseEntity updateTodoState(@RequestBody Schedule schedule) throws Exception{
         try{
             System.out.println("todolist update");
-            int result = scheduleService.updateTodo(schedule);
+            int result = scheduleService.updateTodoState(schedule);
             System.out.println("todolist update result " + result);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
@@ -66,4 +66,17 @@ public class ScheduleController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
+
+    @PutMapping("/api/v1/todo/toSchedule")
+    public ResponseEntity todoListToSchedule(@RequestBody Schedule schedule) throws Exception{
+        try{
+            System.out.println("todolist update");
+            int result = scheduleService.todoListToSchedule(schedule);
+            System.out.println("todolist update result " + result);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
 }
