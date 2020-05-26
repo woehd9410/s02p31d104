@@ -49,4 +49,9 @@ public class GroupServiceImpl implements GroupService{
     public List<GroupUser> getGroupUser(int group_id) {
         return groupDao.getGroupUser(group_id);
     }
+
+    @Override
+    public Group getGroupHavingUser(int id) {
+        return groupDao.getGroupHavingUser(id);
+    }
 }

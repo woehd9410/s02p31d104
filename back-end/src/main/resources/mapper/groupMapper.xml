@@ -20,6 +20,13 @@
         SELECT id, name FROM groups WHERE id = #{value}
     </select>
 
+    <select id="getGroupHavingUser" parameterType="int" resultMap="groupHavingUser">
+        SELECT g.id, g.name, ug.ug_id, ug.user_id, ug.group_id, ug.is_host
+        FROM groups g LEFT OUTER JOIN user_group ug
+        ON g.id = ug.group_id
+        WHERE g.id = #{value}
+    </select>
+
 
     <!-- groupuser crud   -->
     <insert id="postGroupUser" parameterType="groupUser" useGeneratedKeys="true" keyProperty="ugId" >
@@ -40,5 +47,20 @@
         FROM user_group
         WHERE group_id = #{value}
     </select>
+
+
+    <!-- resultmap   -->
+    <resultMap type="group" id="groupHavingUser">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <collection property="groupUser" resultMap="groupUser"/>
+    </resultMap>
+
+    <resultMap type="groupUser" id="groupUser">
+        <id column="ug_id" property="ugId" />
+        <result column="user_id" property="userId" />
+        <result column="group_id" property="groupId" />
+        <result column="is_host" property="isHost" />
+    </resultMap>
 
 </mapper>

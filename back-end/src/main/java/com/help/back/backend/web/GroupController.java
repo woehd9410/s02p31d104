@@ -23,6 +23,24 @@ public class GroupController {
     @Autowired
     private GroupService groupService;
 
+    @GetMapping("v1/group/{id}")
+    public ResponseEntity<Group> getGroup(@PathVariable("id") int id) throws Exception{
+        Group group = null;
+        try {
+            System.out.println("그룹 조회");
+            System.out.println(id);
+            group = groupService.getGroupHavingUser(id);
+            if(group != null){
+                System.out.println(group.toString() );
+                return new ResponseEntity<Group>(group, HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
     @PostMapping("v1/group")
     public ResponseEntity<Group> postGroup(@RequestBody Group group) throws Exception{
         try {
