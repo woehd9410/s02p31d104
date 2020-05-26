@@ -18,11 +18,11 @@
     </delete>
 
     <select id="getPersonalSchedule" parameterType="int" resultType="schedule">
-        SELECT * FROM user_schedule WHERE user_id = #{value}
+        SELECT id,content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, user_id FROM user_schedule WHERE user_id = #{value}
     </select>
 
     <select id="getPersonalScheduleByDate" parameterType="scheduleDate" resultType="schedule">
-        SELECT * FROM user_schedule WHERE user_id = #{userId} AND start_time BETWEEN #{startTime} AND #{endTime}
+        SELECT id, content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, user_id FROM user_schedule WHERE user_id = #{userId} AND start_time BETWEEN #{startTime} AND #{endTime}
     </select>
 
 </mapper>

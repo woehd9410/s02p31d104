@@ -22,7 +22,7 @@ public class ScheduleController {
     @Autowired
     ScheduleService scheduleService;
 
-    @PostMapping("v1/personal-schedule")
+    @PostMapping("v1/user/personal-schedule")
     public ResponseEntity<Schedule> postPersonalSchedule(@RequestBody Schedule schedule) throws Exception{
         try {
             System.out.println("개인 스케쥴 추가");
@@ -39,7 +39,7 @@ public class ScheduleController {
         }
     }
 
-    @PutMapping("v1/personal-schedule")
+    @PutMapping("v1/user/personal-schedule")
     public ResponseEntity updatePersonalSchedule(@RequestBody Schedule schedule) throws Exception{
         try {
             System.out.println("개인 스케쥴 수정");
@@ -56,8 +56,8 @@ public class ScheduleController {
         }
     }
 
-    @DeleteMapping("/v1/personal-schedule")
-    public ResponseEntity deletePersonalSchedule(@RequestParam("id") int id) throws Exception{
+    @DeleteMapping("/v1/user/{id}/personal-schedule")
+    public ResponseEntity deletePersonalSchedule(@PathVariable("id") int id) throws Exception{
         try {
             System.out.println("개인 스케쥴 삭제");
             System.out.println(id);
@@ -73,8 +73,8 @@ public class ScheduleController {
         }
     }
 
-    @GetMapping("/v1/personal-schedule")
-    public ResponseEntity<List<Schedule>> getPersonalSchedule(@RequestParam("user_id") int user_id) throws Exception{
+    @GetMapping("/v1/user/{user_id}/personal-schedule")
+    public ResponseEntity<List<Schedule>> getPersonalSchedule(@PathVariable("user_id") int user_id) throws Exception{
         List<Schedule> list = null;
         try {
             System.out.println("개인 스케쥴 검색");
@@ -87,7 +87,7 @@ public class ScheduleController {
 
     }
 
-    @PostMapping("/v1/personal-schedule/date")
+    @PostMapping("/v1/user/personal-schedule/date")
     public ResponseEntity<List<Schedule>> getPersonalScheduleByDate(@RequestBody ScheduleDate scheduleDate) throws Exception{
         List<Schedule> list = null;
         try {
