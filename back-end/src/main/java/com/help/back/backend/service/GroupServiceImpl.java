@@ -6,6 +6,8 @@ import com.help.back.backend.domain.GroupUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class GroupServiceImpl implements GroupService{
 
@@ -30,5 +32,10 @@ public class GroupServiceImpl implements GroupService{
     @Override
     public int postGroupUser(GroupUser groupUser) {
         return groupDao.postGroupUser(groupUser);
+    }
+
+    @Override
+    public int deleteGroupUser(Map map) {
+        return groupDao.deleteGroupUser(map);
     }
 }

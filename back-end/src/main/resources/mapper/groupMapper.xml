@@ -27,4 +27,8 @@
         user_group(user_id, group_id, is_host) Values(#{userId}, #{groupId}, #{isHost})
     </insert>
 
+    <delete id="deleteGroupUser" parameterType="hashMap">
+        DELETE FROM user_group WHERE user_id = #{user_id} AND group_id = #{group_id}
+    </delete>
+
 </mapper>

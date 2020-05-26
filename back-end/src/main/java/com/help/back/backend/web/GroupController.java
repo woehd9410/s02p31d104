@@ -2,7 +2,6 @@ package com.help.back.backend.web;
 
 import com.help.back.backend.domain.Group;
 import com.help.back.backend.domain.GroupUser;
-import com.help.back.backend.domain.Schedule;
 import com.help.back.backend.service.GroupService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Api(tags = {"1. Group"})
 @RequiredArgsConstructor
@@ -81,6 +83,27 @@ public class GroupController {
             if(ans == 1){
                 System.out.println("추가 : " + groupUser.toString());
                 return new ResponseEntity<GroupUser>(groupUser, HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @DeleteMapping("v1/group-user")
+    public ResponseEntity<GroupUser> deleteGroupUser(@RequestParam("user_id") String user_id, @RequestParam("group_id") String group_id) throws Exception{
+        try {
+            System.out.println("그룹 멤버 삭제");
+            System.out.println("user_id : " + user_id + " group_id : " + group_id );
+            Map map = new HashMap();
+
+            map.put("user_id", user_id); //가져온 데이터에 키와 벨류값을 지정
+            map.put("group_id", group_id);
+            int ans = groupService.deleteGroupUser(map);
+            if(ans == 1){
+                System.out.println("삭제 성공 " );
+                return new ResponseEntity( HttpStatus.OK);
             }else{
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
