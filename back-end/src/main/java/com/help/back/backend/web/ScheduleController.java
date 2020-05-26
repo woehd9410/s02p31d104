@@ -2,6 +2,7 @@ package com.help.back.backend.web;
 
 import com.help.back.backend.domain.Schedule;
 import com.help.back.backend.domain.User;
+import com.help.back.backend.dto.ScheduleDate;
 import com.help.back.backend.service.ScheduleService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -78,6 +79,21 @@ public class ScheduleController {
         try {
             System.out.println("개인 스케쥴 검색");
             list = scheduleService.getPersonalSchedule(user_id);
+            System.out.println(list);
+            return new ResponseEntity<List<Schedule>>(list,HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity<List<Schedule>>(list,HttpStatus.NO_CONTENT);
+        }
+
+    }
+
+    @PostMapping("/v1/personal-schedule/date")
+    public ResponseEntity<List<Schedule>> getPersonalScheduleByDate(@RequestBody ScheduleDate scheduleDate) throws Exception{
+        List<Schedule> list = null;
+        try {
+            System.out.println("개인 스케쥴 날짜에 따라 검색");
+            System.out.println(scheduleDate);
+            list = scheduleService.getPersonalScheduleByDate(scheduleDate);
             System.out.println(list);
             return new ResponseEntity<List<Schedule>>(list,HttpStatus.OK);
         }catch(Exception e) {
