@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Api(tags = {"1. Group"})
@@ -122,6 +123,23 @@ public class GroupController {
             if(ans == 1){
                 System.out.println("수정 성공 " );
                 return new ResponseEntity( HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping("v1/group-user/{group_id}")
+    public ResponseEntity<List<GroupUser>> getGroupUser(@PathVariable("group_id") int group_id) throws Exception{
+        List<GroupUser> list = null;
+        try {
+            System.out.println("그룹 멤버 조회");
+            list = groupService.getGroupUser(group_id);
+            if(list != null){
+                System.out.println(list );
+                return new ResponseEntity<List<GroupUser>>(list, HttpStatus.OK);
             }else{
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }

@@ -3,6 +3,7 @@ package com.help.back.backend.service;
 import com.help.back.backend.domain.Group;
 import com.help.back.backend.domain.GroupUser;
 
+import java.util.List;
 import java.util.Map;
 
 public interface GroupService {
@@ -12,4 +13,5 @@ public interface GroupService {
     int postGroupUser(GroupUser groupUser);
     int deleteGroupUser(Map map);
     int updateGroupUser(GroupUser groupUser);
+    List<GroupUser> getGroupUser(int group_id);
 }

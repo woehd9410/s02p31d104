@@ -35,4 +35,10 @@
         UPDATE user_group SET is_host = #{isHost} WHERE ug_id = #{ugId}
     </update>
 
+    <select id="getGroupUser" parameterType="int" resultType="groupUser">
+        SELECT ug_id, user_id, group_id, is_host
+        FROM user_group
+        WHERE group_id = #{value}
+    </select>
+
 </mapper>
