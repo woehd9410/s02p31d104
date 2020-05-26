@@ -11,4 +11,5 @@ public interface GroupDao {
     int updateGroup(Group group);
     int postGroupUser(GroupUser groupUser);
     int deleteGroupUser(Map map);
+    int updateGroupUser(GroupUser groupUser);
 }

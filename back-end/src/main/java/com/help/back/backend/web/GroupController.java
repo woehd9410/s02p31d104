@@ -111,4 +111,22 @@ public class GroupController {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
+
+    @PutMapping("v1/group-user")
+    public ResponseEntity<GroupUser> updateGroupUser(@RequestBody GroupUser groupUser) throws Exception{
+        try {
+            System.out.println("그룹 멤버 수정");
+            System.out.println(groupUser.toString() );
+
+            int ans = groupService.updateGroupUser(groupUser);
+            if(ans == 1){
+                System.out.println("수정 성공 " );
+                return new ResponseEntity( HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
 }

@@ -38,4 +38,9 @@ public class GroupServiceImpl implements GroupService{
     public int deleteGroupUser(Map map) {
         return groupDao.deleteGroupUser(map);
     }
+
+    @Override
+    public int updateGroupUser(GroupUser groupUser) {
+        return groupDao.updateGroupUser(groupUser);
+    }
 }

@@ -31,4 +31,8 @@
         DELETE FROM user_group WHERE user_id = #{user_id} AND group_id = #{group_id}
     </delete>
 
+    <update id="updateGroupUser" parameterType="groupUser">
+        UPDATE user_group SET is_host = #{isHost} WHERE ug_id = #{ugId}
+    </update>
+
 </mapper>
