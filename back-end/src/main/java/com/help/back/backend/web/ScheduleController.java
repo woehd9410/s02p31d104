@@ -136,12 +136,12 @@ public class ScheduleController {
         }
     }
 
-    @GetMapping("/v1/group/{group_id}/personal-schedule")
-    public ResponseEntity<List<Schedule>> getGroupSchedule(@PathVariable("group_id") int group_id) throws Exception{
+    @GetMapping("/v1/group/{groupId}/personal-schedule")
+    public ResponseEntity<List<Schedule>> getGroupSchedule(@PathVariable("groupId") int groupId) throws Exception{
         List<Schedule> list = null;
         try {
             System.out.println("개인 스케쥴 검색");
-            list = scheduleService.getGroupSchedule(group_id);
+            list = scheduleService.getGroupSchedule(groupId);
             System.out.println(list);
             return new ResponseEntity<List<Schedule>>(list,HttpStatus.OK);
         }catch(Exception e) {
