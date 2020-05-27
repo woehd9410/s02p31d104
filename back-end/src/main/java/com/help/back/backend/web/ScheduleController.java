@@ -131,7 +131,7 @@ public class ScheduleController {
     }
 
     @PutMapping("/v1/to-do-list/{id}")
-    public ResponseEntity updateTodoState(@PathVariable int id ,@RequestParam("is_completed") int isCompleted) throws Exception{
+    public ResponseEntity updateTodoState(@PathVariable int id ,@RequestParam("is-completed") int isCompleted) throws Exception{
         try{
             System.out.println("todolist update");
             Schedule schedule = new Schedule();
