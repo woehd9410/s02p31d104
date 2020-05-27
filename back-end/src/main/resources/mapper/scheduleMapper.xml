@@ -49,5 +49,25 @@
         FROM user_schedule
         WHERE group_id = #{groupId} AND start_time BETWEEN #{startTime} AND #{endTime}
     </select>
-
+	
+	<select id="getTodoLists" parameterType="int" resultType="com.help.back.backend.domain.Schedule">
+        SELECT * FROM user_schedule WHERE start_time IS NULL AND user_id = #{value}
+    </select>
+    <insert id="addTodo" parameterType="com.help.back.backend.domain.Schedule" useGeneratedKeys="true"
+     keyProperty="id">
+        INSERT INTO user_schedule (content, title , type , user_id)
+        VALUES(#{content}, #{title}, #{type}, #{userId})
+    </insert>
+    <delete id="deleteTodo" parameterType="int">
+        DELETE FROM user_schedule where id = #{value}
+    </delete>
+    <update id="updateTodoState" parameterType="com.help.back.backend.domain.Schedule">
+        UPDATE user_schedule SET is_completed = #{isCompleted}
+        WHERE id=#{id}
+    </update>
+    <update id="todoListToSchedule" parameterType="com.help.back.backend.domain.Schedule">
+        UPDATE user_schedule SET content = #{content}, title = #{title}, start_time = #{startTime}, end_time = #{endTime},
+                                 address = #{address}, type = #{type}
+        WHERE id = #{id}
+    </update>
 </mapper>
