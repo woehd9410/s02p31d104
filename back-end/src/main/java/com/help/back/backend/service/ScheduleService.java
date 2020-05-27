@@ -10,7 +10,13 @@ public interface ScheduleService {
     List<Schedule> getPersonalScheduleByDate(ScheduleDate scheduleDate);
     int postPersonalSchedule(Schedule schedule);
     int updatePersonalSchedule(Schedule schedule);
-    int deletePersonalSchedule(int id);
+    int deleteSchedule(int id);
+
+    List<Schedule> getGroupSchedule(int userId);
+    List<Schedule> getGroupScheduleByDate(ScheduleDate scheduleDate);
+    int postGroupSchedule(Schedule schedule);
+    int updateGroupSchedule(Schedule schedule);
+    
     List<Schedule> getTodoLists(int userId);
     int addTodo(Schedule schedule);
     int deleteTodo(int id);
