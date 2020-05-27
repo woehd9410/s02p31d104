@@ -175,10 +175,10 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="toScheduleModal = false"
+              <v-btn color="blue darken-1" text @click="cancleScheduleModal"
                 >Cancle</v-btn
               >
-              <v-btn color="blue darken-1" text @click="update()">Save</v-btn>
+              <v-btn color="blue darken-1" text @click="updateSchedule">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -207,6 +207,9 @@ export default {
     }
   },
   methods: {
+    cancleScheduleModal(){
+      this.toScheduleModal = false;
+    },
     updateSchedule() {
       console.log("updateSchedule")
     }
