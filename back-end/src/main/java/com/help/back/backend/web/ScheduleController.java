@@ -73,8 +73,8 @@ public class ScheduleController {
         }
     }
 
-    @GetMapping("/v1/user/{user_id}/personal-schedule")
-    public ResponseEntity<List<Schedule>> getPersonalSchedule(@PathVariable("user_id") int user_id) throws Exception{
+    @GetMapping("/v1/user/{user-id}/personal-schedule")
+    public ResponseEntity<List<Schedule>> getPersonalSchedule(@PathVariable("user-id") int user_id) throws Exception{
         List<Schedule> list = null;
         try {
             System.out.println("개인 스케쥴 검색");

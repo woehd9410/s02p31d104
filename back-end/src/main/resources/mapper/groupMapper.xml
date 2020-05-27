@@ -35,7 +35,7 @@
     </insert>
 
     <delete id="deleteGroupUser" parameterType="hashMap">
-        DELETE FROM user_group WHERE user_id = #{userId} AND group_id = #{groupId}
+        DELETE FROM user_group WHERE user_id = #{user-id} AND group_id = #{group-id}
     </delete>
 
     <update id="updateGroupUser" parameterType="groupUser">
