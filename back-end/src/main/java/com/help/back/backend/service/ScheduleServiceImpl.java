@@ -36,8 +36,28 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public int deletePersonalSchedule(int id) {
-        return scheduleDao.deletePersonalSchedule(id);
+    public int deleteSchedule(int id) {
+        return scheduleDao.deleteSchedule(id);
+    }
+
+    @Override
+    public List<Schedule> getGroupSchedule(int userId) {
+        return scheduleDao.getGroupSchedule(userId);
+    }
+
+    @Override
+    public List<Schedule> getGroupScheduleByDate(ScheduleDate scheduleDate) {
+        return scheduleDao.getGroupScheduleByDate(scheduleDate);
+    }
+
+    @Override
+    public int postGroupSchedule(Schedule schedule) {
+        return scheduleDao.postGroupSchedule(schedule);
+    }
+
+    @Override
+    public int updateGroupSchedule(Schedule schedule) {
+        return scheduleDao.updateGroupSchedule(schedule);
     }
 
 }

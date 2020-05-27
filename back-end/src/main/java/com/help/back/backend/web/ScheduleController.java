@@ -61,7 +61,7 @@ public class ScheduleController {
         try {
             System.out.println("개인 스케쥴 삭제");
             System.out.println(id);
-            int ans = scheduleService.deletePersonalSchedule(id);
+            int ans = scheduleService.deleteSchedule(id);
             if(ans == 1){
                 System.out.println("삭제 성공  : " + ans);
                 return new ResponseEntity(HttpStatus.OK);
@@ -73,8 +73,8 @@ public class ScheduleController {
         }
     }
 
-    @GetMapping("/v1/user/{user_id}/personal-schedule")
-    public ResponseEntity<List<Schedule>> getPersonalSchedule(@PathVariable("user_id") int user_id) throws Exception{
+    @GetMapping("/v1/user/{user-id}/personal-schedule")
+    public ResponseEntity<List<Schedule>> getPersonalSchedule(@PathVariable("user-id") int user_id) throws Exception{
         List<Schedule> list = null;
         try {
             System.out.println("개인 스케쥴 검색");
@@ -94,6 +94,69 @@ public class ScheduleController {
             System.out.println("개인 스케쥴 날짜에 따라 검색");
             System.out.println(scheduleDate);
             list = scheduleService.getPersonalScheduleByDate(scheduleDate);
+            System.out.println(list);
+            return new ResponseEntity<List<Schedule>>(list,HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity<List<Schedule>>(list,HttpStatus.NO_CONTENT);
+        }
+
+    }
+
+    @PostMapping("v1/group/group-schedule")
+    public ResponseEntity<Schedule> postGroupSchedule(@RequestBody Schedule schedule) throws Exception{
+        try {
+            System.out.println("그룹 스케쥴 추가");
+            System.out.println(schedule.toString());
+            int ans = scheduleService.postGroupSchedule(schedule);
+            if(ans == 1){
+                System.out.println("추가 : " + schedule.toString());
+                return new ResponseEntity<Schedule>(schedule, HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @PutMapping("v1/group/group-schedule")
+    public ResponseEntity updateGroupSchedule(@RequestBody Schedule schedule) throws Exception{
+        try {
+            System.out.println("그룹 스케쥴 수정");
+            System.out.println(schedule.toString());
+            int ans = scheduleService.updateGroupSchedule(schedule);
+            if(ans == 1){
+                System.out.println("수정 성공  : " + ans);
+                return new ResponseEntity(HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping("/v1/group/{group-id}/personal-schedule")
+    public ResponseEntity<List<Schedule>> getGroupSchedule(@PathVariable("group-id") int gid) throws Exception{
+        List<Schedule> list = null;
+        try {
+            System.out.println("개인 스케쥴 검색");
+            list = scheduleService.getGroupSchedule(gid);
+            System.out.println(list);
+            return new ResponseEntity<List<Schedule>>(list,HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity<List<Schedule>>(list,HttpStatus.NO_CONTENT);
+        }
+
+    }
+
+    @PostMapping("/v1/group/group-schedule/date")
+    public ResponseEntity<List<Schedule>> getGroupScheduleByDate(@RequestBody ScheduleDate scheduleDate) throws Exception{
+        List<Schedule> list = null;
+        try {
+            System.out.println("그룹 스케쥴 날짜에 따라 검색");
+            System.out.println(scheduleDate);
+            list = scheduleService.getGroupScheduleByDate(scheduleDate);
             System.out.println(list);
             return new ResponseEntity<List<Schedule>>(list,HttpStatus.OK);
         }catch(Exception e) {
