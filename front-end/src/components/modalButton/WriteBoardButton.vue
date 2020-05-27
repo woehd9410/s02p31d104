@@ -27,14 +27,6 @@ export default {
   },
 
   data: () => ({
-    editedItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
-    },
-
     dialog: false,
   }),
 
