@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.help.back.backend.dao.BoardDao">
+    <select id="getAllBoard" resultType="board">
+        SELECT id, title, created_time, updated_time, content, public_auth, isPublic, user_id
+        FROM board
+    </select>
+    <select id="getBoardById" parameterType="int" resultType="board">
+        SELECT id, title, created_time, updated_time, content, public_auth, isPublic, user_id
+        FROM board
+        WHERE id = #{value}
+    </select>
+    <insert id="postBoard" parameterType="board" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        board(title, created_time, content, public_auth, isPublic, user_id)
+        VALUES(#{title}, #{createdTime}, #{content}, #{publicAuth},#{isPublic}, #{userId})
+    </insert>
+    <update id="updateBoard" parameterType="board">
+        UPDATE board
+        SET title = #{title}, updated_time = now(), content = #{content}, isPublic = #{isPublic}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteBoard" parameterType="int">
+        DELETE FROM board
+        WHERE id = #{value}
+    </delete>
+
+</mapper>
