@@ -30,16 +30,26 @@
                 </v-card-text>
               </v-card>
             </v-dialog>
+
+            <v-dialog v-model="updateDialog" max- width="500">
+              <v-card>
+                <boardDetail></boardDetail>
+              </v-card>
+            </v-dialog>
           </v-toolbar>
         </template>
 
         <template v-slot:item.actions="{ item }">
-          <v-icon class="mr-7" @click="editItem(item)">
+          <v-icon class="mr-5" @click="editItem(item)">
             mdi-pencil
           </v-icon>
 
-          <v-icon @click="deleteItem(item)" color="red">
+          <v-icon class="mr-5" @click="deleteItem(item)" color="red">
             mdi-delete
+          </v-icon>
+
+          <v-icon @click="showDetail(item)">
+            {{ icon_detail }}
           </v-icon>
         </template>
       </v-data-table>
@@ -53,18 +63,26 @@
 
 <script>
 import writeBoard from "@/components/board/WriteBoard.vue";
+import boardDetail from "@/components/board/BoardDetail.vue";
 import { EventBus } from "../../plugins/eventBus.js";
+import { mdiStickerPlusOutline } from "@mdi/js";
+
 export default {
   components: {
     writeBoard,
+    boardDetail,
   },
 
   data: () => ({
+    icon_detail: mdiStickerPlusOutline,
+
     page: 1,
     itemsPerPage: 7,
     pageCount: 0,
 
     dialog: false,
+    updateDialog: false,
+
     headers: [
       {
         text: "번호",
@@ -118,6 +136,10 @@ export default {
     this.initialize();
     EventBus.$on("use-eventbus", (dialog) => {
       this.dialog = dialog;
+    });
+
+    EventBus.$on("use-eventbus", (updateDialog) => {
+      this.updateDialog = updateDialog;
     });
   },
 
@@ -181,6 +203,12 @@ export default {
       this.editedIndex = this.desserts.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
+    },
+
+    showDetail(item) {
+      this.editedIndex = this.desserts.indexOf(item);
+
+      this.updateDialog = true;
     },
 
     deleteItem(item) {

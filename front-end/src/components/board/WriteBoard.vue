@@ -11,7 +11,7 @@
         </v-col>
       </v-row>
       <v-btn @click="cancel()">취소</v-btn> &nbsp;
-      <v-btn @click="submit()">글쓰기</v-btn>
+      <v-btn @click="submit()">확인</v-btn>
     </form>
   </v-container>
 </template>
