@@ -111,14 +111,14 @@ public class GroupController {
     }
 
     @DeleteMapping("v1/group-user")
-    public ResponseEntity<GroupUser> deleteGroupUser(@RequestParam("user_id") String user_id, @RequestParam("group_id") String group_id) throws Exception{
+    public ResponseEntity<GroupUser> deleteGroupUser(@RequestParam("userId") String userId, @RequestParam("groupId") String groupId) throws Exception{
         try {
             System.out.println("그룹 멤버 삭제");
-            System.out.println("user_id : " + user_id + " group_id : " + group_id );
+            System.out.println("userId : " + userId + " groupId : " + groupId );
             Map map = new HashMap();
 
-            map.put("user_id", user_id); //가져온 데이터에 키와 벨류값을 지정
-            map.put("group_id", group_id);
+            map.put("userId", userId); //가져온 데이터에 키와 벨류값을 지정
+            map.put("groupId", groupId);
             int ans = groupService.deleteGroupUser(map);
             if(ans == 1){
                 System.out.println("삭제 성공 " );
@@ -149,12 +149,12 @@ public class GroupController {
         }
     }
 
-    @GetMapping("v1/group-user/{group_id}")
-    public ResponseEntity<List<GroupUser>> getGroupUser(@PathVariable("group_id") int group_id) throws Exception{
+    @GetMapping("v1/group-user/{groupId}")
+    public ResponseEntity<List<GroupUser>> getGroupUser(@PathVariable("groupId") int groupId) throws Exception{
         List<GroupUser> list = null;
         try {
             System.out.println("그룹 멤버 조회");
-            list = groupService.getGroupUser(group_id);
+            list = groupService.getGroupUser(groupId);
             if(list != null){
                 System.out.println(list );
                 return new ResponseEntity<List<GroupUser>>(list, HttpStatus.OK);
