@@ -26,4 +26,11 @@
         WHERE id = #{value}
     </delete>
 
+    <select id="getBoardByEmail" parameterType="string" resultType="board">
+        SELECT b.id, b.title, b.created_time, b.updated_time, b.content, b.public_auth, b.isPublic, b.user_id
+        FROM board b LEFT OUTER JOIN users u
+        ON b.user_id = u.id
+        WHERE u.email = #{value}
+    </select>
+
 </mapper>

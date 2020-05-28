@@ -37,4 +37,9 @@ public class BoardServiceImpl implements BoardService {
     public Board getBoardById(int id) {
         return boardDao.getBoardById(id);
     }
+
+    @Override
+    public List<Board> getBoardByEmail(String email) {
+        return boardDao.getBoardByEmail(email);
+    }
 }
