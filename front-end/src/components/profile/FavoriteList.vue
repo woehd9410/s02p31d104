@@ -49,10 +49,10 @@
         <v-list-item-group v-model="selectedPerson" color="primary">
           <v-list-item v-for="item in showItems" :key="item.title">
             <v-list-item-avatar>
-              <v-img :src="item.avatar"></v-img>
+              <!-- <v-img :src="item.img"></v-img> -->
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title v-text="item.title"></v-list-item-title>
+              <v-list-item-title v-text="item.name"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -63,6 +63,7 @@
 
 <script>
 export default {
+  props: ["items"],
   mounted() {
     this.showItems = this.items;
   },
@@ -80,7 +81,9 @@ export default {
       }
 
       for (let item of this.items) {
-        if (item.title.toUpperCase().indexOf(this.searchItem.toUpperCase()) >= 0) {
+        if (
+          item.title.toUpperCase().indexOf(this.searchItem.toUpperCase()) >= 0
+        ) {
           this.showItems.push(item);
           console.log(`add favoriteList ${item.title}`);
         }
@@ -100,25 +103,6 @@ export default {
       searchItem: null,
       notFound: false,
       showItems: [],
-      items: [
-        {
-          icon: true,
-          title: "Jason Oner",
-          avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-        },
-        {
-          title: "Travis Howard",
-          avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-        },
-        {
-          title: "Ali Connors",
-          avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-        },
-        {
-          title: "Cindy Baker",
-          avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-        },
-      ],
     };
   },
 };
