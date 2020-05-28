@@ -52,7 +52,7 @@ public class ProfileImgController {
         }
     }
 
-    @DeleteMapping("/v1/profile-img/user")
+    @PutMapping("/v1/profile-img/user")
     public ResponseEntity updateUserProfileImg(@RequestBody ProfileImg profileImg) throws Exception{
         try {
             System.out.println("개인 프로필 이미지 수정");
@@ -121,7 +121,7 @@ public class ProfileImgController {
         }
     }
 
-    @DeleteMapping("/v1/profile-img/group")
+    @PutMapping("/v1/profile-img/group")
     public ResponseEntity updateGroupProfileImg(@RequestBody ProfileImg profileImg) throws Exception{
         try {
             System.out.println("그룹 프로필 이미지 수정");
