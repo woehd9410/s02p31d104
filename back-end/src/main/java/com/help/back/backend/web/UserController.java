@@ -20,12 +20,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
-    @GetMapping("/hello")
-    public String hello(){
-        return "hello";
-    }
-
     @ApiOperation(value = "유저 조회", notes = "검색조건에 맞는 유저를 조회합니다.")
     @GetMapping("/api/v1/user")
     public ResponseEntity<List<User>> getUserByName(@RequestParam(value = "id", required = false) String id, @RequestParam(value = "email", required = false) String email, @RequestParam(value = "name", required = false) String name) throws Exception{
