@@ -2,6 +2,7 @@ package com.help.back.backend.web;
 
 import com.help.back.backend.dto.Login;
 import com.help.back.backend.domain.User;
+import com.help.back.backend.dto.ResultUser;
 import com.help.back.backend.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,8 +23,8 @@ public class UserController {
 
     @ApiOperation(value = "유저 조회", notes = "검색조건에 맞는 유저를 조회합니다.")
     @GetMapping("/api/v1/user")
-    public ResponseEntity<List<User>> getUserByName(@RequestParam(value = "id", required = false) String id, @RequestParam(value = "email", required = false) String email, @RequestParam(value = "name", required = false) String name) throws Exception{
-        List<User> list = null;
+    public ResponseEntity<List<ResultUser>> getUserByName(@RequestParam(value = "id", required = false) String id, @RequestParam(value = "email", required = false) String email, @RequestParam(value = "name", required = false) String name) throws Exception{
+        List<ResultUser> list = null;
         try {
             if(id == null && email == null && name != null) {
                 System.out.println("유저 name으로 검색");
@@ -39,9 +40,9 @@ public class UserController {
                 list = userService.getUsers();
             }
             System.out.println(list);
-            return new ResponseEntity<List<User>>(list,HttpStatus.OK);
+            return new ResponseEntity<List<ResultUser>>(list,HttpStatus.OK);
         }catch(Exception e) {
-            return new ResponseEntity<List<User>>(list,HttpStatus.NO_CONTENT);
+            return new ResponseEntity<List<ResultUser>>(list,HttpStatus.NO_CONTENT);
         }
     }
 
@@ -108,15 +109,15 @@ public class UserController {
 
     @ApiOperation(value = "유저 카카오 로그인", notes = "카카오 로그인 email 확인 ")
     @GetMapping("/api/v1/user/kakao-login")
-    public ResponseEntity<User> kakaologin(@RequestParam String email) throws Exception{
-        List<User> user = null;
+    public ResponseEntity<ResultUser> kakaologin(@RequestParam String email) throws Exception{
+        List<ResultUser> user = null;
         try {
             System.out.println("카카오 로그인");
             user = userService.getUsersByEmail(email);
             System.out.println(user);
             if(user != null){
-                User ans = user.get(0);
-                return new ResponseEntity<User>(ans,HttpStatus.OK);
+                ResultUser ans = user.get(0);
+                return new ResponseEntity<ResultUser>(ans,HttpStatus.OK);
             }else {
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
