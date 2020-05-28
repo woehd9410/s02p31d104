@@ -107,8 +107,8 @@ public class BoardController {
     }
 
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제합니다.")
-    @DeleteMapping("/api/v1/board")
-    public ResponseEntity deleteBoard(@RequestParam("id") int id) throws Exception{
+    @DeleteMapping("/api/v1/board/{id}")
+    public ResponseEntity deleteBoard(@PathVariable("id") int id) throws Exception{
         try {
             System.out.println("게시글 삭제");
             System.out.println(id);
