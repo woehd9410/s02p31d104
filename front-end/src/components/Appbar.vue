@@ -45,6 +45,12 @@
 
 <script>
 export default {
+  props:{
+    items:{
+      type : Array,
+      require: true,
+    }
+  },
   data() {
     return {
       currentTab: "home",
