@@ -16,6 +16,7 @@ import java.util.List;
 @Api(tags = {"1. Board"})
 @RequiredArgsConstructor
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 @RestController
 public class BoardController {
 

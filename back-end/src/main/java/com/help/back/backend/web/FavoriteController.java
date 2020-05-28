@@ -14,6 +14,7 @@ import java.util.List;
 @Api(tags = {"1. Favorite"})
 @RequiredArgsConstructor
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 @RestController
 public class FavoriteController {
 
