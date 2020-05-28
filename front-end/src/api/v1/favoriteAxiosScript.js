@@ -7,7 +7,7 @@ export default {
       .then((res) => success(res))
       .catch((err) => error(err));
   },
-  favoriteSearchByToId(param, success, error) {
+  searchFavoriteByToId(param, success, error) {
     http
       .get(`favorite/${param}`)
       .then((res) => success(res))

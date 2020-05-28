@@ -2,7 +2,7 @@ import http from "@/api/v1/http-common.js";
 
 export default {
   // /api/v1/user? id or name or email = param
-  userSearchByOptions: (param, success, error) => {
+  searchUserByOptions: (param, success, error) => {
     console.log(`axios in ... user search by options`);
     let paramType;
     if (typeof param == "number") paramType = { id: param };
