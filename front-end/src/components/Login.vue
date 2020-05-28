@@ -1,6 +1,7 @@
 <template>
   <v-card>
-    <div class="container-fluid">
+    <JoinWindows v-if="joinState" @joinSuccess="joinState = false" @joinCancle="joinState = false" />
+    <div class="container-fluid" v-else>
       <div class="row no-gutter">
         <div class="image col-lg-6 col-md-12 col-sm-12 pa-0">
           <v-img
@@ -93,10 +94,15 @@
 }
 </style>
 <script>
+import JoinWindows from "@/components/JoinWindows.vue";
 export default {
   name: "Login",
+  components: {
+    JoinWindows,
+  },
 
   data: () => ({
+    joinState: false,
     name: "",
     email: "",
     emailRules: [
@@ -116,17 +122,22 @@ export default {
     },
     signup() {
       console.log("회원가입 페이지 이동");
+      this.joinState = true;
       // this.$router.push("/signup");
     },
     kakaologin() {
-      this.closeDialog("Kakao");
+      console.log("kakao login");
+      alert("서비스 준비중입니다.");
+      // this.closeDialog("Kakao");
     },
     naverlogin() {
-      this.closeDialog("Naver");
+      console.log("naver login");
+      alert("서비스 준비중입니다.");
+      // this.closeDialog("Naver");
     },
     searchPW() {
-      console.log("비밀번호 찾기");
-      alert("비밀번호 찾기");
+      console.log("find password");
+      alert("서비스 준비중입니다.");
     },
   },
 };
