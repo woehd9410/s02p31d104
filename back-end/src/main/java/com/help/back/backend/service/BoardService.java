@@ -10,4 +10,5 @@ public interface BoardService {
     int updateBoard(Board board);
     List<Board> getAllBoard();
     Board getBoardById(int id);
+    List<Board> getBoardByEmail(String email);
 }

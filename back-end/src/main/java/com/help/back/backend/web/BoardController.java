@@ -53,6 +53,23 @@ public class BoardController {
         }
     }
 
+    @ApiOperation(value = "게시글 이메일 조회", notes = "이메일로 게시글을 조회")
+    @GetMapping("/api/v1/board/email/{email}")
+    public ResponseEntity<List<Board>> getBoardByEmail(@PathVariable("email") String email) throws Exception{
+        List<Board> list = null;
+        try {
+            list = boardService.getBoardByEmail(email);
+            if(list != null){
+                System.out.println(list);
+                return new ResponseEntity<List<Board>>(list, HttpStatus.OK);
+            }else {
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
     @ApiOperation(value = "게시글 추가", notes = "게시글을 추가합니다.")
     @PostMapping("/api/v1/board")
     public ResponseEntity<Board> postBoard(@RequestBody Board board) throws Exception{
