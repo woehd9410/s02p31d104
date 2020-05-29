@@ -1,10 +1,12 @@
 <template>
   <div class="home">
     <v-content class="mt-12">
-      <v-row>
-        <ToDoList />
-        <TodaySchedule/>
-      </v-row>
+      <v-container grid-list-xl >
+        <v-layout row wrap>
+          <ToDoList />
+          <TodaySchedule/>
+        </v-layout>
+      </v-container>
     </v-content>
   </div>
 </template>
