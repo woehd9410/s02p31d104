@@ -8,12 +8,13 @@ export default new Vuex.Store({
     ui: {
       themeColor: "grey lighten-4",
       drawer: false,
+      progress: 0,
     },
     user: {
       jwt: null, // 세션 유지 기능
       auth: false, // 인증 변수로 사용할 예정
       info: {
-        img: null,
+        url: null,
         id: null,
         name: null,
         email: null,
@@ -40,6 +41,12 @@ export default new Vuex.Store({
   },
   // method로 등록 (동기)
   mutations: {
+    taskCntUp(state){
+      return state.ui.progress++;
+    },
+    taskCntDown(state){
+      return state.ui.progress--;
+    },
     switchDrawer(state, payload = !state.ui.drawer) {
       return (state.ui.drawer = payload);
     },
