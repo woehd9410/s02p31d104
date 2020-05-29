@@ -187,7 +187,7 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-list style="padding-top:0px;">
+      <v-list style="padding-top:0px;" height=315 class="overflow-y-auto">
         <template v-for="(item, index) in items">
           <v-list-item two-line :key="item.index">
             <v-list-item-content>
