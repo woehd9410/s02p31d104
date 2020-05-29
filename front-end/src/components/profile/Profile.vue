@@ -44,7 +44,7 @@
               </v-list-item-content>
               <v-list-item-content>
                 <v-list-item-title>
-                  {{ userInfo.phoneNumber }}
+                  {{ userInfo.phone_number | phoneNumberFilter }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -69,8 +69,12 @@
 
 <script>
 import { mdiEmailOutline, mdiKey, mdiPhone } from "@mdi/js";
+import phoneNumberFilter from "@/utils/filters/phoneNumberFilter.js";
 export default {
   name: "HelloWorld",
+  filters: {
+    phoneNumberFilter: phoneNumberFilter,
+  },
   mounted() {
     if (this.$route.params.id == null) {
       console.log(`My Profile page`);
@@ -93,6 +97,7 @@ export default {
   methods: {
     updateUser() {
       console.log("회원정보 수정하기");
+      alert("서비스 준비중입니다.");
     },
   },
 };

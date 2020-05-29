@@ -100,7 +100,7 @@ public class UserController {
             System.out.println(login.toString());
             user = userService.login(login);
             System.out.println(user);
-            return new ResponseEntity<User>(user,HttpStatus.OK);
+            return user == null ? new ResponseEntity<User>(HttpStatus.NO_CONTENT) : new ResponseEntity<User>(user,HttpStatus.OK);
         }catch(Exception e) {
             return new ResponseEntity<User>(user,HttpStatus.NO_CONTENT);
         }
