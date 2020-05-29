@@ -24,7 +24,7 @@ public class BoardController {
     private BoardService boardService;
 
     @ApiOperation(value = "게시판 조회", notes = "검색조건에 맞는 게시글를 조회합니다.")
-    @GetMapping("/api/v1/board")
+    @GetMapping("/v1/board")
     public ResponseEntity<List<Board>> getBoard() throws Exception{
         List<Board> list = null;
         try {
@@ -38,7 +38,7 @@ public class BoardController {
     }
 
     @ApiOperation(value = "게시글 상세 조회", notes = "하나의 게시글을 상세 조회")
-    @GetMapping("/api/v1/board/{id}")
+    @GetMapping("/v1/board/{id}")
     public ResponseEntity<Board> getBoardById(@PathVariable("id") int id) throws Exception{
         Board board = null;
         try {
@@ -55,7 +55,7 @@ public class BoardController {
     }
 
     @ApiOperation(value = "게시글 이메일 조회", notes = "이메일로 게시글을 조회")
-    @GetMapping("/api/v1/board/email/{email}")
+    @GetMapping("/v1/board/email/{email}")
     public ResponseEntity<List<Board>> getBoardByEmail(@PathVariable("email") String email) throws Exception{
         List<Board> list = null;
         try {
@@ -72,7 +72,7 @@ public class BoardController {
     }
 
     @ApiOperation(value = "게시글 추가", notes = "게시글을 추가합니다.")
-    @PostMapping("/api/v1/board")
+    @PostMapping("/v1/board")
     public ResponseEntity<Board> postBoard(@RequestBody Board board) throws Exception{
         try {
             System.out.println("게시글 추가");
@@ -90,7 +90,7 @@ public class BoardController {
     }
 
     @ApiOperation(value = "게시글 수정", notes = "게시글을 수정합니다.")
-    @PutMapping("/api/v1/board")
+    @PutMapping("/v1/board")
     public ResponseEntity updateBoard(@RequestBody Board board) throws Exception{
         try {
             System.out.println("유저 수정");
@@ -108,7 +108,7 @@ public class BoardController {
     }
 
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제합니다.")
-    @DeleteMapping("/api/v1/board/{id}")
+    @DeleteMapping("/v1/board/{id}")
     public ResponseEntity deleteBoard(@PathVariable("id") int id) throws Exception{
         try {
             System.out.println("게시글 삭제");

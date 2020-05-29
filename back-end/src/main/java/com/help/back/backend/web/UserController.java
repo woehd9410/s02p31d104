@@ -94,16 +94,16 @@ public class UserController {
 
     @ApiOperation(value = "유저 로그인", notes = "유저 email & password를 통해 로그인 확인 ")
     @PostMapping("/api/v1/user/login")
-    public ResponseEntity<User> login(@RequestBody Login login) throws Exception{
-        User user = null;
+    public ResponseEntity<ResultUser> login(@RequestBody Login login) throws Exception{
+        ResultUser user = null;
         try {
             System.out.println("유저 로그인");
             System.out.println(login.toString());
             user = userService.login(login);
             System.out.println(user);
-            return user == null ? new ResponseEntity<User>(HttpStatus.NO_CONTENT) : new ResponseEntity<User>(user,HttpStatus.OK);
+            return user == null ? new ResponseEntity<ResultUser>(HttpStatus.NO_CONTENT) : new ResponseEntity<ResultUser>(user,HttpStatus.OK);
         }catch(Exception e) {
-            return new ResponseEntity<User>(user,HttpStatus.NO_CONTENT);
+            return new ResponseEntity<ResultUser>(user,HttpStatus.NO_CONTENT);
         }
     }
 

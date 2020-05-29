@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User login(Login login) {
+    public ResultUser login(Login login) {
         return userDao.login(login);
     }
 
