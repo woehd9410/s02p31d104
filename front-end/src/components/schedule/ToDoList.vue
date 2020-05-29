@@ -1,6 +1,6 @@
 @@ -0,0 +1,354 @@
 <template>
-  <div style="margin-top:150px">
+  <v-col>
     <v-card margin-top="150px" max-width="500" class="mx-auto">
       <v-toolbar color="grey" dark>
         <v-toolbar-title>ToDoList</v-toolbar-title>
@@ -248,7 +248,7 @@
         </template>
       </v-list>
     </v-card>
-  </div>
+  </v-col>
 </template>
 
 <script>

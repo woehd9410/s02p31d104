@@ -2,7 +2,7 @@
   <div>
     <v-row justify="center">
       <v-dialog v-model="showDialog" persistent max-width="1100">
-        <login @loginEvent="loginEvent" />
+        <login />
       </v-dialog>
     </v-row>
     <router-view name="sidebar" />
@@ -12,15 +12,12 @@
 
 <script>
 import login from "@/components/Login.vue";
+
 export default {
   data() {
     return {};
   },
   methods: {
-    loginEvent(payload) {
-      console.log(`${payload} Login Event`);
-      this.$store.commit("login");
-    },
   },
   computed: {
     showDialog() {

@@ -1,12 +1,19 @@
 <template>
   <div class="home">
-    <ToDoList :items="items" @updateEvent="update" @addEvent="addList" @deleteEvent="deleteList" />
+    <v-content class="mt-12">
+      <v-row>
+        <ToDoList />
+        <TodaySchedule/>
+      </v-row>
+    </v-content>
   </div>
 </template>
 
 <script>
 import ToDoList from "@/components/schedule/ToDoList.vue";
+import TodaySchedule from "@/components/schedule/TodaySchedule.vue";
 import axiosScript from "@//api/axiosScript.js"
+
 export default {
   name: "Home",
   data() {
@@ -17,6 +24,7 @@ export default {
   },
   components: {
     ToDoList,
+    TodaySchedule,
   },
   mounted(){
     this.getToDo();

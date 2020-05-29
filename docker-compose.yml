@@ -2,14 +2,18 @@ version: "3"
 services:
   test_web:
     container_name: test_web
-    build: ./front-end
+    build:
+      context: .
+      dockerfile: ./front-end/Dockerfile
     ports:
       - 8081:8081
     depends_on:
       - test_spring_boot
   test_spring_boot:
     container_name: test_spring_boot
-    build: ./back-end
+    build:
+      context: .
+      dockerfile: ./back-end/Dockerfile
     ports:
       - 8082:8082
     environment:

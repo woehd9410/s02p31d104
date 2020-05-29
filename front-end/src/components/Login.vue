@@ -1,6 +1,11 @@
 <template>
   <v-card>
-    <div class="container-fluid">
+    <JoinWindows
+      v-if="joinState"
+      @joinSuccess="joinState = false"
+      @joinCancle="joinState = false"
+    />
+    <div class="container-fluid" v-else>
       <div class="row no-gutter">
         <div class="image col-lg-6 col-md-12 col-sm-12 pa-0">
           <v-img
@@ -21,6 +26,7 @@
                     <div class="form-label-group">
                       <input
                         type="email"
+                        v-model="loginInfo.email"
                         id="inputEmail"
                         class="form-control"
                         placeholder="Email address"
@@ -31,6 +37,7 @@
                     <br />
                     <div class="form-label-group">
                       <input
+                        v-model="loginInfo.password"
                         type="password"
                         id="inputPassword"
                         class="form-control"
@@ -93,12 +100,20 @@
 }
 </style>
 <script>
+import JoinWindows from "@/components/JoinWindows.vue";
+import axiosScript from "@/api/axiosScript.js";
 export default {
   name: "Login",
+  components: {
+    JoinWindows,
+  },
 
   data: () => ({
-    name: "",
-    email: "",
+    joinState: false,
+    loginInfo: {
+      email: "",
+      password: "",
+    },
     emailRules: [
       (v) => !!v || "E-mail is required",
       (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
@@ -106,27 +121,49 @@ export default {
   }),
   methods: {
     closeDialog(type) {
-      this.$emit("loginEvent", type);
+      console.log(`login type : ${type}`);
     },
     login() {
-      this.closeDialog("Nomal");
+      axiosScript.login(
+        this.loginInfo,
+        (res) => {
+          if (res.status != 200) {
+            alert("올바르지않은 로그인 정보");
+            return;
+          }
+          let loginInfo = res.data;
+          loginInfo.img =
+            "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60";
+          loginInfo.type = "Person";
+          console.log(loginInfo);
+
+          this.$store.commit("login", loginInfo);
+          this.closeDialog("Nomal");
+        },
+        (err) => console.log(err)
+      );
     },
     backpage() {
       this.$router.go(-1);
     },
     signup() {
       console.log("회원가입 페이지 이동");
+      this.joinState = true;
       // this.$router.push("/signup");
     },
     kakaologin() {
-      this.closeDialog("Kakao");
+      console.log("kakao login");
+      alert("서비스 준비중입니다.");
+      // this.closeDialog("Kakao");
     },
     naverlogin() {
-      this.closeDialog("Naver");
+      console.log("naver login");
+      alert("서비스 준비중입니다.");
+      // this.closeDialog("Naver");
     },
     searchPW() {
-      console.log("비밀번호 찾기");
-      alert("비밀번호 찾기");
+      console.log("find password");
+      alert("서비스 준비중입니다.");
     },
   },
 };

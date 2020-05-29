@@ -43,20 +43,12 @@ export default new Vuex.Store({
     switchDrawer(state, payload = !state.ui.drawer) {
       return (state.ui.drawer = payload);
     },
-    login(state, payload = true) {
-      state.user.info = {
-        img:
-          "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-        id: "0",
-        name: "Seongjun Lee",
-        email: "dhzm1aud@gmail.com",
-        phoneNumber: "010-8262-3777",
-        birthday: "19940527",
-        type: "Person", // 개인 : Poerson account , 부서 : Department account
-      };
-      return (state.user.auth = payload);
+    login(state, payload) {
+      state.user.info = payload;
+      return (state.user.auth = true);
     },
     logout(state, payload = false) {
+      state.user.info = null;
       return (state.user.auth = payload);
     },
   },

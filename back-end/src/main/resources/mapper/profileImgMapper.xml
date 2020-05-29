@@ -45,6 +45,10 @@
         WHERE group_id = #{value}
     </delete>
 
+    <select id="getAllImg" resultMap="image">
+        SELECT id, url, keyword
+        FROM image
+    </select>
     <!-- resultmap   -->
     <resultMap type="profileImg" id="profileImgHavingUrl">
         <result column="user_id" property="userId" />
