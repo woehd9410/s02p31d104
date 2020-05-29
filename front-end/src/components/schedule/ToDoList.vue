@@ -169,7 +169,7 @@
               <v-btn color="blue darken-1" text @click="toScheduleModal = false"
                 >Cancle</v-btn
               >
-              <v-btn color="blue darken-1" text @click="update()">Save</v-btn>
+              <v-btn color="blue darken-1" text @click="todoToSchedule()">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -193,20 +193,20 @@
             <v-list-item-content>
               <v-row style="padding-top:5px;">
                 <v-icon
-                  @click="isCompleteTodo()"
-                  v-if="!isComplete"
+                  @click="isCompleteTodo(item)"
+                  v-if="!item.is_completed"
                   style="margin:10px 10px 0 35px;"
                   >mdi-check-circle-outline
                 </v-icon>
                 <v-icon
-                  @click="isCompleteTodo()"
+                  @click="isCompleteTodo(item)"
                   v-else
                   style="margin:10px 10px 0 35px;"
                   color="primary"
                   >mdi-check-circle-outline
                 </v-icon>
                 <v-list-item-title
-                  v-if="isComplete"
+                  v-if="item.is_completed"
                   style="margin: 12px 0 10px 10px; flex:0; overflow:inherit; text-decoration:line-through;"
                   v-text="item.title"
                 >
@@ -290,13 +290,14 @@ export default {
     changeScheduleId(id) {
       this.scheduleId = id;
     },
-    update() {
+    todoToSchedule() {
       this.toScheduleModal = false;
       let start = this.startDate + " " + this.startTime + ":00";
       let end = this.endDate + " " + this.endTime + ":00";
       let type;
       if (this.typeName === "private") type = 0;
       else type = 1;
+      
       let data = {
         id: this.scheduleId,
         content: this.content,
@@ -305,10 +306,11 @@ export default {
         end_time: end,
         address: this.address,
         public_type: type,
+        schedule_type: 0,
         user_id: this.userId,
       };
 
-      axiosScript.updateToDo(
+      axiosScript.todoToSchedule(
         data,
         () => {
           this.schedulemodal = false;
@@ -329,7 +331,7 @@ export default {
     addTodo() {
       let type = 0;
       let userId = this.userId;
-      let data = { title: this.title, type: type, user_id: userId };
+      let data = { title: this.title, public_type: type, user_id: userId };
 
       axiosScript.addToDo(
         data,
@@ -351,9 +353,21 @@ export default {
         (error) => console.log(error)
       );
     },
-    isCompleteTodo() {
-      if (this.isComplete == true) this.isComplete = false;
-      else this.isComplete = true;
+    isCompleteTodo(item) {
+      let isCompleted = 0;
+      if(item.is_completed == 0) isCompleted = 1;
+      else isCompleted = 0;
+      let data = {
+        id: item.id,
+        isCompleted: isCompleted
+      }
+      axiosScript.updateToDoState(
+        data,
+        () => {
+          this.$emit("updateEvent", data);
+        },
+        (error) => console.log(error)
+      )
     },
   },
 };

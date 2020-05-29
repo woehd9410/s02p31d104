@@ -3,6 +3,7 @@ package com.help.back.backend.service;
 import com.help.back.backend.dao.FavoriteDao;
 import com.help.back.backend.domain.Favorite;
 import com.help.back.backend.domain.User;
+import com.help.back.backend.dto.ResultUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<User> getFavoritesByToId(int toId) {
+    public List<ResultUser> getFavoritesByToId(int toId) {
         return favoriteDao.getFavoritesByToId(toId);
     }
 

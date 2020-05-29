@@ -3,11 +3,12 @@
 
 <mapper namespace="com.help.back.backend.dao.FavoriteDao">
     <sql id="getUserV1">
-        SELECT u.id, u.email, u.name, u.phone_number, u.birthday
-        FROM users u
+        SELECT u.id, u.email, u.name, u.phone_number, u.birthday ,i.url
+        from users u LEFT OUTER JOIN profile_img p ON u.id = p.user_id
+        LEFT OUTER JOIN image i ON i.id = p.img_id
     </sql>
 
-    <select id="getFavoritesByToId" parameterType="int" resultType="user">
+    <select id="getFavoritesByToId" parameterType="int" resultType="resultUser">
         <include refid="getUserV1"/>
         WHERE  u.id IN(SELECT f.from_user_id FROM favorite f WHERE f.to_user_id = #{value} )
     </select>

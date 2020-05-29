@@ -11,7 +11,7 @@ public interface UserService {
     List<ResultUser> getUsersByName(String name);
     List<ResultUser> getUsersByEmail(String email);
     List<ResultUser> getUsersById(int id);
-    User login(Login login);
+    ResultUser login(Login login);
     int postUser(User user);
     int updateUser(User user);
     int deleteUser(int id);

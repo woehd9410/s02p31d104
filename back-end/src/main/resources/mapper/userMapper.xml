@@ -37,9 +37,10 @@
     <delete id="deleteUser" parameterType="int">
         DELETE FROM users WHERE id = #{value}
     </delete>
-    <select id="login" parameterType="login" resultType="user">
-        SELECT id, email, name, phone_number, birthday
-        FROM users
+    <select id="login" parameterType="login" resultType="resultUser">
+        SELECT u.id, u.email, u.name, u.phone_number , u.birthday, i.url
+        from users u LEFT OUTER JOIN profile_img p ON u.id = p.user_id
+        LEFT OUTER JOIN image i ON i.id = p.img_id
         WHERE email = #{email} AND password = SHA2(#{password}, 256)
     </select>
 </mapper>
