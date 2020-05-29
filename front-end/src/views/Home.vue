@@ -2,7 +2,7 @@
   <div class="home">
     <v-content class="mt-12">
       <v-row>
-        <ToDoList />
+        <ToDoList :items="items" @updateEvent="update" @addEvent="addList" @deleteEvent="deleteList"/>
         <TodaySchedule/>
       </v-row>
     </v-content>
@@ -33,7 +33,10 @@ export default {
     getToDo(){
       axiosScript.getToDo(
         this.userId,
-        (res)=>{this.items = res.data},
+        (res)=>{
+          console.log("home.vue getToDo :: " + res.data)
+          this.items = res.data
+          },
         (error) =>{console.log(error);
         }
       )
