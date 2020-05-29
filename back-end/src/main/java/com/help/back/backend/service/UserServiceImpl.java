@@ -3,6 +3,7 @@ package com.help.back.backend.service;
 import com.help.back.backend.dao.UserDao;
 import com.help.back.backend.domain.User;
 import com.help.back.backend.dto.Login;
+import com.help.back.backend.dto.ResultUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,22 +16,22 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserDao userDao;
     @Override
-    public List<User> getUsers() {
+    public List<ResultUser> getUsers() {
         return userDao.getUsers();
     }
 
     @Override
-    public List<User> getUsersByName(String name) {
+    public List<ResultUser> getUsersByName(String name) {
         return userDao.getUsersByName(name);
     }
 
     @Override
-    public List<User> getUsersByEmail(String email) {
+    public List<ResultUser> getUsersByEmail(String email) {
         return userDao.getUsersByEmail(email);
     }
 
     @Override
-    public List<User> getUsersById(int id) {
+    public List<ResultUser> getUsersById(int id) {
         return userDao.getUsersById(id);
     }
 
