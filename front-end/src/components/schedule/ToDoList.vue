@@ -1,7 +1,7 @@
 @@ -0,0 +1,354 @@
 <template>
-  <v-col>
-    <v-card margin-top="150px" max-width="500" class="mx-auto">
+  <v-flex xs12 sm5>
+    <v-card margin-top="150px">
       <v-toolbar color="grey" dark>
         <v-toolbar-title>ToDoList</v-toolbar-title>
 
@@ -178,16 +178,16 @@
       <v-row
         style="min-height:56px; border-bottom:2px solid rgba(0, 0, 0, 0.12); width:100%; margin-left:0px"
       >
-        <v-col cols="12" sm="10" style="max-width:81%;">
+        <v-col cols="10" sm="8" md="9" lg="10">
           <v-text-field v-model="title" @keyup.enter="addTodo"></v-text-field>
         </v-col>
-        <v-col sm="2">
+        <v-col cols="2" sm="2" md="2" lg="2">
           <v-btn style="margin-left:-15px; margin-top:15px;" @click="addTodo()">
             Add
           </v-btn>
         </v-col>
       </v-row>
-      <v-list style="padding-top:0px;">
+      <v-list style="padding-top:0px;" height=315 class="overflow-y-auto">
         <template v-for="(item, index) in items">
           <v-list-item two-line :key="item.index">
             <v-list-item-content>
@@ -248,7 +248,7 @@
         </template>
       </v-list>
     </v-card>
-  </v-col>
+  </v-flex>
 </template>
 
 <script>

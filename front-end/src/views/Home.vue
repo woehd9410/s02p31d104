@@ -1,10 +1,12 @@
 <template>
   <div class="home">
     <v-content class="mt-12">
-      <v-row>
-        <ToDoList :items="items" @updateEvent="update" @addEvent="addList" @deleteEvent="deleteList"/>
-        <TodaySchedule/>
-      </v-row>
+      <v-container grid-list-xl >
+        <v-layout row wrap>
+          <ToDoList :items="items" @updateEvent="update" @addEvent="addList" @deleteEvent="deleteList"/>
+          <TodaySchedule/>
+        </v-layout>
+      </v-container>
     </v-content>
   </div>
 </template>

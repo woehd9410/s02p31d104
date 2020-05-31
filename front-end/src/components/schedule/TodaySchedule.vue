@@ -1,5 +1,5 @@
 <template>
-    <v-col style="margin-right:5vw">
+    <v-flex xs12 sm7>
       <v-card>
       <v-card-title
         height="56px"
@@ -17,7 +17,7 @@
         </v-calendar>
       </v-sheet>
       </v-card>
-    </v-col>
+    </v-flex>
 </template>
 
 <script>
