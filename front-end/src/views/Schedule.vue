@@ -1,9 +1,15 @@
 <template>
-  <div></div>
+  <Schedule/>
 </template>
 
 <script>
-export default {};
+
+import Schedule from "@/components/schedule/Schedule.vue" 
+export default {
+  components: {
+    Schedule,
+  },
+};
 </script>
 
 <style></style>
