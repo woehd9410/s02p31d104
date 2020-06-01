@@ -1,5 +1,5 @@
 <template>
-    <v-flex xs12 sm7>
+    <v-flex xs12 sm12 md5>
       <v-card>
       <v-card-title
         height="56px"
