@@ -79,6 +79,10 @@ export default {
         this.currentTab = this.categorys.length - 1;
         page = `profile${this.userInfo.id}`;
       }
+      if (page == "schedule" || page == "alarm") {
+        alert("서비스 준비중입니다.");
+        return;
+      }
       console.log(`go to route ${page}.vue page`);
       if (this.$route.path == `/${page}`) return;
       this.$router.push(`/${page}`);
