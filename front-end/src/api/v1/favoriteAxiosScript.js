@@ -7,11 +7,12 @@ export default {
       .then((res) => success(res))
       .catch((err) => error(err));
   },
-  searchFavoriteByToId(param, success, error) {
+  searchFavoriteByToId(param, success, error,final) {
     http
       .get(`favorite/${param}`)
       .then((res) => success(res))
-      .catch((err) => error(err));
+      .catch((err) => error(err))
+      .finally(()=>final());
   },
   unfollow(param, success, error) {
     http

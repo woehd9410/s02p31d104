@@ -14,7 +14,7 @@
         :inactive="isMyProfile"
       >
         <v-list-item-avatar>
-          <img :src="userInfo.img" />
+          <img :src="userInfo.url" />
         </v-list-item-avatar>
 
         <v-list-item-content>
@@ -25,7 +25,7 @@
     </template>
     <v-divider></v-divider>
 
-    <FavoriteList :items="favorites" />
+    <FavoriteList />
 
     <template v-slot:append>
       <div class="pa-2">
@@ -37,16 +37,14 @@
 
 <script>
 import FavoriteList from "@/components/profile/FavoriteList.vue";
-import axiosScript from "@/api/axiosScript.js";
+
 export default {
   data() {
     return {
       isMyProfile: true,
-      favorites: [],
     };
   },
   mounted() {
-    this.getFavoriteList();
   },
   components: {
     FavoriteList,
@@ -54,19 +52,13 @@ export default {
   methods: {
     showMyProfile() {
       if (this.$route.path == `/profile`) return;
-      this.$router.push({ name: "Profile" });
+      this.$router.push({ name: "Profile" , params:{id:this.userInfo.id} });
     },
     logout() {
       console.log(`logout`);
       this.$store.commit("logout");
     },
-    getFavoriteList() {
-      axiosScript.searchFavoriteByToId(
-        this.userInfo.id,
-        (res) => console.log((this.favorites = res.data)),
-        (err) => console.log(err)
-      );
-    },
+   
   },
   computed: {
     userInfo() {

@@ -5,8 +5,16 @@
         <login />
       </v-dialog>
     </v-row>
-    <router-view name="sidebar" />
-    <router-view />
+    <v-overlay :value="$store.state.ui.progress > 0">
+      <v-progress-circular
+        :width="4"
+        :size="40"
+        color="red"
+        indeterminate
+      ></v-progress-circular>
+    </v-overlay>
+    <router-view name="sidebar"> </router-view>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -17,8 +25,7 @@ export default {
   data() {
     return {};
   },
-  methods: {
-  },
+  methods: {},
   computed: {
     showDialog() {
       return !this.$store.getters.userAuth;
@@ -30,4 +37,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.v-progress-circular {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+</style>

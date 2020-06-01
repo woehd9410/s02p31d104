@@ -32,6 +32,7 @@
                         placeholder="Email address"
                         required
                         autofocus
+                        @keypress.enter="login"
                       />
                     </div>
                     <br />
@@ -43,6 +44,7 @@
                         class="form-control"
                         placeholder="Password"
                         required
+                        @keypress.enter="login"
                       />
                     </div>
 
@@ -62,13 +64,17 @@
                       Sign in
                     </button>
                     <div class="text-center">
-                      <button @click="searchPW()">
-                        <a class="small">Forgot password?</a>
+                      <button @click="searchPW" type="button">
+                        <span style="color:blue" class="small"
+                          >Forgot password?</span
+                        >
                       </button>
                       <!-- <a class="small"><button @click="searchPW()"></button>Forgot password?</a> -->
                     </div>
                     <hr />
-                    <div style="text-align: center;">SNS Login</div>
+                    <div style="text-align: center;" @click="testLogin">
+                      SNS Login
+                    </div>
                     <br />
                     <v-card-actions>
                       <v-spacer />
@@ -120,6 +126,13 @@ export default {
     ],
   }),
   methods: {
+    testLogin() {
+      this.loginInfo = {
+        email: "test@naver.com",
+        password: "test",
+      };
+      this.login();
+    },
     closeDialog(type) {
       console.log(`login type : ${type}`);
     },
@@ -132,8 +145,6 @@ export default {
             return;
           }
           let loginInfo = res.data;
-          loginInfo.img =
-            "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60";
           loginInfo.type = "Person";
           console.log(loginInfo);
 
