@@ -55,7 +55,8 @@ export default new Vuex.Store({
       return (state.user.auth = true);
     },
     logout(state, payload = false) {
-      state.user.info = null;
+      state.ui.drawer = false;
+      // state.user.info = null;
       return (state.user.auth = payload);
     },
   },
