@@ -1,6 +1,9 @@
 package com.help.back.backend.dao;
 
+import com.help.back.backend.domain.Image;
 import com.help.back.backend.domain.ProfileImg;
+
+import java.util.List;
 
 public interface ProfileImgDao {
     int postUserProfileImg(ProfileImg profileImg);
@@ -15,5 +18,6 @@ public interface ProfileImgDao {
     int updateDepartmentProfileImg(ProfileImg profileImg);
     int deleteDepartmentProfileImg(int id);
     ProfileImg getDepartmentProfileImg(int id);
+    List<Image> getAllImg();
 
 }

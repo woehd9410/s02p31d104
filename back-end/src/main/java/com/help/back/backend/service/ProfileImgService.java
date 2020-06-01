@@ -1,6 +1,9 @@
 package com.help.back.backend.service;
 
+import com.help.back.backend.domain.Image;
 import com.help.back.backend.domain.ProfileImg;
+
+import java.util.List;
 
 public interface ProfileImgService {
     int postUserProfileImg(ProfileImg profileImg);
@@ -15,4 +18,5 @@ public interface ProfileImgService {
     int updateDepartmentProfileImg(ProfileImg profileImg);
     int deleteDepartmentProfileImg(int id);
     ProfileImg getDepartmentProfileImg(int id);
+    List<Image> getAllImg();
 }

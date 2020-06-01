@@ -26,12 +26,12 @@
       >Helpromise</v-toolbar-title
     >
     <v-spacer></v-spacer>
-    <div v-if="userInfo.img">
+    <div v-if="userInfo">
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-avatar v-on="on" style="cursor: pointer;">
             <img
-              :src="userInfo.img"
+              :src="userInfo.url"
               :alt="userInfo.name"
               @click="goRoute('profile')"
             />
@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       currentTab: "home",
-      categorys: ["home", "schedule", "board", "alarm","profile"],
+      categorys: ["home", "schedule", "board", "alarm", "profile"],
       dialog: false,
     };
   },
@@ -75,8 +75,9 @@ export default {
       if (page == "home") {
         this.currentTab = 0;
         page = "";
-      }else if(page == 'profile'){
-        this.currentTab = this.categorys.length-1;
+      } else if (page == "profile") {
+        this.currentTab = this.categorys.length - 1;
+        page = `profile${this.userInfo.id}`;
       }
       console.log(`go to route ${page}.vue page`);
       if (this.$route.path == `/${page}`) return;
