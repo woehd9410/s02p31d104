@@ -41,10 +41,10 @@ export default new Vuex.Store({
   },
   // method로 등록 (동기)
   mutations: {
-    taskCntUp(state){
+    taskCntUp(state) {
       return state.ui.progress++;
     },
-    taskCntDown(state){
+    taskCntDown(state) {
       return state.ui.progress--;
     },
     switchDrawer(state, payload = !state.ui.drawer) {
@@ -52,9 +52,15 @@ export default new Vuex.Store({
     },
     login(state, payload) {
       state.user.info = payload;
+      sessionStorage.setItem("session", JSON.stringify(payload));
       return (state.user.auth = true);
     },
+    session(state, payload) {
+      state.user.auth = true;
+      return (state.user.info = JSON.parse(payload));
+    },
     logout(state, payload = false) {
+      sessionStorage.clear();
       state.ui.drawer = false;
       // state.user.info = null;
       return (state.user.auth = payload);

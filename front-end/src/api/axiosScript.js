@@ -4,7 +4,7 @@ import favoriteAxiosScript from "@/api/v1/favoriteAxiosScript.js";
 // import groupAxiosScript from "@/api/v1/groupAxiosScript.js";
 import boardAxiosScript from "@/api/v1/boardAxiosScript.js";
 import profileImgAxiosScript from "@/api/v1/profileImgAxiosScript.js";
-import scheduleAxiosScript from "@/api/v1/scheduleAxiosScript.js"
+import scheduleAxiosScript from "@/api/v1/scheduleAxiosScript.js";
 // 테스트 rest api사용
 const testAxios = axios.create({
   baseURL: "https://jsonplaceholder.typicode.com/users/",
@@ -56,12 +56,15 @@ const axiosFunction = {
   searchBoardAll: boardAxiosScript.searchBoardAll,
   searchBoardByEmail: boardAxiosScript.searchBoardByEmail,
 
-  // schedule
+  // to-do-list
   getToDo: scheduleAxiosScript.getToDo,
   addToDo: scheduleAxiosScript.addToDo,
   deleteToDo: scheduleAxiosScript.deleteToDo,
   todoToSchedule: scheduleAxiosScript.todoToSchedule,
   updateToDoState: scheduleAxiosScript.updateToDoState,
+  // schedule 
+  addSchedule: scheduleAxiosScript.addSchedule,
+
   // img
   searchImgAll: profileImgAxiosScript.searchImgAll,
 };
