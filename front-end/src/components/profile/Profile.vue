@@ -45,7 +45,7 @@
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>
-                  <v-icon>{{ recommend_icon }}</v-icon> 친구 추천 코드
+                  <v-icon>{{ recommend_icon }}</v-icon> 찜 코드
                 </v-list-item-title>
               </v-list-item-content>
               <v-list-item-content>

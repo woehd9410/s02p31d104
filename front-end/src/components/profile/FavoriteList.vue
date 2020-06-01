@@ -52,14 +52,13 @@
       ></v-text-field>
       <v-list shaped>
         <v-list-item-group v-model="selectedPerson" color="primary">
-          <v-list-item v-for="item in showItems" :key="item.id">
+          <v-list-item v-for="item in showItems" :key="item.id" @click="showFavoriteProfile(item.id)">
             <v-list-item-avatar>
               <v-img :src="item.url"></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title
                 v-text="item.name"
-                @click="showFavoriteProfile(item.id)"
               ></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
