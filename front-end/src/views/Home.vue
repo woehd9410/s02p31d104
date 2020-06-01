@@ -10,7 +10,6 @@
             @addEvent="addList"
             @deleteEvent="deleteList"
           />
-          <TodaySchedule />
         </v-layout>
       </v-container>
     </v-content>
@@ -19,7 +18,6 @@
 
 <script>
 import ToDoList from "@/components/schedule/ToDoList.vue";
-import TodaySchedule from "@/components/schedule/TodaySchedule.vue";
 import axiosScript from "@//api/axiosScript.js";
 
 export default {
@@ -36,7 +34,6 @@ export default {
   },
   components: {
     ToDoList,
-    TodaySchedule,
   },
   mounted() {
     this.getToDo();
@@ -48,7 +45,9 @@ export default {
       axiosScript.getToDo(
         this.userInfo.id,
         (res) => {
-          this.items = res.data;
+          if(res.status == 200){
+            this.items = res.data;
+          }
         },
         (error) => {
           console.log(error);
