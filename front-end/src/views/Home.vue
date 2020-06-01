@@ -1,10 +1,16 @@
 <template>
   <div class="home">
     <v-content class="mt-12">
-      <v-container grid-list-xl >
+      <v-container grid-list-xl>
         <v-layout row wrap>
-          <ToDoList :items="items" @updateEvent="update" @addEvent="addList" @deleteEvent="deleteList"/>
-          <TodaySchedule/>
+          <ToDoList
+            v-if="items != null"
+            :items="items"
+            @updateEvent="update"
+            @addEvent="addList"
+            @deleteEvent="deleteList"
+          />
+          <TodaySchedule />
         </v-layout>
       </v-container>
     </v-content>
@@ -14,55 +20,64 @@
 <script>
 import ToDoList from "@/components/schedule/ToDoList.vue";
 import TodaySchedule from "@/components/schedule/TodaySchedule.vue";
-import axiosScript from "@//api/axiosScript.js"
+import axiosScript from "@//api/axiosScript.js";
 
 export default {
   name: "Home",
   data() {
     return {
-      items: [],
-      userId: 5,
-    }
+      items: null,
+    };
+  },
+  computed: {
+    userInfo() {
+      return this.$store.getters.getUserInfo;
+    },
   },
   components: {
     ToDoList,
     TodaySchedule,
   },
-  mounted(){
+  mounted() {
     this.getToDo();
   },
-  methods:{
-    getToDo(){
+  methods: {
+    getToDo() {
+      this.$store.commit("taskCntUp");
+      console.log("Home page getToDo axios ");
       axiosScript.getToDo(
-        this.userId,
-        (res)=>{
-          console.log("home.vue getToDo :: " + res.data)
-          this.items = res.data
-          },
-        (error) =>{console.log(error);
+        this.userInfo.id,
+        (res) => {
+          this.items = res.data;
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          if (this.items == null) this.items = [];
+          this.$store.commit("taskCntDown");
         }
-      )
+      );
     },
-    addList(params){
+    addList(params) {
       this.items.push(params);
     },
-    deleteList(id){
-      for(var i = 0; i < this.items.length; i++){
-        if(id == this.items[i].id){
-           this.items.splice(i,1);
-           break;
+    deleteList(id) {
+      for (var i = 0; i < this.items.length; i++) {
+        if (id == this.items[i].id) {
+          this.items.splice(i, 1);
+          break;
         }
       }
     },
-    update(data){
-      
-      for(var i = 0; i < this.items.length; i++){
-        if(data.id == this.items[i].id){
-           this.items[i].is_completed = data.isCompleted;
-           break;
+    update(data) {
+      for (var i = 0; i < this.items.length; i++) {
+        if (data.id == this.items[i].id) {
+          this.items[i].is_completed = data.isCompleted;
+          break;
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
