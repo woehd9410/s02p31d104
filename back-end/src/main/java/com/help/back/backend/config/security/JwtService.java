@@ -22,12 +22,11 @@ public class JwtService {
     /**
      * * @param key "id"	 * @param data user_pk	 * @param subject user_email	 * @return jwt token string value	 *
      */
-    public <T> String create(String key, T data, String subject, String authority) {
+    public <T> String create(String key, T data, String subject) {
         String jwt = Jwts.builder().setHeaderParam("typ", "JWT")
                 .setHeaderParam("alg", "HS256")
                 .setSubject(subject)
                 .claim(key, data)
-                .claim("role", authority)
                 .setExpiration(new Date(System.currentTimeMillis() + 1 * (1000 * 60 * 60 * 24)))
                 .signWith(SignatureAlgorithm.HS256, this.generateKey())
                 .compact();
