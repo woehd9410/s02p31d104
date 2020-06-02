@@ -153,7 +153,6 @@ export default {
       schedulemodal: false,
       typeName: "",
       btnNum: 0,
-      btns: ["ALL", "ACTIVE", "COMPLETED"],
       updateNum: 0,
     };
   },
