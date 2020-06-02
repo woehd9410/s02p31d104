@@ -144,4 +144,21 @@ public class UserController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @ApiOperation(value = "유저 pw 수정", notes = "유저의 pw를 수정합니다.")
+    @PutMapping("/api/v1/user/password")
+    public ResponseEntity updateUserPassword(@RequestBody Login user) throws Exception{
+        try {
+            System.out.println("유저 pw 수정");
+            System.out.println(user.toString());
+            int ans = userService.updateUserPassword(user);
+            System.out.println("수정 성공  : " + ans);
+            return ans == 1 ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NO_CONTENT);
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+
+
 }

@@ -51,6 +51,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public int updateUserPassword(Login user) {
+        return userDao.updateUserPassword(user);
+    }
+
+    @Override
     public int deleteUser(int id) {
         return userDao.deleteUser(id);
     }
