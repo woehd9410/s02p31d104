@@ -165,17 +165,15 @@ public class UserController {
     }
 
 	@ApiOperation(value = "이메일 인증", notes = "이메일 인증")
-    @PostMapping("/api/v1/user/email")
-    public ResponseEntity emailAuth(@RequestBody Mail email) throws Exception{
+    @PostMapping("/api/v1/user/email/{email}")
+    public ResponseEntity<String> emailAuth(@PathVariable("email") String email) throws Exception{
         try {
             System.out.println("이메일인증");
-            if(mailService.mailSend(email)){
-                System.out.println("성공");
+            String key = mailService.mailSend(email);
+            System.out.println("성공 인증 키 : " + key);
 
-                return new ResponseEntity(HttpStatus.OK);
-            }else{
-                return new ResponseEntity(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<String>(key, HttpStatus.OK);
+
         }catch(Exception e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
