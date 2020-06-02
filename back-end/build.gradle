@@ -38,6 +38,9 @@ dependencies {
     compile(group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.5.0')
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    compile("org.springframework.boot:spring-boot-starter-mail")
+    compile "org.springframework:spring-context-support"
+    compile "com.sun.mail:javax.mail"
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile group: 'junit', name: 'junit', version: '4.12'

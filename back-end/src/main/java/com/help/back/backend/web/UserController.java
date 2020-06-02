@@ -1,8 +1,10 @@
 package com.help.back.backend.web;
 
+import com.help.back.backend.domain.Mail;
 import com.help.back.backend.dto.Login;
 import com.help.back.backend.domain.User;
 import com.help.back.backend.dto.ResultUser;
+import com.help.back.backend.service.MailService;
 import com.help.back.backend.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +22,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    MailService mailService;
 
     @ApiOperation(value = "유저 조회", notes = "검색조건에 맞는 유저를 조회합니다.")
     @GetMapping("/api/v1/user")
@@ -119,6 +124,23 @@ public class UserController {
                 ResultUser ans = user.get(0);
                 return new ResponseEntity<ResultUser>(ans,HttpStatus.OK);
             }else {
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @ApiOperation(value = "이메일 인증", notes = "이메일 인증")
+    @PostMapping("/api/v1/user/email")
+    public ResponseEntity emailAuth(@RequestBody Mail email) throws Exception{
+        try {
+            System.out.println("이메일인증");
+            if(mailService.mailSend(email)){
+                System.out.println("성공");
+
+                return new ResponseEntity(HttpStatus.OK);
+            }else{
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
         }catch(Exception e) {
