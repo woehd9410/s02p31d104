@@ -201,7 +201,7 @@ export default {
     },
     addTodo() {
       let type = 0;
-      let userId = this.userId;
+      let userId = this.userInfo.id;
       let data = {
         title: this.addToDoItem,
         public_type: type,
