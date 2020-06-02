@@ -23,6 +23,10 @@ export default new Vuex.Store({
         type: null, // 개인 : Poerson account , 부서 : Department account
       },
     },
+    schedule: {
+      list: [],
+      now: new Date().toISOString().substr(0, 10),
+    },
   },
   // computed로 등록
   getters: {
@@ -38,6 +42,22 @@ export default new Vuex.Store({
     userAuth(state) {
       return state.user.auth;
     },
+    scheduleInfo(state) {
+      let scheduleList = [];
+      for (let s of state.schedule.list) {
+        if (s.start_time == null) continue;
+        let tmpScheduleObj = {
+          name: s.title,
+          start: s.start_time.substr(0, 16),
+          end: s.end_time.substr(0, 16),
+        };
+        scheduleList.push(tmpScheduleObj);
+      }
+      return scheduleList;
+    },
+    now(state) {
+      return state.schedule.now;
+    },
   },
   // method로 등록 (동기)
   mutations: {
@@ -45,7 +65,8 @@ export default new Vuex.Store({
       return state.ui.progress++;
     },
     taskCntDown(state) {
-      return state.ui.progress--;
+      if (state.ui.progress > 0) return state.ui.progress--;
+      else return state.ui.progress;
     },
     switchDrawer(state, payload = !state.ui.drawer) {
       return (state.ui.drawer = payload);
@@ -64,6 +85,12 @@ export default new Vuex.Store({
       state.ui.drawer = false;
       // state.user.info = null;
       return (state.user.auth = payload);
+    },
+    setScheduleInfo(state, payload) {
+      return (state.schedule.list = payload);
+    },
+    pushScheduleInfo(state, payload) {
+      return state.schedule.list.push(payload);
     },
   },
   actions: {},

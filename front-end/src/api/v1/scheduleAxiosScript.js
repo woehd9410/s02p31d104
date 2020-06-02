@@ -56,10 +56,19 @@ export default {
       });
   },
 
-  addSchedule(params, success, error) {
+  addSchedule(params, success, error, finall) {
     http
       .post(`user/personal-schedule`, params)
       .then((res) => success(res))
-      .catch((err) => error(err));
+      .catch((err) => error(err))
+      .finally(() => finall);
+  },
+
+  searchScheduleById(param, success, error, finall) {
+    http
+      .get(`user/${param}/personal-schedule`)
+      .then((res) => success(res))
+      .catch((err) => error(err))
+      .finally(() => finall());
   },
 };

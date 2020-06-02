@@ -217,7 +217,7 @@ export default {
       console.log(
         `AddScheduleButton updateSchedule methed : save button event`
       );
-      console.log(this.scheduleInfo);
+      this.$store.commit("taskCntUp");
       let schedule = {
         user_id: this.userInfo.id,
         title: this.scheduleInfo.title,
@@ -234,13 +234,15 @@ export default {
         (res) => {
           if (res.status == 200) {
             console.log(res);
+            this.$store.commit("pushScheduleInfo",res.data)
             alert("일정 등록 완료!");
             this.cancleScheduleModal();
           } else if (res.status == 204) {
             alert("일정 등록 실패");
           }
         },
-        (err) => console.log(err)
+        (err) => console.log(err),
+        this.$store.commit("taskCntDown")
       );
       // axios script 작성하고 안에 scheduleInfo 비우기
     },
