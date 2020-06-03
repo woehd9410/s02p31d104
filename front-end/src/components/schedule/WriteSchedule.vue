@@ -38,44 +38,50 @@
           </v-col>
           <v-col cols="1">
             <v-menu>
-              
-             <template #activator="{ on: onMenu }">
-               <v-icon color="success" v-on="onMenu">mdi-circle</v-icon>
-               <v-tooltip top>
-                 <template #activator="{on:onTooltip}">
-                   <v-icon color="lime darken-1" v-on="{ ...onMenu, ...onTooltip}">mdi-circle</v-icon>
-                 </template>
-                 <span>Schedule Color</span>
-               </v-tooltip>
-             </template>
-
-              <v-list>
-                <v-list-item
-                  v-for="(item, index) in colors"
-                  :key="index"
-                  @click="chooseColor(item)"
-                >
-                  <v-list-item-title>{{item}}</v-list-item-title>
-                </v-list-item>
-              </v-list>
+              <template #activator="{ on: onMenu }">
+                <v-tooltip top>
+                  <template #activator="{on:onTooltip}">
+                    <v-icon
+                      :color="scheduleInfo.color"
+                      v-on="{ ...onMenu, ...onTooltip }"
+                      >mdi-circle</v-icon
+                    >
+                  </template>
+                  <span>Schedule Color</span>
+                </v-tooltip>
+              </template>
+              <v-card max-width="150">
+                <v-container>
+                  <v-card-text>
+                    <v-row>
+                      <v-col v-for="item in colors" :key="item.id" cols="4">
+                        <v-icon :color="item" @click="chooseColor(item)"
+                          >mdi-circle</v-icon
+                        >
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                </v-container>
+              </v-card>
             </v-menu>
           </v-col>
         </v-row>
-        
-        <v-row 
+
+        <v-row
           style="width:100%; padding-left:30px;"
-          align="center"  
+          align="center"
           justify="center"
         >
           <v-btn-toggle
             style="font-size:x-small; width:100%;"
             class="elevation-0"
             align="center"
-            mandatory>
+            mandatory
+          >
             <v-btn style="width:50%" @click="DateView(true)">
               내 맘대로
             </v-btn>
-            <v-btn  style="width:50%" @click="DateView(false)">
+            <v-btn style="width:50%" @click="DateView(false)">
               하루종일
             </v-btn>
           </v-btn-toggle>
@@ -106,7 +112,9 @@
                   scrollable
                 >
                   <v-spacer></v-spacer>
-                  <v-btn text color="grey" @click="startCalendar = false">OK</v-btn>
+                  <v-btn text color="grey" @click="startCalendar = false"
+                    >OK</v-btn
+                  >
                 </v-date-picker>
               </v-menu>
             </v-col>
@@ -158,12 +166,13 @@
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="scheduleInfo.endDate" no-title scrollable>
+                <v-date-picker
+                  v-model="scheduleInfo.endDate"
+                  no-title
+                  scrollable
+                >
                   <v-spacer></v-spacer>
-                  <v-btn
-                    text
-                    color="grey"
-                    @click="endCalendar = false"
+                  <v-btn text color="grey" @click="endCalendar = false"
                     >OK</v-btn
                   >
                 </v-date-picker>
@@ -199,66 +208,32 @@
             </v-col>
           </v-row>
         </template>
-        <template
-          v-else
-          style="padding-top:50px;"
-          >
+        <template v-else style="padding-top:50px;">
           <v-menu
-                
-                ref="startCalendar"
-                v-model="startCalendar"
-                :close-on-content-click="false"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on }">
-                  <v-text-field
-                    style="padding-top:20px;"
-                    prepend-icon="mdi-clock-start"
-                    v-model="scheduleInfo.startDate"
-                    label="Pick A Day"
-                    readonly
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="scheduleInfo.startDate"
-                  no-title
-                  scrollable
-                >
-                  <v-spacer></v-spacer>
-                  <v-btn text color="grey" @click="startCalendar = false">OK</v-btn>
-                </v-date-picker>
-              </v-menu>
-        </template>
-        <v-row
-          style="margin-left:1px; margin-right:1px;"  
-        >
-          <v-combobox
-            v-model="members"
-            :items="chips"
-            chips
-            multiple
-            clearable
-            label="Invite Members"
-            prepend-icon="mdi-alpha-m-box-outline"
+            ref="startCalendar"
+            v-model="startCalendar"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
           >
-            <template v-slot:selection="{ attrs, item, select, selected }">
-                <v-chip
-                  small
-                  v-bind="attrs"
-                  :input-value="selected"
-                  @click="select"
-                  close
-                  @click:close="remove(item)"
-                >
-                <strong style="font-size:small">{{ item }}</strong>
-                </v-chip>
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                style="padding-top:20px;"
+                prepend-icon="mdi-clock-start"
+                v-model="scheduleInfo.startDate"
+                label="Pick A Day"
+                readonly
+                v-on="on"
+              ></v-text-field>
             </template>
-          </v-combobox>
-        </v-row>
-        
+            <v-date-picker v-model="scheduleInfo.startDate" no-title scrollable>
+              <v-spacer></v-spacer>
+              <v-btn text color="grey" @click="startCalendar = false">OK</v-btn>
+            </v-date-picker>
+          </v-menu>
+        </template>
+
         <v-row>
           <v-col cols="12">
             <v-text-field
@@ -306,19 +281,19 @@ export default {
         address: "",
         isPrivate: false,
         typeName: "",
-        color:"",
+        color: "blue",
       },
-      colors: ["primary", "success", "error"],
-      members : [],
-      chips: ['Streaming', 'Eating','Work',
-        'Home Improvement',
-        'Vacation',
-        'Food',
-        'Drawers',
-        'Shopping',
-        'Art',
-        'Tech',
-        'Creative Writing',],
+      colors: [
+        "blue",
+        "indigo",
+        "deep-purple",
+        "cyan",
+        "orange",
+        "grey darken-1",
+        "red",
+        "green",
+        "yellow",
+      ],
       startCalendar: false,
       startClock: false,
       endCalendar: false,
@@ -329,7 +304,19 @@ export default {
   methods: {
     cancleScheduleModal() {
       console.log("WriteSchedule cancleScheduleModal method cancle event");
-      this.$emit("cancleButtonEvent");
+      (this.scheduleInfo = {
+        title: "",
+        content: "",
+        startDate: "",
+        startTime: "",
+        endDate: "",
+        endTime: "",
+        address: "",
+        isPrivate: false,
+        typeName: "",
+        color: "blue",
+      }),
+        this.$emit("cancleButtonEvent");
     },
     updateSchedule() {
       console.log(
@@ -339,24 +326,35 @@ export default {
       let schedule = {
         user_id: this.userInfo.id,
         title: this.scheduleInfo.title,
-        start_time: `${this.scheduleInfo.startDate} ${this.scheduleInfo.startTime}`,
-        end_time: `${this.scheduleInfo.endDate} ${this.scheduleInfo.endTime}`,
+        start_time: this.visible
+          ? `${this.scheduleInfo.startDate} ${this.scheduleInfo.startTime}`
+          : `${this.scheduleInfo.startDate} 00:00`,
+        end_time: this.visible
+          ? `${this.scheduleInfo.endDate} ${this.scheduleInfo.endTime}`
+          : `${this.scheduleInfo.startDate} 23:59`,
         address: this.scheduleInfo.address,
         content: this.scheduleInfo.content,
         public_type: this.scheduleInfo.isPrivate ? 1 : 0,
         is_completed: 0,
         schedule_type: 0,
+        color: this.scheduleInfo.color,
       };
       axiosScript.addSchedule(
         schedule,
         (res) => {
           if (res.status == 200) {
             console.log(res);
-            this.$store.commit("pushScheduleInfo",res.data)
-            alert("일정 등록 완료!");
+            this.$store.commit("pushScheduleInfo", res.data);
+            this.$store.commit("snackbar", {
+              text: "일정 등록 완료!!",
+              color: "primary",
+            });
             this.cancleScheduleModal();
           } else if (res.status == 204) {
-            alert("일정 등록 실패");
+            this.$store.commit("snackbar", {
+              text: "일정 등록 실패!!",
+              color: "error",
+            });
           }
         },
         (err) => console.log(err),
@@ -364,34 +362,34 @@ export default {
       );
       // axios script 작성하고 안에 scheduleInfo 비우기
     },
-    DateView(value){
-      this.visible=value;
+    DateView(value) {
+      this.visible = value;
     },
-    remove (item) {
-      this.members.splice(this.members.indexOf(item), 1)
-      this.members = [...this.members]
-    },
-    addToMembers(){
+
+    addToMembers() {
       this.members.push(this.inputValue);
       this.inputValue = null;
     },
-    inputStartTime(){
-      this.$refs.startClock.save(this.scheduleInfo.startTime)
-      this.scheduleInfo.endDate = this.scheduleInfo.startDate
-     
-      let tmp = new Date(this.scheduleInfo.startDate + " " + this.scheduleInfo.startTime);
-      tmp.setHours(tmp.getHours() + 1)
-      let endHour = ""; let endMinute = "";
-      if((tmp.getHours() / 10) > 1) endHour = tmp.getHours().toString();
+    inputStartTime() {
+      this.$refs.startClock.save(this.scheduleInfo.startTime);
+      this.scheduleInfo.endDate = this.scheduleInfo.startDate;
+
+      let tmp = new Date(
+        this.scheduleInfo.startDate + " " + this.scheduleInfo.startTime
+      );
+      tmp.setHours(tmp.getHours() + 1);
+      let endHour = "";
+      let endMinute = "";
+      if (tmp.getHours() / 10 > 1) endHour = tmp.getHours().toString();
       else endHour = "0" + tmp.getHours().toString();
-     
-      if((tmp.getMinutes())/ 10 > 1) endMinute = tmp.getMinutes().toString();
+
+      if (tmp.getMinutes() / 10 > 1) endMinute = tmp.getMinutes().toString();
       else endMinute = "0" + tmp.getMinutes().toString();
       this.scheduleInfo.endTime = endHour + ":" + endMinute;
     },
-    chooseColor(item){
+    chooseColor(item) {
       this.scheduleInfo.color = item;
-    }
+    },
   },
   computed: {
     userInfo() {

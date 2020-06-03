@@ -15,6 +15,13 @@
     </v-overlay>
     <router-view name="sidebar"> </router-view>
     <router-view></router-view>
+    <v-snackbar
+      top
+      :color="$store.state.ui.snackbarColor"
+      v-model="$store.state.ui.snackbar"
+      :timeout="2000"
+      >{{ $store.state.ui.snackbarText }}
+    </v-snackbar>
   </div>
 </template>
 

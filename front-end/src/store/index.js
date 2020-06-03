@@ -10,6 +10,9 @@ export default new Vuex.Store({
       themeColor: "grey lighten-4",
       drawer: false,
       progress: 0,
+      snackbar: false,
+      snackbarText: "",
+      snackbarColor: "",
     },
     user: {
       jwt: "", // 세션 유지 기능
@@ -26,7 +29,15 @@ export default new Vuex.Store({
     },
     schedule: {
       list: [],
-      now: new Date().toISOString().substr(0, 10),
+      now: `${new Date().getFullYear()}-${
+        (new Date().getMonth() + 1).toString().length < 2
+          ? "0" + (new Date().getMonth() + 1)
+          : new Date().getMonth() + 1
+      }-${
+        new Date().getDate().toString().length < 2
+          ? "0" + new Date().getDate()
+          : new Date().getDate()
+      }`,
     },
   },
   // computed로 등록
@@ -54,7 +65,7 @@ export default new Vuex.Store({
           name: s.title,
           start: s.start_time.substr(0, 16),
           end: s.end_time.substr(0, 16),
-          color: "bule",
+          color: s.color,
         };
         scheduleList.push(tmpScheduleObj);
       }
@@ -66,6 +77,11 @@ export default new Vuex.Store({
   },
   // method로 등록 (동기)
   mutations: {
+    snackbar(state, payload){
+      state.ui.snackbar = true;
+      state.ui.snackbarText = payload.text;
+      state.ui.snackbarColor = payload.color;
+    },
     taskCntUp(state) {
       return state.ui.progress++;
     },
@@ -107,8 +123,10 @@ export default new Vuex.Store({
     pushScheduleInfo(state, payload) {
       return state.schedule.list.push(payload);
     },
+    setScheduleNow(state, payload) {
+      return (state.schedule.now = payload);
+    },
   },
-  actions: {
-  },
+  actions: {},
   modules: {},
 });
