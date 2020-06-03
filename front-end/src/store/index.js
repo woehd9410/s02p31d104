@@ -26,7 +26,15 @@ export default new Vuex.Store({
     },
     schedule: {
       list: [],
-      now: new Date().toISOString().substr(0, 10),
+      now: `${new Date().getFullYear()}-${
+        (new Date().getMonth() + 1).toString().length < 2
+          ? "0" + (new Date().getMonth() + 1)
+          : new Date().getMonth() + 1
+      }-${
+        new Date().getDate().toString().length < 2
+          ? "0" + new Date().getDate()
+          : new Date().getDate()
+      }`,
     },
   },
   // computed로 등록
