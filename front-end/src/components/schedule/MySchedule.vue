@@ -44,6 +44,7 @@
           v-model="focus"
           color="primary"
           :events="scheduleInfo"
+          :event-color="getEventColor"
           :now="today"
           :type="type"
           @click:event="showEvent"

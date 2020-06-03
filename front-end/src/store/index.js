@@ -54,7 +54,7 @@ export default new Vuex.Store({
           name: s.title,
           start: s.start_time.substr(0, 16),
           end: s.end_time.substr(0, 16),
-          color: "bule",
+          color: s.color,
         };
         scheduleList.push(tmpScheduleObj);
       }

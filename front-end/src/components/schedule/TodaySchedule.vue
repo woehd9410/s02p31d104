@@ -12,6 +12,7 @@
           :events="scheduleInfo"
           :start="now"
           @click:event="showEvent"
+          :event-color="getEventColor"
         >
         </v-calendar>
         <v-menu
@@ -19,7 +20,10 @@
           :close-on-content-click="false"
           :activator="selectedElement"
           offset-x
-          ><DetailSchedule :selectedEvent="selectedEvent" @closeWindow="selectedOpen = false" />
+          ><DetailSchedule
+            :selectedEvent="selectedEvent"
+            @closeWindow="selectedOpen = false"
+          />
         </v-menu>
       </v-sheet>
     </v-card>
@@ -56,6 +60,9 @@ export default {
     },
   },
   methods: {
+    getEventColor(event) {
+      return event.color;
+    },
     showEvent({ nativeEvent, event }) {
       const open = () => {
         this.selectedEvent = event;
