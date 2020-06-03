@@ -23,7 +23,7 @@ public class AppConfig implements WebMvcConfigurer {
 
     private static final String[] EXCLUDE_PATHS = {"/swagger-resources/**", "/swagger-ui.html", "/swagger/**",
             "/error", "/webjars/**", "/swagger-ui.html#/**/**", "/message", "/history", "/file", "/api/v1/user/login",
-            "/v2/api-docs", "/api/v1/user/kakao-login"
+            "/v2/api-docs", "/api/v1/user/kakao-login", "/api/v1/user/email/**", "/api/v1/user/password"
             };
 
     @Autowired
