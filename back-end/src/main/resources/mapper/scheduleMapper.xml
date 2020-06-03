@@ -3,13 +3,13 @@
 <mapper namespace="com.help.back.backend.dao.ScheduleDao">
     <insert id="postPersonalSchedule" parameterType="schedule" useGeneratedKeys="true" keyProperty="id" >
         INSERT INTO
-        user_schedule(content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, user_id)
-        Values(#{content}, #{title}, #{startTime}, #{endTime}, #{address}, #{publicType}, 0, #{latitude}, #{longitude}, 0, #{userId})
+        user_schedule(content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, user_id, color)
+        Values(#{content}, #{title}, #{startTime}, #{endTime}, #{address}, #{publicType}, 0, #{latitude}, #{longitude}, 0, #{userId}, #{color})
     </insert>
 
     <update id="updatePersonalSchedule" parameterType="schedule">
         UPDATE user_schedule SET content = #{content}, title = #{title}, start_time = #{startTime}, end_time = #{endTime}, address = #{address},
-        public_type = #{publicType}, latitude = #{latitude}, longitude = #{longitude}, is_completed = #{isCompleted}
+        public_type = #{publicType}, latitude = #{latitude}, longitude = #{longitude}, is_completed = #{isCompleted}, color = #{color}
         WHERE id = #{id} AND user_id = #{userId}
     </update>
 
@@ -18,34 +18,34 @@
     </delete>
 
     <select id="getPersonalSchedule" parameterType="int" resultType="schedule">
-        SELECT id,content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, user_id FROM user_schedule WHERE user_id = #{value}
+        SELECT id,content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, user_id, color FROM user_schedule WHERE user_id = #{value}
     </select>
 
     <select id="getPersonalScheduleByDate" parameterType="scheduleDate" resultType="schedule">
-        SELECT id, content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, user_id FROM user_schedule WHERE user_id = #{userId} AND start_time BETWEEN #{startTime} AND #{endTime}
+        SELECT id, content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, user_id, color FROM user_schedule WHERE user_id = #{userId} AND start_time BETWEEN #{startTime} AND #{endTime}
     </select>
 
     <!-- group schedule crud -->
     <insert id="postGroupSchedule" parameterType="schedule" useGeneratedKeys="true" keyProperty="id" >
         INSERT INTO
-        user_schedule(content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, group_id)
-        Values(#{content}, #{title}, #{startTime}, #{endTime}, #{address}, #{publicType}, 1, #{latitude}, #{longitude}, 0, #{groupId})
+        user_schedule(content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, group_id, color)
+        Values(#{content}, #{title}, #{startTime}, #{endTime}, #{address}, #{publicType}, 1, #{latitude}, #{longitude}, 0, #{groupId}, #{color})
     </insert>
 
     <update id="updateGroupSchedule" parameterType="schedule">
         UPDATE user_schedule SET content = #{content}, title = #{title}, start_time = #{startTime}, end_time = #{endTime}, address = #{address},
-        public_type = #{publicType}, latitude = #{latitude}, longitude = #{longitude}, is_completed = #{isCompleted}
+        public_type = #{publicType}, latitude = #{latitude}, longitude = #{longitude}, is_completed = #{isCompleted}, color = #{color}
         WHERE id = #{id} AND group_id = #{groupId}
     </update>
 
     <select id="getGroupSchedule" parameterType="int" resultType="schedule">
-        SELECT id,content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, group_id
+        SELECT id,content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, group_id, color
         FROM user_schedule
         WHERE group_id = #{value}
     </select>
 
     <select id="getGroupScheduleByDate" parameterType="scheduleDate" resultType="schedule">
-        SELECT id, content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, group_id
+        SELECT id, content, title, start_time, end_time, address, public_type, schedule_type, latitude, longitude, is_completed, group_id, color
         FROM user_schedule
         WHERE group_id = #{groupId} AND start_time BETWEEN #{startTime} AND #{endTime}
     </select>
