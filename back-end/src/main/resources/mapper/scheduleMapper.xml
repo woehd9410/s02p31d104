@@ -60,6 +60,11 @@
         INSERT INTO user_schedule (title , public_type , user_id)
         VALUES(#{title}, #{publicType}, #{userId})
     </insert>
+
+    <delete id="deleteCompleteTodo">
+        DELETE FROM user_schedule WHERE is_completed = 1 AND start_time IS NULL
+    </delete>
+
     <delete id="deleteTodo" parameterType="int">
         DELETE FROM user_schedule where id = #{value}
     </delete>
