@@ -107,8 +107,10 @@ export default new Vuex.Store({
     pushScheduleInfo(state, payload) {
       return state.schedule.list.push(payload);
     },
+    setScheduleNow(state, payload) {
+      return (state.schedule.now = payload);
+    },
   },
-  actions: {
-  },
+  actions: {},
   modules: {},
 });

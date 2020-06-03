@@ -5,8 +5,9 @@
     app
     clipped
   >
-  <AddScheduleButton />
-  <SimpleScheduleCalendar/>
+    <v-subheader>Calendar</v-subheader>
+    <AddScheduleButton />
+    <SimpleScheduleCalendar />
   </v-navigation-drawer>
 </template>
 

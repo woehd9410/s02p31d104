@@ -15,10 +15,16 @@ export default {
     picker(newValue) {
       this.$store.state.schedule.now = newValue;
     },
+    now(newValue){
+      this.picker = newValue
+    }
   },
   computed: {
     themeColor() {
       return this.$store.getters.getThemeColor;
+    },
+    now() {
+      return this.$store.getters.now;
     },
   },
 };
