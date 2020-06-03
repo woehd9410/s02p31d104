@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import axios from "@/api/v1/http-common.js";
 
 Vue.use(Vuex);
 
@@ -11,7 +12,7 @@ export default new Vuex.Store({
       progress: 0,
     },
     user: {
-      jwt: null, // 세션 유지 기능
+      jwt: "", // 세션 유지 기능
       auth: false, // 인증 변수로 사용할 예정
       info: {
         url: null,
@@ -42,6 +43,9 @@ export default new Vuex.Store({
     userAuth(state) {
       return state.user.auth;
     },
+    userJWT(state){
+     return state.user.jwt;
+     },
     scheduleInfo(state) {
       let scheduleList = [];
       for (let s of state.schedule.list) {
@@ -72,8 +76,10 @@ export default new Vuex.Store({
       return (state.ui.drawer = payload);
     },
     login(state, payload) {
-      state.user.info = payload;
-      sessionStorage.setItem("session", JSON.stringify(payload));
+      state.user.info = payload.data;
+      state.user.jwt = payload.token;
+      axios.defaults.headers.common["Authorization"] = payload.token;
+      sessionStorage.setItem("session", JSON.stringify(payload.data));
       return (state.user.auth = true);
     },
     session(state, payload) {
