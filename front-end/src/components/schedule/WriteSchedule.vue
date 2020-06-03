@@ -233,30 +233,6 @@
             </v-date-picker>
           </v-menu>
         </template>
-        <v-row style="margin-left:1px; margin-right:1px;">
-          <v-combobox
-            v-model="members"
-            :items="chips"
-            chips
-            multiple
-            clearable
-            label="Invite Members"
-            prepend-icon="mdi-alpha-m-box-outline"
-          >
-            <template v-slot:selection="{ attrs, item, select, selected }">
-              <v-chip
-                small
-                v-bind="attrs"
-                :input-value="selected"
-                @click="select"
-                close
-                @click:close="remove(item)"
-              >
-                <strong style="font-size:small">{{ item }}</strong>
-              </v-chip>
-            </template>
-          </v-combobox>
-        </v-row>
 
         <v-row>
           <v-col cols="12">
@@ -318,20 +294,6 @@ export default {
         "green",
         "yellow",
       ],
-      members: [],
-      chips: [
-        "Streaming",
-        "Eating",
-        "Work",
-        "Home Improvement",
-        "Vacation",
-        "Food",
-        "Drawers",
-        "Shopping",
-        "Art",
-        "Tech",
-        "Creative Writing",
-      ],
       startCalendar: false,
       startClock: false,
       endCalendar: false,
@@ -383,10 +345,16 @@ export default {
           if (res.status == 200) {
             console.log(res);
             this.$store.commit("pushScheduleInfo", res.data);
-            alert("일정 등록 완료!");
+            this.$store.commit("snackbar", {
+              text: "일정 등록 완료!!",
+              color: "primary",
+            });
             this.cancleScheduleModal();
           } else if (res.status == 204) {
-            alert("일정 등록 실패");
+            this.$store.commit("snackbar", {
+              text: "일정 등록 실패!!",
+              color: "error",
+            });
           }
         },
         (err) => console.log(err),
@@ -397,10 +365,7 @@ export default {
     DateView(value) {
       this.visible = value;
     },
-    remove(item) {
-      this.members.splice(this.members.indexOf(item), 1);
-      this.members = [...this.members];
-    },
+
     addToMembers() {
       this.members.push(this.inputValue);
       this.inputValue = null;

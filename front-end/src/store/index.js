@@ -10,6 +10,9 @@ export default new Vuex.Store({
       themeColor: "grey lighten-4",
       drawer: false,
       progress: 0,
+      snackbar: false,
+      snackbarText: "",
+      snackbarColor: "",
     },
     user: {
       jwt: "", // 세션 유지 기능
@@ -74,6 +77,11 @@ export default new Vuex.Store({
   },
   // method로 등록 (동기)
   mutations: {
+    snackbar(state, payload){
+      state.ui.snackbar = true;
+      state.ui.snackbarText = payload.text;
+      state.ui.snackbarColor = payload.color;
+    },
     taskCntUp(state) {
       return state.ui.progress++;
     },

@@ -64,7 +64,10 @@
                       Sign in
                     </button>
                     <div class="text-center">
-                      <v-dialog v-model="findPasswordModal" persistent width="500"
+                      <v-dialog
+                        v-model="findPasswordModal"
+                        persistent
+                        width="500"
                         ><template v-slot:activator="{ on }">
                           <button
                             @click="findPasswordModal = true"
@@ -76,7 +79,9 @@
                             >
                           </button>
                         </template>
-                        <FindPassword @finishEvent="findPasswordModal = false" />
+                        <FindPassword
+                          @finishEvent="findPasswordModal = false"
+                        />
                       </v-dialog>
                     </div>
                     <hr />
@@ -176,12 +181,18 @@ export default {
     },
     kakaologin() {
       console.log("kakao login");
-      alert("서비스 준비중입니다.");
+      this.$store.commit("snackbar", {
+        text: "서비스 준비중입니다..",
+        color: "error",
+      });
       // this.closeDialog("Kakao");
     },
     naverlogin() {
       console.log("naver login");
-      alert("서비스 준비중입니다.");
+         this.$store.commit("snackbar", {
+        text: "서비스 준비중입니다..",
+        color: "error",
+      });
       // this.closeDialog("Naver");
     },
   },
