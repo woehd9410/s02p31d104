@@ -220,6 +220,18 @@ public class ScheduleController {
         }
     }
 
+    @DeleteMapping("/v1/to-do-list")
+    public ResponseEntity deleteCompleteToDo() throws Exception{
+        try{
+            System.out.println("complete todolist delete");
+            int result = scheduleService.deleteCompleteTodo();
+            System.out.println("complete todolist delete result " + result);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
     @PutMapping("/v1/to-do-list")
     public ResponseEntity todoListToSchedule(@RequestBody Schedule schedule) throws Exception{
         try{
