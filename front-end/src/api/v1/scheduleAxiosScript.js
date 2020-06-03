@@ -34,6 +34,17 @@ export default {
       });
   },
 
+  deleteCompleteToDo(success, error){
+    http
+      .delete(`/to-do-list`)
+      .then((res) => {
+        success(res);
+      })
+      .catch((err) => {
+        error(err);
+      });
+  },
+
   todoToSchedule(params, success, error) {
     http
       .put("/to-do-list", params)

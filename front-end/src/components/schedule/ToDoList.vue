@@ -103,6 +103,17 @@
         </template>
       </v-list>
     </v-card>
+          <v-btn
+        @click="clearCompleted"
+        block
+        class="mt-3"
+        color="success"
+        depressed
+        round
+        v-show="items.length > remaining"
+      >
+        Clear completed
+      </v-btn>
   </v-flex>
 </template>
 
@@ -228,6 +239,15 @@ export default {
         },
         (error) => console.log(error)
       );
+    },
+    clearCompleted(){
+      axiosScript.deleteCompleteToDo(
+        (res) =>{
+          console.log(res);
+          this.changeList(this.btnNum);
+        },
+        (error) => {console.log(error)}
+      )
     },
     isCompleteTodo(item) {
       let isCompleted = 0;
