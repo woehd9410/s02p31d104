@@ -1,7 +1,9 @@
 package com.help.back.backend.web;
 
+import com.help.back.backend.config.security.JwtService;
 import com.help.back.backend.dto.Login;
 import com.help.back.backend.domain.User;
+import com.help.back.backend.dto.ResultLogin;
 import com.help.back.backend.dto.ResultUser;
 import com.help.back.backend.service.UserService;
 import io.swagger.annotations.Api;
@@ -17,6 +19,9 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
 public class UserController {
+
+    @Autowired
+    JwtService jwtService;
 
     @Autowired
     UserService userService;
@@ -94,30 +99,44 @@ public class UserController {
 
     @ApiOperation(value = "유저 로그인", notes = "유저 email & password를 통해 로그인 확인 ")
     @PostMapping("/api/v1/user/login")
-    public ResponseEntity<ResultUser> login(@RequestBody Login login) throws Exception{
+    public ResponseEntity<ResultLogin> login(@RequestBody Login login) throws Exception{
         ResultUser user = null;
+        ResultLogin result = ResultLogin.successInstance();
         try {
             System.out.println("유저 로그인");
             System.out.println(login.toString());
             user = userService.login(login);
             System.out.println(user);
-            return user == null ? new ResponseEntity<ResultUser>(HttpStatus.NO_CONTENT) : new ResponseEntity<ResultUser>(user,HttpStatus.OK);
+            if(user != null){
+                String jwt = jwtService.create("user", user, user.getEmail());
+                result.setToken(jwt);
+                result.setData(user);
+                System.out.println(result);
+                return new ResponseEntity<ResultLogin>(result,HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
         }catch(Exception e) {
-            return new ResponseEntity<ResultUser>(user,HttpStatus.NO_CONTENT);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
 
     @ApiOperation(value = "유저 카카오 로그인", notes = "카카오 로그인 email 확인 ")
     @GetMapping("/api/v1/user/kakao-login")
-    public ResponseEntity<ResultUser> kakaologin(@RequestParam String email) throws Exception{
+    public ResponseEntity<ResultLogin> kakaologin(@RequestParam String email) throws Exception{
         List<ResultUser> user = null;
+        ResultLogin result = ResultLogin.successInstance();
         try {
             System.out.println("카카오 로그인");
             user = userService.getUsersByEmail(email);
             System.out.println(user);
             if(user != null){
                 ResultUser ans = user.get(0);
-                return new ResponseEntity<ResultUser>(ans,HttpStatus.OK);
+                String jwt = jwtService.create("user", ans, ans.getEmail());
+                result.setToken(jwt);
+                result.setData(ans);
+                System.out.println(result);
+                return new ResponseEntity<ResultLogin>(result,HttpStatus.OK);
             }else {
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
@@ -125,4 +144,21 @@ public class UserController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @ApiOperation(value = "유저 pw 수정", notes = "유저의 pw를 수정합니다.")
+    @PutMapping("/api/v1/user/password")
+    public ResponseEntity updateUserPassword(@RequestBody Login user) throws Exception{
+        try {
+            System.out.println("유저 pw 수정");
+            System.out.println(user.toString());
+            int ans = userService.updateUserPassword(user);
+            System.out.println("수정 성공  : " + ans);
+            return ans == 1 ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NO_CONTENT);
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+
+
 }

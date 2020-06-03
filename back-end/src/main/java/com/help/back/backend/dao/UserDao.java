@@ -14,5 +14,6 @@ public interface UserDao {
     ResultUser login(Login login);
     int postUser(User user);
     int updateUser(User user);
+    int updateUserPassword(Login user);
     int deleteUser(int id);
 }

@@ -34,6 +34,10 @@
         UPDATE users SET password = SHA2(#{password},256), name = #{name}, email = #{email}, birthday = #{birthday}, phone_number = #{phoneNumber}
         WHERE id = #{id}
     </update>
+    <update id="updateUserPassword" parameterType="login">
+        UPDATE users SET password = SHA2(#{password},256)
+        WHERE email = #{email}
+    </update>
     <delete id="deleteUser" parameterType="int">
         DELETE FROM users WHERE id = #{value}
     </delete>
