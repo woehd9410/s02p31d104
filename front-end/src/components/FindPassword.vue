@@ -74,7 +74,7 @@
 </template>
 
 <script>
-// import axiosScript from "@/api/axiosScript.js";
+import axiosScript from "@/api/axiosScript.js";
 export default {
   data() {
     return {
@@ -86,7 +86,7 @@ export default {
       },
       loadingSendEmail: false,
       showAuthCodeField: false,
-      resInspecCode: "aaaa",
+      resInspecCode: "",
       inspecPassEmail: false,
 
       //change pass data
@@ -97,6 +97,7 @@ export default {
   watch: {
     "input.code"(newValue) {
       console.log(newValue);
+      console.log(this.resInspecCode)
       this.inspecPassEmail = this.resInspecCode === newValue;
     },
     "input.inspecPassword"(newValue) {
@@ -111,6 +112,14 @@ export default {
     },
     sendAuthEmail() {
       console.log("FindPassword sendAuthEmail method");
+      axiosScript.emailAuth(
+        this.input.email,
+        (res) => {
+          console.log(res)
+          this.resInspecCode = res.data;
+        },
+        (err) =>{console.log(err)},
+      )
       this.loadingSendEmail = true;
       this.showAuthCodeField = true;
       this.loadingSendEmail = false;
@@ -121,6 +130,15 @@ export default {
     },
     finishEvent() {
       console.log("FindPassword finishEvent method");
+      let data ={
+        email: this.input.email,
+        password: this.input.password
+      }
+      axiosScript.updateUserPassword(
+        data,
+        (res) => {console.log(res)},
+        (err) => {console.log(err)}
+      )
       this.inspecPassEmail = false;
       this.inspecPassPassword = false;
       this.showAuthCodeField = false;
@@ -131,6 +149,8 @@ export default {
         password: "",
         inspecPassword: "",
       };
+
+      
       this.$emit("finishEvent");
     },
   },
