@@ -237,7 +237,7 @@
         >
           <v-combobox
             v-model="members"
-            :items="chips"
+            :items="favorites"
             chips
             multiple
             clearable
@@ -310,21 +310,28 @@ export default {
       },
       colors: ["primary", "success", "error"],
       members : [],
-      chips: ['Streaming', 'Eating','Work',
-        'Home Improvement',
-        'Vacation',
-        'Food',
-        'Drawers',
-        'Shopping',
-        'Art',
-        'Tech',
-        'Creative Writing',],
+      favorites: [],
       startCalendar: false,
       startClock: false,
       endCalendar: false,
       endClock: false,
       visible: true,
     };
+  },
+  created () {
+    axiosScript.searchFavoriteByToId(
+      this.userInfo.id,
+      (res) =>{ 
+        for(var i = 0; i < res.data.length; i++){
+          this.favorites.push(res.data[i].email);
+        }
+        },
+      (error) => {
+        console.log(error);
+      },
+      ()=>{
+      }
+    )
   },
   methods: {
     cancleScheduleModal() {
