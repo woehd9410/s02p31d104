@@ -43,9 +43,9 @@ export default new Vuex.Store({
     userAuth(state) {
       return state.user.auth;
     },
-    userJWT(state){
-     return state.user.jwt;
-     },
+    userJWT(state) {
+      return state.user.jwt;
+    },
     scheduleInfo(state) {
       let scheduleList = [];
       for (let s of state.schedule.list) {
@@ -54,6 +54,7 @@ export default new Vuex.Store({
           name: s.title,
           start: s.start_time.substr(0, 16),
           end: s.end_time.substr(0, 16),
+          color: "bule",
         };
         scheduleList.push(tmpScheduleObj);
       }
@@ -76,15 +77,23 @@ export default new Vuex.Store({
       return (state.ui.drawer = payload);
     },
     login(state, payload) {
+      console.log("store mutations login");
       state.user.info = payload.data;
-      state.user.jwt = payload.token;
-      axios.defaults.headers.common["Authorization"] = payload.token;
       sessionStorage.setItem("session", JSON.stringify(payload.data));
+      axios.defaults.headers.common["Authorization"] = payload.token;
+      sessionStorage.setItem("token", payload.token);
+      state.user.jwt = payload.token;
       return (state.user.auth = true);
     },
     session(state, payload) {
+      console.log("store mutations session");
       state.user.auth = true;
       return (state.user.info = JSON.parse(payload));
+    },
+    token(state, payload) {
+      console.log("store mutations token");
+      axios.defaults.headers.common["Authorization"] = payload;
+      return (state.user.jwt = payload);
     },
     logout(state, payload = false) {
       sessionStorage.clear();
@@ -99,6 +108,7 @@ export default new Vuex.Store({
       return state.schedule.list.push(payload);
     },
   },
-  actions: {},
+  actions: {
+  },
   modules: {},
 });

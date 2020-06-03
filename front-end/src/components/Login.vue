@@ -157,6 +157,7 @@ export default {
           }
           let loginInfo = res.data;
           loginInfo.type = "Person";
+          console.log("Login login method in axios");
           console.log(loginInfo);
 
           this.$store.commit("login", loginInfo);
