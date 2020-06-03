@@ -1,50 +1,95 @@
 <template>
-    <v-flex xs12 sm12 md5>
-      <v-card>
-      <v-card-title
-        height="56px"
-      >
-      <h3>Today's Schedule</h3>
+  <v-flex xs12 sm12 md5>
+    <v-card>
+      <v-card-title height="56px">
+        <h3>Today's Schedule</h3>
       </v-card-title>
       <v-sheet height="400">
         <v-calendar
           ref="calendar"
-          color="primary"
           type="day"
-          :events="events"
-
+          event-overlap-mode="stack"
+          :events="scheduleInfo"
+          :start="now"
+          @click:event="showEvent"
         >
         </v-calendar>
+        <v-menu
+          v-model="selectedOpen"
+          :close-on-content-click="false"
+          :activator="selectedElement"
+          offset-x
+          ><DetailSchedule :selectedEvent="selectedEvent" @closeWindow="selectedOpen = false" />
+        </v-menu>
       </v-sheet>
-      </v-card>
-    </v-flex>
+    </v-card>
+  </v-flex>
 </template>
 
 <script>
+import axiosScript from "@//api/axiosScript.js";
+import DetailSchedule from "@/components/schedule/DetailSchedule.vue";
 export default {
+  mounted() {
+    this.getScheduleById();
+  },
   data() {
     return {
-      events:[
-       {
-          name: 'Weekly Meeting',
-          start: '2020-05-28 09:00',
-          end: '2020-05-28 10:00',
-        },
-        {
-          name: 'Thomas\' Birthday',
-          start: '2020-05-28',
-        },
-        {
-          name: 'Mash Potatoes',
-          start: '2020-05-28 12:30',
-          end: '2020-05-28 15:30',
-        },
-      ],
-    }
+      showTodaySchedule: [],
+      selectedElement: null,
+      selectedEvent: null,
+      selectedOpen: false,
+    };
   },
-}
+  components: {
+    DetailSchedule,
+  },
+  computed: {
+    scheduleInfo() {
+      return this.$store.getters.scheduleInfo;
+    },
+    userInfo() {
+      return this.$store.getters.getUserInfo;
+    },
+    now() {
+      return this.$store.getters.now;
+    },
+  },
+  methods: {
+    showEvent({ nativeEvent, event }) {
+      const open = () => {
+        this.selectedEvent = event;
+        this.selectedElement = nativeEvent.target;
+        setTimeout(() => (this.selectedOpen = true), 10);
+      };
+      console.log("TodaySchedule showEvent");
+      console.log(nativeEvent);
+      console.log(event);
+      if (this.selectedOpen) {
+        this.selectedOpen = false;
+        setTimeout(open, 10);
+      } else {
+        open();
+      }
+
+      nativeEvent.stopPropagation();
+    },
+    getScheduleById() {
+      console.log("Home page getScheduleById");
+      this.$store.commit("taskCntUp");
+      axiosScript.searchScheduleById(
+        this.userInfo.id,
+        (res) => {
+          if (res.status == 200) {
+            this.$store.commit("setScheduleInfo", res.data);
+          }
+        },
+        (err) => console.log(err),
+        () => this.$store.commit("taskCntDown")
+      );
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

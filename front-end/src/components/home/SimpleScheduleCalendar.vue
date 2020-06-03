@@ -11,6 +11,11 @@ export default {
       picker: new Date().toISOString().substr(0, 10),
     };
   },
+  watch: {
+    picker(newValue) {
+      this.$store.state.schedule.now = newValue;
+    },
+  },
   computed: {
     themeColor() {
       return this.$store.getters.getThemeColor;

@@ -64,7 +64,8 @@ const axiosFunction = {
   updateToDoState: scheduleAxiosScript.updateToDoState,
   // schedule 
   addSchedule: scheduleAxiosScript.addSchedule,
-
+  searchScheduleById : scheduleAxiosScript.searchScheduleById,
+  
   // img
   searchImgAll: profileImgAxiosScript.searchImgAll,
 };
