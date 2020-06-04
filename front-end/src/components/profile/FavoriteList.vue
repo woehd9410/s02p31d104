@@ -52,14 +52,16 @@
       ></v-text-field>
       <v-list shaped>
         <v-list-item-group v-model="selectedPerson" color="primary">
-          <v-list-item v-for="item in showItems" :key="item.id" @click="showFavoriteProfile(item.id)">
+          <v-list-item
+            v-for="item in showItems"
+            :key="item.id"
+            @click="showFavoriteProfile(item.id)"
+          >
             <v-list-item-avatar>
               <v-img :src="item.url"></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title
-                v-text="item.name"
-              ></v-list-item-title>
+              <v-list-item-title v-text="item.name"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -122,8 +124,10 @@ export default {
     },
     addFavorite() {
       console.log(`show to add favorite modal`);
-      alert("서비스 준비중입니다.");
-      this.favoriteDialog = false;
+      this.$store.commit("snackbar", {
+        text: "서비스 준비중입니다..",
+        color: "error",
+      });
     },
     searching() {
       console.log(
