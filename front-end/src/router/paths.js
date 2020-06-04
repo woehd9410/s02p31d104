@@ -24,4 +24,9 @@ export default [
     view: "Alarm",
     name: "Alarm",
   },
+  {
+    path: "/kakaoSucc",
+    view: "KakaoSucc",
+    name: "KakaoSucc",
+  },
 ];

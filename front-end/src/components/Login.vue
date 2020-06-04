@@ -19,39 +19,18 @@
                   <h3 class="login-heading mb-4">Login</h3>
                   <form>
                     <div class="form-label-group">
-                      <input
-                        type="email"
-                        id="inputEmail"
-                        class="form-control"
-                        placeholder="Email address"
-                        required
-                        autofocus
-                      />
+                      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus />
                     </div>
                     <br />
                     <div class="form-label-group">
-                      <input
-                        type="password"
-                        id="inputPassword"
-                        class="form-control"
-                        placeholder="Password"
-                        required
-                      />
+                      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required />
                     </div>
 
                     <br />
-                    <button
-                      class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
-                      type="button"
-                      @click="login()"
-                    >
+                    <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="button" @click="login()">
                       Login
                     </button>
-                    <button
-                      class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
-                      type="button"
-                      @click="signup()"
-                    >
+                    <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="button" @click="signup()">
                       Sign in
                     </button>
                     <div class="text-center">
@@ -65,12 +44,9 @@
                     <br />
                     <v-card-actions>
                       <v-spacer />
-                      <v-btn color="yellow" large @click="kakaologin()"
-                        >Kakao Login</v-btn
-                      >
-                      <v-btn color="success" large @click="naverlogin()"
-                        >Naver Login</v-btn
-                      >
+                      <v-btn color="yellow" large @click="kakaologin()">Kakao Login</v-btn>
+
+                      <v-btn color="success" large @click="naverlogin()">Naver Login</v-btn>
                       <v-spacer />
                     </v-card-actions>
                   </form>
@@ -99,10 +75,7 @@ export default {
   data: () => ({
     name: "",
     email: "",
-    emailRules: [
-      (v) => !!v || "E-mail is required",
-      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-    ],
+    emailRules: [(v) => !!v || "E-mail is required", (v) => /.+@.+\..+/.test(v) || "E-mail must be valid"],
   }),
   methods: {
     closeDialog(type) {
@@ -118,15 +91,18 @@ export default {
       console.log("회원가입 페이지 이동");
       // this.$router.push("/signup");
     },
-    kakaologin() {
-      this.closeDialog("Kakao");
-    },
+
     naverlogin() {
       this.closeDialog("Naver");
     },
     searchPW() {
       console.log("비밀번호 찾기");
       alert("비밀번호 찾기");
+    },
+    kakaologin() {
+      window.open(
+        "https://kauth.kakao.com/oauth/authorize?client_id=7e57a5fbdc0a235bd1e335e9708dc70a&redirect_uri=http://localhost:8080/kakaoSucc&response_type=code"
+      );
     },
   },
 };
