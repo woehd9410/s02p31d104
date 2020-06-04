@@ -1,9 +1,18 @@
 <template>
-  <div></div>
+  <v-content >
+    <v-container fluid wrap>
+      <MySchedule />
+    </v-container>
+  </v-content>
 </template>
 
 <script>
-export default {};
+import MySchedule from "@/components/schedule/MySchedule.vue";
+export default {
+  components: {
+    MySchedule,
+  },
+};
 </script>
 
 <style></style>

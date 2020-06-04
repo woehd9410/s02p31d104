@@ -5,7 +5,7 @@ export default [
     name: "Home",
   },
   {
-    path: "/profile",
+    path: "/profile:id",
     view: "Profile",
     name: "Profile",
   },

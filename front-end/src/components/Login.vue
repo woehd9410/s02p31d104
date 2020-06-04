@@ -1,6 +1,7 @@
 <template>
   <v-card>
-    <div class="container-fluid">
+    <JoinWindows v-if="joinState" @joinSuccess="joinState = false" @joinCancle="joinState = false" />
+    <div class="container-fluid" v-else>
       <div class="row no-gutter">
         <div class="image col-lg-6 col-md-12 col-sm-12 pa-0">
           <v-img
@@ -19,11 +20,28 @@
                   <h3 class="login-heading mb-4">Login</h3>
                   <form>
                     <div class="form-label-group">
-                      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus />
+                      <input
+                        type="email"
+                        v-model="loginInfo.email"
+                        id="inputEmail"
+                        class="form-control"
+                        placeholder="Email address"
+                        required
+                        autofocus
+                        @keypress.enter="login"
+                      />
                     </div>
                     <br />
                     <div class="form-label-group">
-                      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required />
+                      <input
+                        v-model="loginInfo.password"
+                        type="password"
+                        id="inputPassword"
+                        class="form-control"
+                        placeholder="Password"
+                        required
+                        @keypress.enter="login"
+                      />
                     </div>
 
                     <br />
@@ -34,13 +52,19 @@
                       Sign in
                     </button>
                     <div class="text-center">
-                      <button @click="searchPW()">
-                        <a class="small">Forgot password?</a>
-                      </button>
-                      <!-- <a class="small"><button @click="searchPW()"></button>Forgot password?</a> -->
+                      <v-dialog v-model="findPasswordModal" persistent width="500"
+                        ><template v-slot:activator="{ on }">
+                          <button @click="findPasswordModal = true" v-on="on" type="button">
+                            <span style="color:blue" class="small">Forgot password?</span>
+                          </button>
+                        </template>
+                        <FindPassword @finishEvent="findPasswordModal = false" />
+                      </v-dialog>
                     </div>
                     <hr />
-                    <div style="text-align: center;">SNS Login</div>
+                    <div style="text-align: center;" @click="testLogin">
+                      SNS Login
+                    </div>
                     <br />
                     <v-card-actions>
                       <v-spacer />
@@ -69,35 +93,70 @@
 }
 </style>
 <script>
+import FindPassword from "@/components/FindPassword.vue";
+import JoinWindows from "@/components/JoinWindows.vue";
+import axiosScript from "@/api/axiosScript.js";
 export default {
   name: "Login",
+  components: {
+    JoinWindows,
+    FindPassword,
+  },
 
   data: () => ({
-    name: "",
-    email: "",
+    joinState: false,
+    findPasswordModal: false,
+    loginInfo: {
+      email: "",
+      password: "",
+    },
     emailRules: [(v) => !!v || "E-mail is required", (v) => /.+@.+\..+/.test(v) || "E-mail must be valid"],
   }),
   methods: {
+    testLogin() {
+      this.loginInfo = {
+        email: "test@naver.com",
+        password: "test",
+      };
+      this.login();
+    },
     closeDialog(type) {
-      this.$emit("loginEvent", type);
+      console.log(`login type : ${type}`);
     },
     login() {
-      this.closeDialog("Nomal");
+      axiosScript.login(
+        this.loginInfo,
+        (res) => {
+          if (res.status != 200) {
+            alert("올바르지않은 로그인 정보");
+            return;
+          }
+          let loginInfo = res.data;
+          loginInfo.type = "Person";
+          console.log("Login login method in axios");
+          console.log(loginInfo);
+
+          this.$store.commit("login", loginInfo);
+          this.closeDialog("Nomal");
+        },
+        (err) => console.log(err)
+      );
     },
     backpage() {
       this.$router.go(-1);
     },
     signup() {
       console.log("회원가입 페이지 이동");
+      this.joinState = true;
       // this.$router.push("/signup");
     },
-
     naverlogin() {
-      this.closeDialog("Naver");
-    },
-    searchPW() {
-      console.log("비밀번호 찾기");
-      alert("비밀번호 찾기");
+      console.log("naver login");
+      this.$store.commit("snackbar", {
+        text: "서비스 준비중입니다..",
+        color: "error",
+      });
+      // this.closeDialog("Naver");
     },
     kakaologin() {
       window.open(

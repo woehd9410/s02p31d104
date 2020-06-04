@@ -1,9 +1,12 @@
 package com.help.back.backend.service;
 
 import com.help.back.backend.dao.ProfileImgDao;
+import com.help.back.backend.domain.Image;
 import com.help.back.backend.domain.ProfileImg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProfileImgServiceImpl implements ProfileImgService{
@@ -70,4 +73,11 @@ public class ProfileImgServiceImpl implements ProfileImgService{
     public ProfileImg getDepartmentProfileImg(int id) {
         return profileImgDao.getDepartmentProfileImg(id);
     }
+
+    @Override
+    public List<Image> getAllImg() {
+        return profileImgDao.getAllImg();
+    }
+
+
 }
