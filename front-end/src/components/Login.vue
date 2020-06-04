@@ -64,12 +64,25 @@
                       Sign in
                     </button>
                     <div class="text-center">
-                      <button @click="searchPW" type="button">
-                        <span style="color:blue" class="small"
-                          >Forgot password?</span
-                        >
-                      </button>
-                      <!-- <a class="small"><button @click="searchPW()"></button>Forgot password?</a> -->
+                      <v-dialog
+                        v-model="findPasswordModal"
+                        persistent
+                        width="500"
+                        ><template v-slot:activator="{ on }">
+                          <button
+                            @click="findPasswordModal = true"
+                            v-on="on"
+                            type="button"
+                          >
+                            <span style="color:blue" class="small"
+                              >Forgot password?</span
+                            >
+                          </button>
+                        </template>
+                        <FindPassword
+                          @finishEvent="findPasswordModal = false"
+                        />
+                      </v-dialog>
                     </div>
                     <hr />
                     <div style="text-align: center;" @click="testLogin">
@@ -106,16 +119,19 @@
 }
 </style>
 <script>
+import FindPassword from "@/components/FindPassword.vue";
 import JoinWindows from "@/components/JoinWindows.vue";
 import axiosScript from "@/api/axiosScript.js";
 export default {
   name: "Login",
   components: {
     JoinWindows,
+    FindPassword,
   },
 
   data: () => ({
     joinState: false,
+    findPasswordModal: false,
     loginInfo: {
       email: "",
       password: "",
@@ -146,6 +162,7 @@ export default {
           }
           let loginInfo = res.data;
           loginInfo.type = "Person";
+          console.log("Login login method in axios");
           console.log(loginInfo);
 
           this.$store.commit("login", loginInfo);
@@ -164,17 +181,19 @@ export default {
     },
     kakaologin() {
       console.log("kakao login");
-      alert("서비스 준비중입니다.");
+      this.$store.commit("snackbar", {
+        text: "서비스 준비중입니다..",
+        color: "error",
+      });
       // this.closeDialog("Kakao");
     },
     naverlogin() {
       console.log("naver login");
-      alert("서비스 준비중입니다.");
+         this.$store.commit("snackbar", {
+        text: "서비스 준비중입니다..",
+        color: "error",
+      });
       // this.closeDialog("Naver");
-    },
-    searchPW() {
-      console.log("find password");
-      alert("서비스 준비중입니다.");
     },
   },
 };

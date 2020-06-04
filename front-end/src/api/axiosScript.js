@@ -29,8 +29,10 @@ const axiosFunction = {
   searchUserByOptions: userAxiosScript.searchUserByOptions,
   signUp: userAxiosScript.signUp,
   updateUser: userAxiosScript.updateUser,
+  updateUserPassword: userAxiosScript.updateUserPassword,
   kakaoLogin: userAxiosScript.kakaoLogin,
   login: userAxiosScript.login,
+  emailAuth: userAxiosScript.emailAuth,
 
   // follow
   follow: favoriteAxiosScript.follow,
@@ -64,7 +66,8 @@ const axiosFunction = {
   updateToDoState: scheduleAxiosScript.updateToDoState,
   // schedule 
   addSchedule: scheduleAxiosScript.addSchedule,
-
+  searchScheduleById : scheduleAxiosScript.searchScheduleById,
+  
   // img
   searchImgAll: profileImgAxiosScript.searchImgAll,
 };
