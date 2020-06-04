@@ -20,6 +20,7 @@ public interface ScheduleService {
     List<Schedule> getTodoLists(int userId);
     int addTodo(Schedule schedule);
     int deleteTodo(int id);
+    int deleteCompleteTodo();
     int updateTodoState(Schedule schedule);
     int todoListToSchedule(Schedule schedule);
 }

@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 // Routes
 import paths from "./paths";
+import store from '@/store/index.js';
 
 function route(path, view, name) {
   return {
@@ -30,4 +31,22 @@ const router = new VueRouter({
     ]),
 });
 
+router.beforeEach((to, from, next) => {
+  let session = sessionStorage.getItem("session");
+  let token = sessionStorage.getItem("token");
+  store.commit("taskCntUp")
+  console.log("router beforEach session status check");
+  console.log(session);
+  console.log(token);
+  if (session) {
+    store.commit("session", session);
+    store.commit("token", token);
+  }
+  if (to && session) {
+    next();
+  }
+  store.commit("taskCntDown")
+});
+
 export default router;
+

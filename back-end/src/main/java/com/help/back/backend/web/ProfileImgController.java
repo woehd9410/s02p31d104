@@ -1,5 +1,6 @@
 package com.help.back.backend.web;
 
+import com.help.back.backend.domain.Image;
 import com.help.back.backend.domain.ProfileImg;
 import com.help.back.backend.service.ProfileImgService;
 import io.swagger.annotations.Api;
@@ -9,9 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Api(tags = {"1. ProfileImg"})
 @RequiredArgsConstructor
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 @RestController
 public class ProfileImgController {
 
@@ -154,6 +158,13 @@ public class ProfileImgController {
         }catch(Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
+    }
+
+    @GetMapping("/v1/profile-img")
+    public ResponseEntity<Image> getAllImg(){
+        List<Image> images = null;
+        images = profileImgService.getAllImg();
+        return images == null ? new ResponseEntity(HttpStatus.NO_CONTENT) : new ResponseEntity(images,HttpStatus.OK);
     }
 
 

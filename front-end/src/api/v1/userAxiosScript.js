@@ -41,6 +41,13 @@ export default {
       .catch((err) => error(err));
   },
 
+  updateUserPassword : (param, success, error) => {
+    http
+      .put(`user/password`, param)
+      .then((res) => success(res))
+      .catch((err) => error(err))
+  },
+
   kakaoLogin: (param, success, error) => {
     console.log(`axios in ... kakao login`);
     console.log(param);
@@ -58,5 +65,13 @@ export default {
       .post(`user/login`, param)
       .then((res) => success(res))
       .catch((err) => error(err));
+  },
+
+  emailAuth:(param, success, error) =>{
+    console.log(param)
+    http
+    .post(`user/email/${param}`)
+    .then((res) => success(res))
+    .catch((err) => error(err))
   },
 };

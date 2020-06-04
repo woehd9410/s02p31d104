@@ -23,6 +23,7 @@ public class Schedule {
     private int isCompleted;
     private int userId;
     private int groupId;
+    private String color;
 
 
 }

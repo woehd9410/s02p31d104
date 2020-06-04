@@ -30,6 +30,11 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
 
     @Override
+    public int deleteCompleteTodo() {
+        return scheduleDao.deleteCompleteTodo();
+    }
+
+    @Override
     public int updateTodoState(Schedule schedule) {
         return scheduleDao.updateTodoState(schedule);
     }
@@ -83,5 +88,7 @@ public class ScheduleServiceImpl implements ScheduleService{
     public int updateGroupSchedule(Schedule schedule) {
         return scheduleDao.updateGroupSchedule(schedule);
     }
+
+  
 
 }
