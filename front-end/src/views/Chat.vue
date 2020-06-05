@@ -1,16 +1,25 @@
 <template>
   <div>
-    <roomlist></roomlist>
+    <v-container>
+      <chattingroomlist></chattingroomlist>
+      <chattingroom></chattingroom>
+      <chattingmemberlist></chattingmemberlist>
+    </v-container>
   </div>
 </template>
 
 <script>
-import roomlist from "@/components/chat/Room.vue";
+import chattingroom from "../components/chat/ChattingRoom";
+import chattingroomlist from "../components/chat/ChattiingRoomList";
+import chattingmemberlist from "../components/chat/ChattingMemberList";
 export default {
   components: {
-    roomlist
+    chattingroom,
+    chattingroomlist,
+    chattingmemberlist
   }
 };
 </script>
 
-<style></style>
+<style>
+</style>
