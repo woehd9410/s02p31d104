@@ -153,6 +153,7 @@ export default {
       console.log(`login type : ${type}`);
     },
     login() {
+      this.$store.commit("taskCntUp");
       axiosScript.login(
         this.loginInfo,
         (res) => {
@@ -168,7 +169,8 @@ export default {
           this.$store.commit("login", loginInfo);
           this.closeDialog("Nomal");
         },
-        (err) => console.log(err)
+        (err) => console.log(err),
+        () => this.$store.commit("taskCntDown")
       );
     },
     backpage() {
@@ -189,7 +191,7 @@ export default {
     },
     naverlogin() {
       console.log("naver login");
-         this.$store.commit("snackbar", {
+      this.$store.commit("snackbar", {
         text: "서비스 준비중입니다..",
         color: "error",
       });

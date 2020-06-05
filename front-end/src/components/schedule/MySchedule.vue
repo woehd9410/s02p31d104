@@ -153,8 +153,39 @@ export default {
       this.$store.commit("taskCntUp");
       axiosScript.searchScheduleById(
         this.userInfo.id,
-        (res) => this.$store.commit("setScheduleInfo", res.data),
+        (res) => {
+          this.$store.commit("setScheduleInfo", res.data);
+          this.getGoogleCalendar();
+        },
         (err) => console.log(err),
+        () => this.$store.commit("taskCntDown")
+      );
+    },
+    getGoogleCalendar() {
+      this.$store.commit("taskCntUp");
+      let url = localStorage.getItem("iCal");
+      if (url == null) return;
+      console.log("MySchedule getGoogleCalendar");
+      axiosScript.searchImportByIcsUrl(
+        url,
+        (res) => {
+          if (res.status == 200) {
+            console.log(res.data);
+            let schedules = res.data;
+            for (let s of schedules) {
+              s.color = localStorage.getItem("iCalColor");
+              s.user_id = this.userInfo.id;
+              this.$store.commit("pushScheduleInfo", s);
+            }
+          }
+        },
+        (err) => {
+          console.log(err);
+          this.$store.commit("snackbar", {
+            text: "올바르 않은 URL입니다..",
+            color: "error",
+          });
+        },
         () => this.$store.commit("taskCntDown")
       );
     },

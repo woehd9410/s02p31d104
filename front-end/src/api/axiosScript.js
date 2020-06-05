@@ -67,7 +67,7 @@ const axiosFunction = {
   // schedule 
   addSchedule: scheduleAxiosScript.addSchedule,
   searchScheduleById : scheduleAxiosScript.searchScheduleById,
-  
+  searchImportByIcsUrl: scheduleAxiosScript.searchImportByIcsUrl,
   // img
   searchImgAll: profileImgAxiosScript.searchImgAll,
 };

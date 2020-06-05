@@ -71,4 +71,11 @@ export default {
       .catch((err) => error(err))
       .finally(() => finall());
   },
+  searchImportByIcsUrl(param, success, error, finall) {
+    http
+      .get(`ics`, { params: { url: param } })
+      .then((res) => success(res))
+      .catch((err) => error(err))
+      .finally(() => finall());
+  },
 };
