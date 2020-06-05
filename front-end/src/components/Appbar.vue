@@ -18,23 +18,16 @@
           v-for="category in categorys"
           :key="category.id"
           @click="goRoute(category)"
-          >{{ category }}</v-tab
-        >
+        >{{ category }}</v-tab>
       </v-tabs>
     </template>
-    <v-toolbar-title id="appbarTitle" @click="goRoute()"
-      >Helpromise</v-toolbar-title
-    >
+    <v-toolbar-title id="appbarTitle" @click="goRoute()">Helpromise</v-toolbar-title>
     <v-spacer></v-spacer>
     <div v-if="userInfo">
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-avatar v-on="on" style="cursor: pointer;">
-            <img
-              :src="userInfo.url"
-              :alt="userInfo.name"
-              @click="goRoute('profile')"
-            />
+            <img :src="userInfo.url" :alt="userInfo.name" @click="goRoute('profile')" />
           </v-avatar>
         </template>
         <span>{{ userInfo.name }}</span>
@@ -48,8 +41,8 @@ export default {
   data() {
     return {
       currentTab: "home",
-      categorys: ["home", "schedule", "board", "alarm", "profile"],
-      dialog: false,
+      categorys: ["home", "schedule", "board", "alarm", "profile", "chat"],
+      dialog: false
     };
   },
   computed: {
@@ -64,7 +57,7 @@ export default {
     },
     userAuth() {
       return this.$store.getters.userAuth;
-    },
+    }
   },
   methods: {
     switchSidebar() {
@@ -87,8 +80,8 @@ export default {
     },
     login() {
       console.log(`show login modal`);
-    },
-  },
+    }
+  }
 };
 </script>
 

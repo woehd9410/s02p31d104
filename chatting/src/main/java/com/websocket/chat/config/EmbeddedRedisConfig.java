@@ -13,7 +13,9 @@ import javax.annotation.PreDestroy;
 public class EmbeddedRedisConfig {
     @Value("${spring.redis.port}")
     private int redisPort;
+
     private RedisServer redisServer;
+
     @PostConstruct
     public void redisServer() {
         redisServer = new RedisServer(redisPort);

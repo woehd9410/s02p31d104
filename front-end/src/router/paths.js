@@ -1,5 +1,4 @@
-export default [
-  {
+export default [{
     path: "/",
     view: "Home",
     name: "Home",
@@ -23,5 +22,16 @@ export default [
     path: "/alarm",
     view: "Alarm",
     name: "Alarm",
+  },
+  {
+    path: "/chat",
+    view: "Chat",
+    name: "Chat",
+  },
+  {
+    path: "/chatroom/:roomId?",
+    view: "ChatRoom",
+    name: "ChatRoom",
+    props: true
   },
 ];

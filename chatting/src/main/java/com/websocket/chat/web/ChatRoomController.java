@@ -1,6 +1,8 @@
 package com.websocket.chat.web;
 
+import com.websocket.chat.domain.ChatMessage;
 import com.websocket.chat.domain.ChatRoom;
+import com.websocket.chat.domain.Group;
 import com.websocket.chat.repo.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/chat")
@@ -20,28 +23,47 @@ public class ChatRoomController {
     public String rooms(Model model) {
         return "/chat/room";
     }
+
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
     @ResponseBody
     public List<ChatRoom> room() {
         return chatRoomRepository.findAllRoom();
     }
+
     // 채팅방 생성
     @PostMapping("/room")
     @ResponseBody
-    public ChatRoom createRoom(@RequestParam String name) {
-        return chatRoomRepository.createChatRoom(name);
+    public ChatRoom createRoom(@RequestBody Group group) {
+        return chatRoomRepository.createChatRoom(group);
     }
+
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")
     public String roomDetail(Model model, @PathVariable String roomId) {
         model.addAttribute("roomId", roomId);
         return "/chat/roomdetail";
     }
+
     // 특정 채팅방 조회
     @GetMapping("/room/{roomId}")
     @ResponseBody
-    public ChatRoom roomInfo(@PathVariable String roomId) {
+    public ChatRoom roomInfo(@PathVariable int roomId) {
         return chatRoomRepository.findRoomById(roomId);
+    }
+
+    @DeleteMapping("/room/{roomId}")
+    @ResponseBody
+    public List<ChatRoom> deleteRoom(@PathVariable int roomId){
+        System.out.println("삭제");
+        chatRoomRepository.deleteChatRoom(roomId);
+        return chatRoomRepository.findAllRoom();
+    }
+
+    // 채팅방 대화 반환
+    @GetMapping("/chattings/{roomId}")
+    @ResponseBody
+    public List<ChatMessage> room(@PathVariable int roomId) {
+        return chatRoomRepository.findAllChatting(roomId);
     }
 }

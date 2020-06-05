@@ -2,16 +2,20 @@ package com.websocket.chat.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
-public class ChatMessage {
+@ToString
+public class ChatMessage implements Serializable {
 
     public enum MessageType{
         ENTER, TALK
     }
     private MessageType type;
-    private String roomId;
+    private int roomId;
     private String sender;
     private String message;
 }
