@@ -25,5 +25,11 @@ public class Schedule {
     private int groupId;
     private String color;
 
-
+    @Builder
+    public Schedule(String title, String content, String startTime, String endTime) {
+        this.title = title;
+        this.content = content;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 }
