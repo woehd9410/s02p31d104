@@ -48,6 +48,12 @@
         WHERE group_id = #{value}
     </select>
 
+    <select id="getGroupUserByUserid" parameterType="int" resultType="groupUser">
+        SELECT ug_id, user_id, group_id, is_host
+        FROM user_group
+        WHERE user_id = #{value}
+    </select>
+
 
     <!-- resultmap   -->
     <resultMap type="group" id="groupHavingUser">

@@ -18,6 +18,7 @@ import java.util.Map;
 @Api(tags = {"1. Group"})
 @RequiredArgsConstructor
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 @RestController
 public class GroupController {
 
@@ -165,6 +166,23 @@ public class GroupController {
         try {
             System.out.println("그룹 멤버 조회");
             list = groupService.getGroupUser(id);
+            if(list != null){
+                System.out.println(list );
+                return new ResponseEntity<List<GroupUser>>(list, HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping("v1/group-user/id/{user-id}")
+    public ResponseEntity<List<GroupUser>> getGroupUserByUserid(@PathVariable("user-id") int id) throws Exception{
+        List<GroupUser> list = null;
+        try {
+            System.out.println("그룹 조회");
+            list = groupService.getGroupUserByUserid(id);
             if(list != null){
                 System.out.println(list );
                 return new ResponseEntity<List<GroupUser>>(list, HttpStatus.OK);

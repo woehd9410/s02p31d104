@@ -35,17 +35,37 @@ export default {
   data() {
     return {
       room_name: "",
-      chatrooms: []
+      chatrooms: [],
+      groups: []
     };
   },
   created() {
-    this.findAllRoom();
+    this.findGroup();
   },
 
   computed: {},
   methods: {
-    findAllRoom: function() {
-      axios.get("http://localhost:8082/chat/rooms").then(response => {
+    findGroup: async function() {
+      await axios
+        .get("http://localhost:9000/api/v1/group-user/id/" + 2)
+        .then(response => {
+          this.groups = response.data;
+          console.log(this.groups);
+        });
+      if (this.groups != null) {
+        for (var i = 0; i < this.groups.length; i++) {
+          await axios
+            .get("http://localhost:8082/chat/room/" + this.groups[i].group_id)
+            .then(response => {
+              this.chatrooms.push(response.data);
+              console.log("Aaaa");
+              console.log(this.chatrooms);
+            });
+        }
+      }
+    },
+    findAllRoom: async function() {
+      await axios.get("http://localhost:8082/chat/rooms").then(response => {
         this.chatrooms = response.data;
         console.log(this.chatrooms);
       });
@@ -56,8 +76,8 @@ export default {
         return;
       } else {
         var params = {
-          name: this.room_name,
-          roomId: 1
+          name: "test용입니다.",
+          roomId: 6
         };
         axios.post("http://localhost:8082/chat/room", params).then(response => {
           alert(response.data.name + "방 개설에 성공하였습니다.");
