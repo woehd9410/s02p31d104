@@ -3,7 +3,7 @@
     <v-list shaped dense avatar>
       <v-subheader>Group</v-subheader>
       <v-list-item-group color="primary">
-        <v-list-item v-for="item in showItems" :key="item.id">
+        <v-list-item v-for="item in showItems" :key="item.id" @click="groupClickEvent(item.id)">
           <v-list-item-avatar>
             <v-img :src="item.url"></v-img>
           </v-list-item-avatar>
@@ -21,12 +21,7 @@ import axiosScript from "@/api/axiosScript.js";
 export default {
   data() {
     return {
-      showItems: [
-        { url: "https://cdn.vuetifyjs.com/images/lists/1.jpg", name: "TEST" },
-        { url: "https://cdn.vuetifyjs.com/images/lists/1.jpg", name: "TEST" },
-        { url: "https://cdn.vuetifyjs.com/images/lists/1.jpg", name: "TEST" },
-        { url: "https://cdn.vuetifyjs.com/images/lists/1.jpg", name: "TEST" },
-      ],
+      showItems: [],
     };
   },
   computed: {
@@ -34,7 +29,7 @@ export default {
       return this.$store.getters.getUserInfo;
     },
   },
-  mounted () {
+  mounted() {
     this.serachGroupById();
   },
   methods: {
@@ -45,7 +40,7 @@ export default {
       axiosScript.serachGroupByUserId(
         this.userInfo.id,
         (res) => {
-          if(res.status == 200){
+          if (res.status == 200) {
             console.log(res.data);
             this.showItems = res.data;
           }
@@ -53,6 +48,10 @@ export default {
         (err) => console.log(err),
         () => this.$store.commit("taskCntDown")
       );
+    },
+    groupClickEvent(gid) {
+      console.log("GroupList groupClickEvent");
+      this.$router.push({ name: "Schedule", params: { id: gid } });
     },
   },
 };

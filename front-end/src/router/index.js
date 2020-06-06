@@ -4,13 +4,13 @@ import VueRouter from "vue-router";
 import paths from "./paths";
 import store from '@/store/index.js';
 
-function route(path, view, name) {
+function route(path, sidebar, view, name) {
   return {
     name: name || view,
     path,
     components: {
       default: (resolve) => import(`@/views/${view}.vue`).then(resolve),
-      sidebar: (resolve) => import(`@/views/sidebar/${view}.vue`).then(resolve),
+      sidebar: (resolve) => import(`@/views/sidebar/${sidebar == null ? view : sidebar}.vue`).then(resolve),
     },
   };
 }
@@ -22,7 +22,7 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes: paths
-    .map((path) => route(path.path, path.view, path.name))
+    .map((path) => route(path.path,path.sidebar, path.view, path.name))
     .concat([
       {
         path: "*",

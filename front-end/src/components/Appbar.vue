@@ -77,7 +77,9 @@ export default {
         page = "";
       } else if (page == "profile") {
         this.currentTab = this.categorys.length - 1;
-        page = `profile${this.userInfo.id}`;
+        page = `profile/${this.userInfo.id}`;
+      } else if (page == "schedule") {
+        page = `schedule/0`;
       }
       console.log(`go to route ${page}.vue page`);
       if (this.$route.path == `/${page}`) return;

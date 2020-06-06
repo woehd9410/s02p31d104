@@ -5,12 +5,12 @@ export default [
     name: "Home",
   },
   {
-    path: "/profile:id",
+    path: "/profile/:id",
     view: "Profile",
     name: "Profile",
   },
   {
-    path: "/schedule",
+    path: "/schedule/:id",
     view: "Schedule",
     name: "Schedule",
   },
