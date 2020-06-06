@@ -5,10 +5,11 @@
         <v-layout row wrap>
           <ToDoList
             
-            :items="todolistItmes"
+            :items="todolistItems"
             @updateEvent="updateToDoList"
             @addEvent="addToDoList"
             @deleteEvent="deleteToDoList"
+            @deleteCompleteTodoEvent="deleteCompleteTodo"
           />
           <TodaySchedule />
         </v-layout>
@@ -26,7 +27,7 @@ export default {
   name: "Home",
   data() {
     return {
-      todolistItmes: [],
+      todolistItems: [],
     };
   },
   computed: {
@@ -49,33 +50,40 @@ export default {
         this.userInfo.id,
         (res) => {
           if (res.status == 200) {
-            this.todolistItmes = res.data;
+            this.todolistItems = res.data;
           }
         },
         (error) => {
           console.log(error);
         },
         () => {
-          if (this.todolistItmes == null) this.todolistItmes = [];
+          if (this.todolistItems == null) this.todolistItems = [];
           this.$store.commit("taskCntDown");
         }
       );
     },
     addToDoList(params) {
-      this.todolistItmes.push(params);
+      this.todolistItems.push(params);
     },
     deleteToDoList(id) {
-      for (var i = 0; i < this.todolistItmes.length; i++) {
-        if (id == this.todolistItmes[i].id) {
-          this.todolistItmes.splice(i, 1);
+      for (var i = 0; i < this.todolistItems.length; i++) {
+        if (id == this.todolistItems[i].id) {
+          this.todolistItems.splice(i, 1);
           break;
         }
       }
     },
+    deleteCompleteTodo(){
+       for (var i = this.todolistItems.length - 1; i >= 0 ; i--) {
+        if (this.todolistItems[i].is_completed == 1) {
+           this.todolistItems.splice(i, 1);
+        }
+      }
+    },
     updateToDoList(data) {
-      for (var i = 0; i < this.todolistItmes.length; i++) {
-        if (data.id == this.todolistItmes[i].id) {
-          this.todolistItmes[i].is_completed = data.isCompleted;
+      for (var i = 0; i < this.todolistItems.length; i++) {
+        if (data.id == this.todolistItems[i].id) {
+          this.todolistItems[i].is_completed = data.isCompleted;
           break;
         }
       }
