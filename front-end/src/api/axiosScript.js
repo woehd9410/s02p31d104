@@ -63,8 +63,9 @@ const axiosFunction = {
   addToDo: scheduleAxiosScript.addToDo,
   deleteToDo: scheduleAxiosScript.deleteToDo,
   todoToSchedule: scheduleAxiosScript.todoToSchedule,
+  deleteCompleteToDo : scheduleAxiosScript.deleteCompleteToDo,
   updateToDoState: scheduleAxiosScript.updateToDoState,
-  // schedule 
+  // schedule
   addSchedule: scheduleAxiosScript.addSchedule,
   searchScheduleById : scheduleAxiosScript.searchScheduleById,
   searchImportByIcsUrl: scheduleAxiosScript.searchImportByIcsUrl,
