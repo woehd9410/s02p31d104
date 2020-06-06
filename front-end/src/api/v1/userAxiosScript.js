@@ -41,11 +41,11 @@ export default {
       .catch((err) => error(err));
   },
 
-  updateUserPassword : (param, success, error) => {
+  updateUserPassword: (param, success, error) => {
     http
       .put(`user/password`, param)
       .then((res) => success(res))
-      .catch((err) => error(err))
+      .catch((err) => error(err));
   },
 
   kakaoLogin: (param, success, error) => {
@@ -57,21 +57,22 @@ export default {
       .catch((err) => error(err));
   },
 
-  login: (param, success, error) => {
+  login: (param, success, error, finall) => {
     console.log(`axios in ... login`);
     console.log(param);
 
     http
       .post(`user/login`, param)
       .then((res) => success(res))
-      .catch((err) => error(err));
+      .catch((err) => error(err))
+      .finally(() => finall());
   },
 
-  emailAuth:(param, success, error) =>{
-    console.log(param)
+  emailAuth: (param, success, error) => {
+    console.log(param);
     http
-    .post(`user/email/${param}`)
-    .then((res) => success(res))
-    .catch((err) => error(err))
+      .post(`user/email/${param}`)
+      .then((res) => success(res))
+      .catch((err) => error(err));
   },
 };
