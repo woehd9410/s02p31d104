@@ -160,7 +160,7 @@ export default {
     },
     kakaologin() {
       window.open(
-        "https://kauth.kakao.com/oauth/authorize?client_id=7e57a5fbdc0a235bd1e335e9708dc70a&redirect_uri=http://localhost:8080/kakaoSucc&response_type=code"
+        `https://kauth.kakao.com/oauth/authorize?client_id=7e57a5fbdc0a235bd1e335e9708dc70a&redirect_uri=${process.env.VUE_APP_FRONT}/kakaoSucc&response_type=code`
       );
     },
   },
