@@ -25,6 +25,11 @@ export default [
     name: 'Alarm'
   },
   {
+    path: "/kakaoSucc",
+    view: "KakaoSucc",
+    name: "KakaoSucc",
+  },
+  {
     path: '/chat',
     view: 'Chat',
     name: 'Chat'

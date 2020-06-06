@@ -65,10 +65,10 @@ const axiosFunction = {
   todoToSchedule: scheduleAxiosScript.todoToSchedule,
   deleteCompleteToDo : scheduleAxiosScript.deleteCompleteToDo,
   updateToDoState: scheduleAxiosScript.updateToDoState,
-  // schedule 
+  // schedule
   addSchedule: scheduleAxiosScript.addSchedule,
-  searchScheduleById : scheduleAxiosScript.searchScheduleById,
-  
+  searchScheduleById: scheduleAxiosScript.searchScheduleById,
+
   // img
   searchImgAll: profileImgAxiosScript.searchImgAll,
 };
