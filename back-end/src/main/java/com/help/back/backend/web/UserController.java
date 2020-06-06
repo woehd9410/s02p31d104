@@ -1,9 +1,11 @@
 package com.help.back.backend.web;
 
 import com.help.back.backend.config.security.JwtService;
+import com.help.back.backend.domain.Group;
 import com.help.back.backend.domain.Mail;
 import com.help.back.backend.dto.Login;
 import com.help.back.backend.domain.User;
+import com.help.back.backend.dto.ResultGroup;
 import com.help.back.backend.dto.ResultLogin;
 import com.help.back.backend.dto.ResultUser;
 import com.help.back.backend.service.MailService;
@@ -177,6 +179,16 @@ public class UserController {
         }catch(Exception e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
+    }
+	@ApiOperation(value = "그룹 리스트 가져오기", notes = "그룹 리스트 가져오기")
+    @GetMapping("/api/v1/user/{id}/group")
+    public ResponseEntity<String> searchGroupByUserId(@PathVariable String id) throws Exception{
+
+        List<ResultGroup> list = null;
+        list = userService.searchGroupByUserId(Integer.parseInt(id));
+        if(list == null) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity(list,HttpStatus.OK );
+
     }
 
 

@@ -1,8 +1,10 @@
 package com.help.back.backend.service;
 
 import com.help.back.backend.dao.UserDao;
+import com.help.back.backend.domain.Group;
 import com.help.back.backend.domain.User;
 import com.help.back.backend.dto.Login;
+import com.help.back.backend.dto.ResultGroup;
 import com.help.back.backend.dto.ResultUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,5 +60,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public int deleteUser(int id) {
         return userDao.deleteUser(id);
+    }
+
+    @Override
+    public List<ResultGroup> searchGroupByUserId(int id) {
+        return userDao.searchGroupByUserId(id);
     }
 }

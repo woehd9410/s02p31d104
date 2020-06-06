@@ -33,6 +33,7 @@ const axiosFunction = {
   kakaoLogin: userAxiosScript.kakaoLogin,
   login: userAxiosScript.login,
   emailAuth: userAxiosScript.emailAuth,
+  serachGroupByUserId: userAxiosScript.serachGroupByUserId,
 
   // follow
   follow: favoriteAxiosScript.follow,
