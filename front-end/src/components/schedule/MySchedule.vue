@@ -71,7 +71,15 @@ import axiosScript from "@/api/axiosScript.js";
 import DetailSchedule from "@/components/schedule/DetailSchedule.vue";
 export default {
   data: () => ({
-    focus: new Date().toISOString().substr(0, 10),
+    focus: `${new Date().getFullYear()}-${
+      (new Date().getMonth() + 1).toString().length < 2
+        ? "0" + (new Date().getMonth() + 1)
+        : new Date().getMonth() + 1
+    }-${
+      new Date().getDate().toString().length < 2
+        ? "0" + new Date().getDate()
+        : new Date().getDate()
+    }`,
     type: "month",
     typeToLabel: {
       month: "Month",

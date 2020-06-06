@@ -185,7 +185,7 @@ export default {
       console.log("kakao login");
       this.$store.commit("snackbar", {
         text: "서비스 준비중입니다..",
-        color: "error",
+        color: "warning",
       });
       // this.closeDialog("Kakao");
     },
@@ -193,7 +193,7 @@ export default {
       console.log("naver login");
       this.$store.commit("snackbar", {
         text: "서비스 준비중입니다..",
-        color: "error",
+        color: "warning",
       });
       // this.closeDialog("Naver");
     },

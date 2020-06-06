@@ -103,7 +103,7 @@ export default {
       console.log("AddGroupScheduleButton makeGroupButtonEvent method");
       this.$store.commit("snackbar", {
         text: "서비스 준비중입니다..",
-        color: "error",
+        color: "warning",
       });
     },
     remove(item) {
