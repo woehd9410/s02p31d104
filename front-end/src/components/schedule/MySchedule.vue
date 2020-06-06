@@ -164,7 +164,10 @@ export default {
     getGoogleCalendar() {
       this.$store.commit("taskCntUp");
       let url = localStorage.getItem("iCal");
-      if (url == null) return;
+      if (url == null) {
+        this.$store.commit("taskCntDown");
+        return;
+      }
       console.log("MySchedule getGoogleCalendar");
       axiosScript.searchImportByIcsUrl(
         url,
