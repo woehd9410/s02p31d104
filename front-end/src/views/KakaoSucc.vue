@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     getAccessToken() {
-      axios.get(`http://localhost:9000/api/v1/user/kakao-login?code=${this.$route.query.code}`).then((res) => {
+      axios.get(`http://${process.env.VUE_APP_REST_SERVER}user/kakao-login?code=${this.$route.query.code}`).then((res) => {
         console.log(res.data);
       });
     },
