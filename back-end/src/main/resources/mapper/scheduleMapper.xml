@@ -77,4 +77,13 @@
                                  address = #{address}, public_type = #{publicType}
         WHERE id = #{id}
     </update>
+    <select id="searchGroupScheduleByGroupId" parameterType="int" resultType="resultGroupSchedule">
+        SELECT aus.title, aus.content, aus.start_time, aus.end_time, aus.address, aus.public_type, aus.schedule_type, aus.latitude, aus.longitude, aus.is_completed, aus.id, aus.name, aus.email, aus.birthday
+        FROM user_group ug RIGHT OUTER JOIN
+	        (SELECT us.title, us.content, us.start_time, us.end_time, us.address, us.public_type, us.schedule_type, us.latitude, us.longitude, us.is_completed, u.id, u.name, u.email, u.birthday
+	        FROM user_schedule us LEFT outer JOIN users u ON us.user_id = u.id
+	        WHERE us.start_time IS NOT NULL) aus
+        ON ug.user_id = aus.id
+        WHERE ug.group_id = #{value}
+    </select>
 </mapper>

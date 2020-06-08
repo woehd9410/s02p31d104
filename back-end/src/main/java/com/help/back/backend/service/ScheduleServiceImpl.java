@@ -2,6 +2,7 @@ package com.help.back.backend.service;
 
 import com.help.back.backend.dao.ScheduleDao;
 import com.help.back.backend.domain.Schedule;
+import com.help.back.backend.dto.ResultGroupSchedule;
 import com.help.back.backend.dto.ScheduleDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,12 @@ public class ScheduleServiceImpl implements ScheduleService{
     public int todoListToSchedule(Schedule schedule) {
         return scheduleDao.todoListToSchedule(schedule);
     }
-    
+
+    @Override
+    public List<ResultGroupSchedule> searchGroupScheduleByGroupId(int gid) {
+        return scheduleDao.searchGroupScheduleByGroupId(gid);
+    }
+
     @Override
     public List<Schedule> getPersonalSchedule(int userId) {
         return scheduleDao.getPersonalSchedule(userId);

@@ -4,24 +4,24 @@ export default [{
     name: "Home",
   },
   {
-    path: "/profile:id",
+    path: "/profile/:id",
     view: "Profile",
     name: "Profile",
   },
   {
-    path: "/schedule",
+    path: "/schedule/:id",
     view: "Schedule",
     name: "Schedule",
   },
   {
-    path: "/board",
-    view: "Board",
-    name: "Board",
+    path: '/board',
+    view: 'Board',
+    name: 'Board'
   },
   {
-    path: "/alarm",
-    view: "Alarm",
-    name: "Alarm",
+    path: '/alarm',
+    view: 'Alarm',
+    name: 'Alarm'
   },
   {
     path: "/kakaoSucc",
