@@ -1,8 +1,8 @@
 <template>
   <v-flex xs12 sm12 md5>
-    <v-card>
+    <v-card color="#546E7A" style="color:white;">
       <v-card-title height="56px">
-        <h3>Today's Schedule</h3>
+        📅 Today's Schedule
       </v-card-title>
       <v-sheet height="400">
         <v-calendar
