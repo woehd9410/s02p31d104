@@ -93,16 +93,7 @@ public class ScheduleController {
         List<Schedule> list = null;
         try {
             System.out.println("개인 스케쥴 검색");
-            String url = redisService.getUrl(user_id);
-            if(url != null){
-                System.out.println("여기로 들어옴");
-                list = new ICS_File().getSchedule(url);
-                System.out.println(list);
-                List<Schedule> temp = scheduleService.getPersonalSchedule(user_id);
-                list.addAll(temp);
-            }else{
-                list = scheduleService.getPersonalSchedule(user_id);
-            }
+            list = scheduleService.getPersonalSchedule(user_id);
             System.out.println(list);
             return new ResponseEntity<List<Schedule>>(list,HttpStatus.OK);
         }catch(Exception e) {
@@ -313,15 +304,17 @@ public class ScheduleController {
     }
 
     @GetMapping("/v1/user/google-calender/{id}")
-    public ResponseEntity<String> getGoogleUrl(@PathVariable int id){
+    public ResponseEntity<List<Schedule>> getGoogleUrl(@PathVariable int id){
+        List<Schedule> list = null;
         try {
             System.out.println("구글 url redis 가져오기");
-            String ans = redisService.getUrl(id);
-            System.out.println(ans);
-            if(ans == null){
-                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            String url = redisService.getUrl(id);
+            System.out.println(url);
+            if(url == null){
+                return new ResponseEntity<List<Schedule>>(list,HttpStatus.NO_CONTENT);
             }else{
-                return new ResponseEntity<String>(ans,HttpStatus.OK);
+                list =  new ICS_File().getSchedule(url);
+                return new ResponseEntity<List<Schedule>>(list,HttpStatus.OK);
             }
 
         }catch (Exception e){
