@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ICS_File {
     public List<Schedule> getSchedule(String url){
         List<Schedule> schedules = new ArrayList<>();

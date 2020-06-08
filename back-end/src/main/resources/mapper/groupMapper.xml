@@ -42,11 +42,14 @@
         UPDATE user_group SET is_host = #{isHost} WHERE ug_id = #{ugId}
     </update>
 
-    <select id="getGroupUser" parameterType="int" resultType="groupUser">
-        SELECT ug_id, user_id, group_id, is_host
-        FROM user_group
+    <select id="getGroupUser" parameterType="int" resultMap="groupdata">
+        SELECT ug.ug_id, ug.user_id, ug.group_id, ug.is_host, u.id, u.email, u.name, u.birthday, u.phone_number
+        FROM user_group ug LEFT OUTER JOIN users u
+        ON ug.user_id = u.id
         WHERE group_id = #{value}
     </select>
+
+
 
     <select id="getGroupUserByUserid" parameterType="int" resultType="groupUser">
         SELECT ug_id, user_id, group_id, is_host
@@ -62,11 +65,28 @@
         <collection property="groupUser" resultMap="groupUser"/>
     </resultMap>
 
+    <resultMap type="groupUser" id="groupdata">
+        <id column="ug_id" property="ugId" />
+        <result column="user_id" property="userId" />
+        <result column="group_id" property="groupId" />
+        <result column="is_host" property="isHost" />
+        <collection property="user" resultMap="user"/>
+    </resultMap>
+
     <resultMap type="groupUser" id="groupUser">
         <id column="ug_id" property="ugId" />
         <result column="user_id" property="userId" />
         <result column="group_id" property="groupId" />
         <result column="is_host" property="isHost" />
+    </resultMap>
+
+    <resultMap type="user" id="user">
+        <id column="id" property="id" />
+        <result column="password" property="password" />
+        <result column="email" property="email" />
+        <result column="name" property="name" />
+        <result column="birthday" property="birthday" />
+        <result column="phone_number" property="phoneNumber" />
     </resultMap>
 
 </mapper>
