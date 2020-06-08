@@ -1,4 +1,5 @@
-export default [{
+export default [
+  {
     path: "/",
     view: "Home",
     name: "Home",
@@ -29,8 +30,8 @@ export default [{
     name: "KakaoSucc",
   },
   {
-    path: '/chat',
-    view: 'Chat',
-    name: 'Chat'
-  }
-]
+    path: "/chat",
+    view: "Chat",
+    name: "Chat",
+  },
+];

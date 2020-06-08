@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Api(tags = {"1. Group"})
+@Api(tags = { "1. Group" })
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 @RequestMapping("/api")
@@ -33,19 +33,19 @@ public class GroupController {
     private GroupService groupService;
 
     @GetMapping("v1/group/{id}")
-    public ResponseEntity<Group> getGroup(@PathVariable("id") int id) throws Exception{
+    public ResponseEntity<Group> getGroup(@PathVariable("id") int id) throws Exception {
         Group group = null;
         try {
             System.out.println("그룹 조회");
             System.out.println(id);
             group = groupService.getGroupHavingUser(id);
-            if(group != null){
-                System.out.println(group.toString() );
+            if (group != null) {
+                System.out.println(group.toString());
                 return new ResponseEntity<Group>(group, HttpStatus.OK);
-            }else{
+            } else {
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
@@ -59,7 +59,7 @@ public class GroupController {
             Group group = new Group();
             group.setName(groupDto.getName());
             int ans = groupService.postGroup(group);
-            if(ans == 1){
+            if (ans == 1) {
                 System.out.println("그룹 추가 성공 : " + group.toString());
                 for(String str : groupDto.getMembers()){
                     GroupUser groupUser = new GroupUser();
@@ -88,126 +88,127 @@ public class GroupController {
     }
 
     @DeleteMapping("v1/group/{id}")
-    public ResponseEntity deleteGroup(@PathVariable("id") int id) throws Exception{
+    public ResponseEntity deleteGroup(@PathVariable("id") int id) throws Exception {
         try {
             System.out.println("그룹 삭제");
             System.out.println(id);
             int ans = groupService.deleteGroup(id);
-            if(ans == 1){
+            if (ans == 1) {
                 System.out.println("삭제성공");
-                return new ResponseEntity( HttpStatus.OK);
-            }else{
+                return new ResponseEntity(HttpStatus.OK);
+            } else {
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
 
     @PutMapping("v1/group")
-    public ResponseEntity updateGroup(@RequestBody Group group) throws Exception{
+    public ResponseEntity updateGroup(@RequestBody Group group) throws Exception {
         try {
             System.out.println("그룹 수정");
             System.out.println(group.toString());
             int ans = groupService.updateGroup(group);
-            if(ans == 1){
+            if (ans == 1) {
                 System.out.println("수정성공");
-                return new ResponseEntity( HttpStatus.OK);
-            }else{
+                return new ResponseEntity(HttpStatus.OK);
+            } else {
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
 
     @PostMapping("v1/group-user")
-    public ResponseEntity<GroupUser> postGroupUser(@RequestBody GroupUser groupUser) throws Exception{
+    public ResponseEntity<GroupUser> postGroupUser(@RequestBody GroupUser groupUser) throws Exception {
         try {
             System.out.println("그룹 멤버 추가");
             System.out.println(groupUser.toString());
             int ans = groupService.postGroupUser(groupUser);
             System.out.println(ans);
-            if(ans == 1){
+            if (ans == 1) {
                 System.out.println("추가 : " + groupUser.toString());
                 return new ResponseEntity<GroupUser>(groupUser, HttpStatus.OK);
-            }else{
+            } else {
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
 
     @DeleteMapping("v1/group-user")
-    public ResponseEntity<GroupUser> deleteGroupUser(@RequestParam("user-id") String uid, @RequestParam("group-id") String gid) throws Exception{
+    public ResponseEntity<GroupUser> deleteGroupUser(@RequestParam("user-id") String uid,
+            @RequestParam("group-id") String gid) throws Exception {
         try {
             System.out.println("그룹 멤버 삭제");
-            System.out.println("user-id : " + uid + " group-id : " + gid );
+            System.out.println("user-id : " + uid + " group-id : " + gid);
             Map map = new HashMap();
 
-            map.put("user-id", uid); //가져온 데이터에 키와 벨류값을 지정
+            map.put("user-id", uid); // 가져온 데이터에 키와 벨류값을 지정
             map.put("group-id", gid);
             int ans = groupService.deleteGroupUser(map);
-            if(ans == 1){
-                System.out.println("삭제 성공 " );
-                return new ResponseEntity( HttpStatus.OK);
-            }else{
+            if (ans == 1) {
+                System.out.println("삭제 성공 ");
+                return new ResponseEntity(HttpStatus.OK);
+            } else {
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
 
     @PutMapping("v1/group-user")
-    public ResponseEntity<GroupUser> updateGroupUser(@RequestBody GroupUser groupUser) throws Exception{
+    public ResponseEntity<GroupUser> updateGroupUser(@RequestBody GroupUser groupUser) throws Exception {
         try {
             System.out.println("그룹 멤버 수정");
-            System.out.println(groupUser.toString() );
+            System.out.println(groupUser.toString());
 
             int ans = groupService.updateGroupUser(groupUser);
-            if(ans == 1){
-                System.out.println("수정 성공 " );
-                return new ResponseEntity( HttpStatus.OK);
-            }else{
+            if (ans == 1) {
+                System.out.println("수정 성공 ");
+                return new ResponseEntity(HttpStatus.OK);
+            } else {
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
 
     @GetMapping("v1/group-user/{group-id}")
-    public ResponseEntity<List<GroupUser>> getGroupUser(@PathVariable("group-id") int id) throws Exception{
+    public ResponseEntity<List<GroupUser>> getGroupUser(@PathVariable("group-id") int id) throws Exception {
         List<GroupUser> list = null;
         try {
             System.out.println("그룹 멤버 조회");
             list = groupService.getGroupUser(id);
-            if(list != null){
-                System.out.println(list );
+            if (list != null) {
+                System.out.println(list);
                 return new ResponseEntity<List<GroupUser>>(list, HttpStatus.OK);
-            }else{
+            } else {
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
 
     @GetMapping("v1/group-user/id/{user-id}")
-    public ResponseEntity<List<GroupUser>> getGroupUserByUserid(@PathVariable("user-id") int id) throws Exception{
+    public ResponseEntity<List<GroupUser>> getGroupUserByUserid(@PathVariable("user-id") int id) throws Exception {
         List<GroupUser> list = null;
         try {
             System.out.println("그룹 조회");
             list = groupService.getGroupUserByUserid(id);
-            if(list != null){
-                System.out.println(list );
+            if (list != null) {
+                System.out.println(list);
                 return new ResponseEntity<List<GroupUser>>(list, HttpStatus.OK);
-            }else{
+            } else {
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
