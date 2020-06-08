@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import chattingroomlist from "../components/chat/ChattiingRoomList";
+import chattingroomlist from "../components/chat/ChattingRoomList";
 
 export default {
   components: {
