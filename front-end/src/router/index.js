@@ -32,9 +32,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  store.commit("taskCntUp")
   let session = sessionStorage.getItem("session");
   let token = sessionStorage.getItem("token");
-  store.commit("taskCntUp")
   console.log("router beforEach session status check");
   console.log(session);
   console.log(token);

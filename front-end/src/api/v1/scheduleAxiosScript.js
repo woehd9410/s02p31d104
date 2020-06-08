@@ -78,4 +78,11 @@ export default {
       .catch((err) => error(err))
       .finally(() => finall());
   },
+  searchGroupScheduleByGroupId(param, success, error, final) {
+    http
+      .get(`group/${param}/schedule`)
+      .then((res) => success(res))
+      .catch((err) => error(err))
+      .finally(() => final());
+  },
 };
