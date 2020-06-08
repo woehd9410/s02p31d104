@@ -34,7 +34,7 @@ export default {
       });
   },
 
-  deleteCompleteToDo(success, error){
+  deleteCompleteToDo(success, error) {
     http
       .delete(`/to-do-list`)
       .then((res) => {
@@ -92,6 +92,30 @@ export default {
   searchGroupScheduleByGroupId(param, success, error, final) {
     http
       .get(`group/${param}/schedule`)
+      .then((res) => success(res))
+      .catch((err) => error(err))
+      .finally(() => final());
+  },
+  applyGoogleUrl(param, success, error, final) {
+    http
+      .post(`user/google-calender`, {
+        id: param.id,
+        url: param.url,
+      })
+      .then((res) => success(res))
+      .catch((err) => error(err))
+      .finally(() => final());
+  },
+  getGoogleUrl(param, success, error, final) {
+    http
+      .get(`user/google-calender/${param}`)
+      .then((res) => success(res))
+      .catch((err) => error(err))
+      .finally(() => final());
+  },
+  deleteGoogleUrl(param, success, error, final) {
+    http
+      .delete(`user/google-calender/${param}`)
       .then((res) => success(res))
       .catch((err) => error(err))
       .finally(() => final());

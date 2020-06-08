@@ -66,7 +66,7 @@
             <v-card-actions>
               <v-btn @click="showGuide" text color="green darken-1">Help</v-btn>
               <v-spacer></v-spacer>
-              <v-btn @click="getGoogleCalendar" text color="blue darken-1"
+              <v-btn @click="applyGoogleCalendar" text color="blue darken-1"
                 >Apply</v-btn
               >
               <v-btn
@@ -109,23 +109,43 @@ export default {
   },
   mounted() {
     this.url = this.iCal;
+    this.color = this.iCalColor;
   },
   methods: {
     RemoveGoogleCalendar() {
-      localStorage.removeItem("iCal");
-      this.$store.commit("snackbar", {
-        text: "새로고침 후 적용됩니다..",
-        color: "primary",
-      });
-      this.modal = false;
-      this.url = "";
-    },
-    getGoogleCalendar() {
+      console.log(
+        "modalButton GetGoogleCalendarButton removeGoogleCalendar method"
+      );
       this.$store.commit("taskCntUp");
-      console.log("GetGoogleCalendarButton getGoogleCalendar");
-      axiosScript.searchImportByIcsUrl(
-        this.url,
+      localStorage.removeItem("iCal");
+      localStorage.removeItem("iCalColor");
+      axiosScript.deleteGoogleUrl(
+        this.userInfo.id,
         (res) => {
+          if (res.status == 200) {
+            this.$store.commit("snackbar", {
+              text: "새로고침 후 적용됩니다..",
+              color: "primary",
+            });
+            this.modal = false;
+            this.url = "";
+          }
+        },
+        (err) => console.log(err),
+        () => this.$store.commit("taskCntDown")
+      );
+    },
+    applyGoogleCalendar() {
+      console.log("GetGoogleCalendarButton applyGoogleCalendar");
+      this.$store.commit("taskCntUp");
+      axiosScript.applyGoogleUrl(
+        {
+          id: this.userInfo.id,
+          url: this.url,
+        },
+        (res) => {
+          console.log(res);
+
           if (res.status == 200) {
             console.log(res.data);
             let schedules = res.data;
@@ -134,6 +154,10 @@ export default {
               s.user_id = this.userInfo.id;
               this.$store.commit("pushScheduleInfo", s);
             }
+            this.$store.commit("snackbar", {
+              text: "구글 캘린더 적용 완료",
+              color: "primary",
+            });
             localStorage.setItem("iCal", this.url);
             localStorage.setItem("iCalColor", this.color);
             this.modal = false;
@@ -165,6 +189,11 @@ export default {
       let iCal = localStorage.getItem("iCal");
       if (iCal == null) return "";
       return iCal;
+    },
+    iCalColor() {
+      let iCalColor = localStorage.getItem("iCalColor");
+      if (iCalColor == null) return "blue";
+      return iCalColor;
     },
   },
 };

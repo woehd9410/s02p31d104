@@ -158,33 +158,32 @@ export default {
       nativeEvent.stopPropagation();
     },
     getMySchedule() {
+      console.log("MySchedule getMySchedule method");
       this.$store.commit("taskCntUp");
+
       axiosScript.searchScheduleById(
         this.userInfo.id,
         (res) => {
           this.$store.commit("setScheduleInfo", res.data);
-          this.getGoogleCalendar();
+          this.getGoogleUrl();
         },
         (err) => console.log(err),
         () => this.$store.commit("taskCntDown")
       );
     },
-    getGoogleCalendar() {
+    getGoogleUrl() {
+      console.log("MySchedule getGoogleUrl method ");
       this.$store.commit("taskCntUp");
-      let url = localStorage.getItem("iCal");
-      if (url == null) {
-        this.$store.commit("taskCntDown");
-        return;
-      }
-      console.log("MySchedule getGoogleCalendar");
-      axiosScript.searchImportByIcsUrl(
-        url,
+      axiosScript.getGoogleUrl(
+        this.userInfo.id,
         (res) => {
           if (res.status == 200) {
             console.log(res.data);
             let schedules = res.data;
+            let primaryColor = localStorage.getItem("iCalColor");
+            if (primaryColor == null) primaryColor = "orange";
             for (let s of schedules) {
-              s.color = localStorage.getItem("iCalColor");
+              s.color = primaryColor;
               s.user_id = this.userInfo.id;
               this.$store.commit("pushScheduleInfo", s);
             }

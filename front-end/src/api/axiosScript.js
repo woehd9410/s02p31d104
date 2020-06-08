@@ -64,7 +64,7 @@ const axiosFunction = {
   addToDo: scheduleAxiosScript.addToDo,
   deleteToDo: scheduleAxiosScript.deleteToDo,
   todoToSchedule: scheduleAxiosScript.todoToSchedule,
-  deleteCompleteToDo : scheduleAxiosScript.deleteCompleteToDo,
+  deleteCompleteToDo: scheduleAxiosScript.deleteCompleteToDo,
   updateToDoState: scheduleAxiosScript.updateToDoState,
   // schedule
   addSchedule: scheduleAxiosScript.addSchedule,
@@ -72,6 +72,9 @@ const axiosFunction = {
   searchImportByIcsUrl: scheduleAxiosScript.searchImportByIcsUrl,
   searchGroupScheduleByGroupId:
     scheduleAxiosScript.searchGroupScheduleByGroupId,
+  applyGoogleUrl: scheduleAxiosScript.applyGoogleUrl,
+  getGoogleUrl: scheduleAxiosScript.getGoogleUrl,
+  deleteGoogleUrl: scheduleAxiosScript.deleteGoogleUrl,
   // img
   searchImgAll: profileImgAxiosScript.searchImgAll,
 };
