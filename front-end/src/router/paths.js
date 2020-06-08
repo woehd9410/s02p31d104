@@ -24,14 +24,13 @@ export default [{
     name: "Alarm",
   },
   {
-    path: "/chat",
-    view: "Chat",
-    name: "Chat",
+    path: "/kakaoSucc",
+    view: "KakaoSucc",
+    name: "KakaoSucc",
   },
   {
-    path: "/chatroom/:roomId?",
-    view: "ChatRoom",
-    name: "ChatRoom",
-    props: true
-  },
-];
+    path: '/chat',
+    view: 'Chat',
+    name: 'Chat'
+  }
+]

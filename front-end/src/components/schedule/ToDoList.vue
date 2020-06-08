@@ -43,8 +43,9 @@
         </v-btn-toggle>
       </v-card-actions>
       <v-list
+        id="todoContainer"
         style="padding-top:0px; overflow-y:hidden;"
-        height="360"
+        height="310"
         class="overflow-y-auto"
       >
         <template v-for="(item, index) in list">
@@ -103,6 +104,17 @@
         </template>
       </v-list>
     </v-card>
+          <v-btn
+        @click="clearCompleted"
+        block
+        class="mt-3"
+        color="success"
+        depressed
+        rounded
+        v-show="items.length > remaining"
+      >
+        Clear completed
+      </v-btn>
   </v-flex>
 </template>
 
@@ -127,6 +139,8 @@ export default {
       this.changeList(1);
       this.updateNum++;
     }
+    var elem = this.$el.querySelector("#todoContainer")
+    elem.scrollTop = elem.scrollHeight;
   },
   computed: {
     userInfo() {
@@ -212,6 +226,7 @@ export default {
         (res) => {
           this.$emit("addEvent", res.data);
           this.changeList(this.btnNum);
+          // this.scrollToEnd();
         },
         (error) => {
           console.log(error);
@@ -228,6 +243,16 @@ export default {
         },
         (error) => console.log(error)
       );
+    },
+    clearCompleted(){
+      axiosScript.deleteCompleteToDo(
+        (res) =>{
+          console.log(res);
+          this.$emit("deleteCompleteTodoEvent");
+          this.changeList(this.btnNum);
+        },
+        (error) => {console.log(error)}
+      )
     },
     isCompleteTodo(item) {
       let isCompleted = 0;
