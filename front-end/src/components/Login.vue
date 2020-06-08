@@ -151,6 +151,7 @@ export default {
     },
     closeDialog(type) {
       console.log(`login type : ${type}`);
+      this.$emit("closeDialog");
     },
     login() {
       this.$store.commit("taskCntUp");
