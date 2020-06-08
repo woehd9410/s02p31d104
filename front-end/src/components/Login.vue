@@ -1,6 +1,10 @@
 <template>
   <v-card>
-    <JoinWindows v-if="joinState" @joinSuccess="joinState = false" @joinCancle="joinState = false" />
+    <JoinWindows
+      v-if="joinState"
+      @joinSuccess="joinState = false"
+      @joinCancle="joinState = false"
+    />
     <div class="container-fluid" v-else>
       <div class="row no-gutter">
         <div class="image col-lg-6 col-md-12 col-sm-12 pa-0">
@@ -45,20 +49,39 @@
                     </div>
 
                     <br />
-                    <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="button" @click="login()">
+                    <button
+                      class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
+                      type="button"
+                      @click="login()"
+                    >
                       Login
                     </button>
-                    <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="button" @click="signup()">
+                    <button
+                      class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
+                      type="button"
+                      @click="signup()"
+                    >
                       Sign in
                     </button>
                     <div class="text-center">
-                      <v-dialog v-model="findPasswordModal" persistent width="500"
+                      <v-dialog
+                        v-model="findPasswordModal"
+                        persistent
+                        width="500"
                         ><template v-slot:activator="{ on }">
-                          <button @click="findPasswordModal = true" v-on="on" type="button">
-                            <span style="color:blue" class="small">Forgot password?</span>
+                          <button
+                            @click="findPasswordModal = true"
+                            v-on="on"
+                            type="button"
+                          >
+                            <span style="color:blue" class="small"
+                              >Forgot password?</span
+                            >
                           </button>
                         </template>
-                        <FindPassword @finishEvent="findPasswordModal = false" />
+                        <FindPassword
+                          @finishEvent="findPasswordModal = false"
+                        />
                       </v-dialog>
                     </div>
                     <hr />
@@ -68,9 +91,13 @@
                     <br />
                     <v-card-actions>
                       <v-spacer />
-                      <v-btn color="yellow" large @click="kakaologin()">Kakao Login</v-btn>
+                      <v-btn color="yellow" large @click="kakaologin()"
+                        >Kakao Login</v-btn
+                      >
 
-                      <v-btn color="success" large @click="naverlogin()">Naver Login</v-btn>
+                      <v-btn color="success" large @click="naverlogin()"
+                        >Naver Login</v-btn
+                      >
                       <v-spacer />
                     </v-card-actions>
                   </form>
@@ -110,7 +137,10 @@ export default {
       email: "",
       password: "",
     },
-    emailRules: [(v) => !!v || "E-mail is required", (v) => /.+@.+\..+/.test(v) || "E-mail must be valid"],
+    emailRules: [
+      (v) => !!v || "E-mail is required",
+      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+    ],
   }),
   methods: {
     testLogin() {
@@ -168,11 +198,6 @@ export default {
         color: "warning",
       });
       // this.closeDialog("Naver");
-    },
-    kakaologin() {
-      window.open(
-        `https://kauth.kakao.com/oauth/authorize?client_id=7e57a5fbdc0a235bd1e335e9708dc70a&redirect_uri=${process.env.VUE_APP_FRONT}/kakaoSucc&response_type=code`
-      );
     },
   },
 };
