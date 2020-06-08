@@ -3,7 +3,7 @@
     <v-container>
       <v-data-table
         :headers="headers"
-        :items="desserts"
+        :items="boardArray"
         :page.sync="page"
         :items-per-page="itemsPerPage"
         hide-default-footer
@@ -19,37 +19,47 @@
 
             <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
 
-            <v-dialog v-model="dialog" max-width="500px">
+            <!-- 수정하기 모달 -->
+            <v-dialog v-if="updateInfo != null" v-model="dialog" max-width="500px">
               <v-card>
                 <v-card-title>
                   <span class="headline">수정하기</span>
                 </v-card-title>
 
                 <v-card-text>
-                  <writeBoard></writeBoard>
+                  <writeBoard :updateInfo="updateInfo"></writeBoard>
                 </v-card-text>
               </v-card>
             </v-dialog>
 
-            <v-dialog v-model="updateDialog" max- width="500">
+            <!-- 상세보기 모달 -->
+            <v-dialog v-if="board != null" v-model="updateDialog" max- width="500">
               <v-card>
-                <boardDetail></boardDetail>
+                <v-card-title>
+                  <span class="headline">상세보기</span>
+                </v-card-title>
+
+                <v-card-text>
+                  <writeBoard :updateInfo="updateInfo"></writeBoard>
+                </v-card-text>
               </v-card>
             </v-dialog>
           </v-toolbar>
         </template>
 
         <template v-slot:item.actions="{ item }">
-          <v-icon class="mr-5" @click="editItem(item)">
+          <v-icon class="mr-10" @click="showDetail(item)">
+            <!-- {{ icon_detail }} -->
+
+            mdi-sticker-plus-outline
+          </v-icon>
+
+          <v-icon class="mr-10" @click="editItem(item)">
             mdi-pencil
           </v-icon>
 
-          <v-icon class="mr-5" @click="deleteItem(item)" color="red">
+          <v-icon @click="deleteItem(item)" color="red">
             mdi-delete
-          </v-icon>
-
-          <v-icon @click="showDetail(item)">
-            {{ icon_detail }}
           </v-icon>
         </template>
       </v-data-table>
@@ -63,17 +73,24 @@
 
 <script>
 import writeBoard from "@/components/board/WriteBoard.vue";
-import boardDetail from "@/components/board/BoardDetail.vue";
+// import boardDetail from "@/components/board/BoardDetail.vue";
 import { EventBus } from "../../plugins/eventBus.js";
 import { mdiStickerPlusOutline } from "@mdi/js";
+import BoardApi from "../../api/v1/boardAxiosScript.js";
 
 export default {
   components: {
     writeBoard,
-    boardDetail,
+    // boardDetail,
   },
 
   data: () => ({
+    board: null,
+    flag: null,
+    updateInfo: null,
+
+    boardArray: [],
+
     icon_detail: mdiStickerPlusOutline,
 
     page: 1,
@@ -87,7 +104,7 @@ export default {
       {
         text: "번호",
         align: "start",
-        value: "number",
+        value: "id",
       },
       {
         text: "제목",
@@ -96,11 +113,10 @@ export default {
       },
       {
         text: "날짜",
-        value: "date",
+        value: "updated_time",
       },
       { text: "Actions", value: "actions", sortable: false },
     ],
-    desserts: [],
     editedIndex: -1,
     editedItem: {
       name: "",
@@ -124,6 +140,29 @@ export default {
     formTitle() {
       return this.editedIndex === -1 ? "New Memo" : "Edit Memo";
     },
+
+    userInfo() {
+      return this.$store.getters.getUserInfo;
+    },
+  },
+
+  mounted() {
+    // alert("여기가 진짜야!!");
+
+    console.log("현재 내 이메일 : " + this.userInfo.email);
+
+    BoardApi.searchBoardByEmail(
+      this.userInfo.email,
+      (res) => {
+        console.log("게시판 불러오기 성공");
+
+        this.boardArray = res.data;
+      },
+      (error) => {
+        console.log("게시판 불러오기 실패");
+        console.log(error);
+      }
+    );
   },
 
   watch: {
@@ -133,9 +172,21 @@ export default {
   },
 
   created() {
-    this.initialize();
     EventBus.$on("use-eventbus", (dialog) => {
       this.dialog = dialog;
+
+      BoardApi.searchBoardByEmail(
+        this.userInfo.email,
+        (res) => {
+          console.log("게시판 불러오기 성공");
+
+          this.boardArray = res.data;
+        },
+        (error) => {
+          console.log("게시판 불러오기 실패");
+          console.log(error);
+        }
+      );
     });
 
     EventBus.$on("use-eventbus", (updateDialog) => {
@@ -144,76 +195,64 @@ export default {
   },
 
   methods: {
-    initialize() {
-      this.desserts = [
-        {
-          number: 1,
-          title: "첫번째 글입니다.",
-          date: "2020년 5월 5일",
-        },
-        {
-          number: 2,
-          title: "두번째 글입니다.",
-          date: "2020년 5월 6일",
-        },
-        {
-          number: 3,
-          title: "세번째 글입니다.",
-          date: "2020년 5월 7일",
-        },
-        {
-          number: 4,
-          title: "네번째 글입니다.",
-          date: "2020년 5월 8일",
-        },
-        {
-          number: 5,
-          title: "다섯번째 글입니다.",
-          date: "2020년 5월 9일",
-        },
-        {
-          number: 6,
-          title: "여섯번째 글입니다.",
-          date: "2020년 5월 10일",
-        },
-        {
-          number: 7,
-          title: "일곱번째 글입니다.",
-          date: "2020년 5월 11일",
-        },
-        {
-          number: 8,
-          title: "여덟번째 글입니다.",
-          date: "2020년 5월 12일",
-        },
-        {
-          number: 9,
-          title: "아홉번째 글입니다.",
-          date: "2020년 5월 13일",
-        },
-        {
-          number: 10,
-          title: "열번째 글입니다.",
-          date: "2020년 5월 14일",
-        },
-      ];
-    },
-
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.boardArray.indexOf(item);
       this.editedItem = Object.assign({}, item);
+      console.log("수정할 게시글 index :: " + this.editedIndex);
+
+      // 0이면 글쓰기, 1이면 수정하기, 상세보기
+      this.flag = 1;
+      this.board = this.boardArray[this.editedIndex];
+
+      this.updateInfo = {
+        flag: this.flag,
+        board: this.board,
+      };
+
+      console.log(this.updateInfo);
+
       this.dialog = true;
     },
 
     showDetail(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.boardArray.indexOf(item);
+      // this.board = this.boardArray[this.editedIndex];
+      console.log("index:::" + this.editedIndex);
+      console.log("boardArray에서 가져온 board ::: " + this.boardArray[this.editedIndex].title);
+      console.log(this.board);
 
+      // 0이면 글쓰기, 1이면 수정하기, 2이면 상세보기
+      this.flag = 2;
+      this.board = this.boardArray[this.editedIndex];
+
+      this.updateInfo = {
+        flag: this.flag,
+        board: this.board,
+      };
+
+      // EventBus.$emit("eventbus", board);
+      // console.log("이벤트 버스 BoadDetail로 보내기 완료");
       this.updateDialog = true;
     },
 
     deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("삭제 하시겠습니다?") && this.desserts.splice(index, 1);
+      const index = this.boardArray.indexOf(item);
+      console.log("삭제 : " + index);
+      if (confirm("삭제 하시겠습니까?")) {
+        BoardApi.deleteBoard(
+          this.boardArray[index].id,
+          (res) => {
+            this.boardArray.splice(index, 1);
+            console.log(index + "번째 게시물 삭제 성공");
+            console.log(res);
+          },
+          (error) => {
+            console.log("게시판 삭제 실패");
+            console.log(error);
+          }
+        );
+      }
+      // confirm("삭제 하시겠습니다?") && this.desserts.splice(index, 1);
     },
 
     close() {

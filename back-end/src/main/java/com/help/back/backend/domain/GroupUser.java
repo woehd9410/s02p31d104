@@ -15,4 +15,6 @@ public class GroupUser {
     private int groupId;
     private int isHost;
 
+    private User user;
+
 }

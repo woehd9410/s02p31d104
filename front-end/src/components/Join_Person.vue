@@ -2,18 +2,12 @@
   <!-- npm install vuelidate 
     -->
   <div>
-    <v-layout row my-10 class="justify-center mt-10">
+    <v-layout row my-10 class="justify-center">
       <v-flex lg3 md3 sm3 xs8>
-        <v-tooltip top>
-          <template v-slot:activator="{ on }">
-            <v-icon class="mb-5" v-on="on" @click="back()">{{ icon_back }}</v-icon>
-          </template>
-          <span>다시 선택하기</span>
-        </v-tooltip>
-
         <v-carousel v-model="model2" height="300">
-          <v-carousel-item v-for="(color, i) in colors" :key="color">
-            <v-sheet :color="color" height="100%" tile>
+          <v-carousel-item v-for="(color, i) in colors" :key="i">
+            <v-sheet height="100%" tile>
+              <v-img :src="color.url" height="100%" width="100%"></v-img>
               <v-row class="fill-height" align="center" justify="center">
                 <div class="display-3">Slide {{ i + 1 }}</div>
               </v-row>
@@ -26,7 +20,7 @@
     <v-layout row my-10 class="justify-center mt-10">
       <v-flex lg4 md4 sm6 xs8>
         <form>
-          아이디
+          이름
           <div class="row">
             <v-textarea
               v-model="name"
@@ -38,6 +32,8 @@
               :rows="rows"
               :error-messages="nameErrors"
               required
+              @input="$v.name.$touch()"
+              @blur="$v.name.$touch()"
             ></v-textarea>
           </div>
           이메일
@@ -52,14 +48,26 @@
               :clearable="clearable"
               :error-messages="emailErrors"
               required
+              @input="$v.email.$touch()"
+              @blur="$v.email.$touch()"
             ></v-textarea>
-            <v-btn class="ml-2 mt-1" large @click="emailCheck()">중복확인</v-btn>
+            <v-btn
+              class="ml-2 mt-1"
+              :class="{
+                primary: duplicateCheckEmail,
+                vibro: duplicateCheckEmailUX,
+              }"
+              large
+              @click="emailCheck()"
+              >{{ duplicateCheckEmail ? "완료" : "중복확인" }}</v-btn
+            >
           </div>
 
           비밀번호
           <div class="row">
-            <v-textarea
+            <v-text-field
               v-model="password"
+              type="password"
               :auto-grow="autoGrow"
               :outlined="outlined"
               :placeholder="placeholder_password"
@@ -68,12 +76,15 @@
               :clearable="clearable"
               :error-messages="passwordErrors"
               required
-            ></v-textarea>
+              @input="$v.password.$touch()"
+              @blur="$v.password.$touch()"
+            ></v-text-field>
           </div>
 
           비밀번호 확인
           <div class="row">
-            <v-textarea
+            <v-text-field
+              type="password"
               v-model="passwordCheck"
               :auto-grow="autoGrow"
               :outlined="outlined"
@@ -83,7 +94,9 @@
               :clearable="clearable"
               :error-messages="passwordCheckErrors"
               required
-            ></v-textarea>
+              @input="$v.passwordCheck.$touch()"
+              @blur="$v.passwordCheck.$touch()"
+            ></v-text-field>
           </div>
 
           휴대폰 번호
@@ -98,12 +111,21 @@
               :clearable="clearable"
               :error-messages="numberErrors"
               required
+              @input="$v.number.$touch()"
+              @blur="$v.number.$touch()"
             ></v-textarea>
           </div>
 
           생년월일
           <div class="row">
-            <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
+            <v-menu
+              v-model="menu2"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
               <template v-slot:activator="{ on }">
                 <v-textarea
                   v-model="date"
@@ -114,16 +136,23 @@
                   :rows="rows"
                   readonly
                   v-on="on"
-                  :error-messages="birthdayErrors"
-                  required
                 ></v-textarea>
               </template>
-              <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+              <v-date-picker
+                v-model="date"
+                @input="menu2 = false"
+              ></v-date-picker>
             </v-menu>
           </div>
 
           <div class="row">
-            <v-checkbox v-model="checkbox" :error-messages="checkboxErrors" label="회원가입을 동의합니다." required color="black"></v-checkbox>
+            <v-checkbox
+              v-model="checkbox"
+              :error-messages="checkboxErrors"
+              label="회원가입을 동의합니다."
+              required
+              color="black"
+            ></v-checkbox>
           </div>
 
           <v-btn class="mr-4" @click="join()">가입하기</v-btn>
@@ -136,8 +165,8 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
-import { mdiArrowLeft } from "@mdi/js";
 import { EventBus } from "../plugins/eventBus.js";
+import axiosScript from "@/api/axiosScript.js";
 export default {
   mixins: [validationMixin],
 
@@ -147,7 +176,7 @@ export default {
     password: { required },
     passwordCheck: { required },
     number: { required },
-    birthday: { required },
+    // birthday: { required },
     checkbox: {
       checked(val) {
         return val;
@@ -156,14 +185,17 @@ export default {
   },
 
   data: () => ({
+    duplicateCheckEmailUX: false,
+    duplicateCheckEmail: false,
     name: "",
     email: "",
     password: "",
+    phoneNumber: "",
+    date: "",
     passwordCheck: "",
     number: "",
     checkbox: false,
 
-    date: "",
     menu2: false,
 
     autoGrow: true,
@@ -181,10 +213,8 @@ export default {
     rows: 1,
     clearable: true,
 
-    colors: ["primary", "secondary", "yellow darken-2", "red", "orange"],
+    colors: [],
     model2: 0,
-
-    icon_back: mdiArrowLeft,
   }),
 
   computed: {
@@ -223,7 +253,8 @@ export default {
       const errors = [];
       if (!this.$v.passwordCheck.$dirty) return errors;
       // !this.$v.name.name && errors.push("이메일 형식을 확인해주세요.");
-      !this.$v.passwordCheck.required && errors.push("비밀번호 확인을 입력해 주세요!");
+      !this.$v.passwordCheck.required &&
+        errors.push("비밀번호 확인을 입력해 주세요!");
       return errors;
     },
 
@@ -235,25 +266,81 @@ export default {
       return errors;
     },
 
-    birthdayErrors() {
-      const errors = [];
-      if (!this.$v.birthday.$dirty) return errors;
-      // !this.$v.name.name && errors.push("이메일 형식을 확인해주세요.");
-      !this.$v.birthday.required && errors.push("생일을 선택해 주세요!");
-      return errors;
-    },
+    // birthdayErrors() {
+    //   const errors = [];
+    //   if (!this.$v.birthday.$dirty) return errors;
+    //   // !this.$v.name.name && errors.push("이메일 형식을 확인해주세요.");
+    //   !this.$v.birthday.required && errors.push("생일을 선택해 주세요!");
+    //   return errors;
+    // },
   },
-
+  mounted() {
+    this.getImgAll();
+  },
   methods: {
+    getImgAll() {
+      axiosScript.searchImgAll(
+        (res) => {
+          console.log(res.data);
+          this.colors = res.data;
+        },
+        (err) => console.log(err)
+      );
+    },
+
     join() {
-      // this.$v.$touch();
-      console.log("회원가입");
-      alert("회원가입 하기!!");
+      console.log(this.$v.$touch());
+      // if (typeof this.$v.$touch() === "undefined") return;
+
+      this.$v.$touch();
+
+      if (
+        this.nameErrors == "" &&
+        this.emailErrors == "" &&
+        this.passwordErrors == "" &&
+        this.passwordCheckErrors == "" &&
+        this.numberErrors == "" &&
+        this.checkboxErrors == "" &&
+        this.duplicateCheckEmail
+      ) {
+        let userInfo = {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          phone_number: this.number,
+          birthday: this.date,
+          img: this.colors[this.model2].url,
+          type: "Person",
+        };
+        this.$emit("joinSuccess", userInfo);
+      }
     },
 
     emailCheck() {
       console.log("이메일 중복 검사");
-      alert("이메일 중복 검사");
+      var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+      if (!regExp.test(this.email)) {
+        this.duplicateCheckEmailUX = true;
+        setTimeout(() => {
+          this.duplicateCheckEmailUX = false;
+        }, 500);
+        return;
+      }
+
+      axiosScript.searchUserByOptions(
+        this.email,
+        (res) => {
+          if (res.data.length == 0) this.duplicateCheckEmail = true;
+          else {
+            this.duplicateCheckEmailUX = true;
+            this.duplicateCheckEmail = false;
+            setTimeout(() => {
+              this.duplicateCheckEmailUX = false;
+            }, 500);
+          }
+        },
+        (err) => console.log(err)
+      );
     },
 
     back() {

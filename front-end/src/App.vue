@@ -20,6 +20,9 @@ export default {
     vfooter,
     vview,
   },
+  mounted () {
+    this.$store.state.ui.drawer = !(this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm);
+  },
 };
 </script>
 

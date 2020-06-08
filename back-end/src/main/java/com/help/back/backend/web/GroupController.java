@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 @Api(tags = {"1. Group"})
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 @RestController
 public class GroupController {
@@ -41,6 +43,7 @@ public class GroupController {
         }
     }
 
+    @Transactional
     @PostMapping("v1/group")
     public ResponseEntity<Group> postGroup(@RequestBody Group group) throws Exception{
         try {
@@ -48,8 +51,16 @@ public class GroupController {
             System.out.println(group.toString());
             int ans = groupService.postGroup(group);
             if(ans == 1){
-                System.out.println("추가 : " + group.toString());
-                return new ResponseEntity<Group>(group, HttpStatus.OK);
+                System.out.println("그룹 추가 성공 : " + group.toString());
+                GroupUser groupUser = group.getGroupUser().get(0);
+                groupUser.setGroupId(group.getId());
+                ans = groupService.postGroupUser(groupUser);
+                if(ans == 1){
+                    System.out.println(groupUser);
+                    return new ResponseEntity<Group>(group, HttpStatus.OK);
+                }else{
+                    return new ResponseEntity(HttpStatus.NO_CONTENT);
+                }
             }else{
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
@@ -155,6 +166,23 @@ public class GroupController {
         try {
             System.out.println("그룹 멤버 조회");
             list = groupService.getGroupUser(id);
+            if(list != null){
+                System.out.println(list );
+                return new ResponseEntity<List<GroupUser>>(list, HttpStatus.OK);
+            }else{
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+        }catch(Exception e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping("v1/group-user/id/{user-id}")
+    public ResponseEntity<List<GroupUser>> getGroupUserByUserid(@PathVariable("user-id") int id) throws Exception{
+        List<GroupUser> list = null;
+        try {
+            System.out.println("그룹 조회");
+            list = groupService.getGroupUserByUserid(id);
             if(list != null){
                 System.out.println(list );
                 return new ResponseEntity<List<GroupUser>>(list, HttpStatus.OK);

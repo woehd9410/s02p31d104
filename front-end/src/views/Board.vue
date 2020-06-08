@@ -1,14 +1,14 @@
 <template>
   <div>
-    <board-list> </board-list>
+    <boardList> </boardList>
   </div>
 </template>
 
 <script>
-import BoardList from "@/components/board/BoardList.vue";
+import boardList from "@/components/board/BoardList.vue";
 export default {
   components: {
-    BoardList,
+    boardList,
   },
 };
 </script>

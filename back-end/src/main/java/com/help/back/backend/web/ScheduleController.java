@@ -2,7 +2,11 @@ package com.help.back.backend.web;
 
 import com.help.back.backend.domain.Schedule;
 import com.help.back.backend.domain.User;
+import com.help.back.backend.dto.ICS;
+import com.help.back.backend.dto.ResultGroupSchedule;
 import com.help.back.backend.dto.ScheduleDate;
+import com.help.back.backend.module.ICS_File;
+import com.help.back.backend.service.RedisService;
 import com.help.back.backend.service.ScheduleService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +15,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Api(tags = {"1. Schedule"})
@@ -22,6 +33,9 @@ public class ScheduleController {
 
     @Autowired
     ScheduleService scheduleService;
+
+    @Autowired
+    RedisService redisService;
 
     @PostMapping("v1/user/personal-schedule")
     public ResponseEntity<Schedule> postPersonalSchedule(@RequestBody Schedule schedule) throws Exception{
@@ -79,7 +93,16 @@ public class ScheduleController {
         List<Schedule> list = null;
         try {
             System.out.println("개인 스케쥴 검색");
-            list = scheduleService.getPersonalSchedule(user_id);
+            String url = redisService.getUrl(user_id);
+            if(url != null){
+                System.out.println("여기로 들어옴");
+                list = new ICS_File().getSchedule(url);
+                System.out.println(list);
+                List<Schedule> temp = scheduleService.getPersonalSchedule(user_id);
+                list.addAll(temp);
+            }else{
+                list = scheduleService.getPersonalSchedule(user_id);
+            }
             System.out.println(list);
             return new ResponseEntity<List<Schedule>>(list,HttpStatus.OK);
         }catch(Exception e) {
@@ -220,6 +243,18 @@ public class ScheduleController {
         }
     }
 
+    @DeleteMapping("/v1/to-do-list")
+    public ResponseEntity deleteCompleteToDo() throws Exception{
+        try{
+            System.out.println("complete todolist delete");
+            int result = scheduleService.deleteCompleteTodo();
+            System.out.println("complete todolist delete result " + result);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
     @PutMapping("/v1/to-do-list")
     public ResponseEntity todoListToSchedule(@RequestBody Schedule schedule) throws Exception{
         try{
@@ -231,4 +266,59 @@ public class ScheduleController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 	}
+
+	@GetMapping("/v1/ics")
+    public ResponseEntity ics(@RequestParam String url) {
+        List<Schedule> list =  new ICS_File().getSchedule(url);
+        return new ResponseEntity(list,HttpStatus.OK);
+    }
+
+    @GetMapping("/v1/group/{gid}/schedule")
+    public ResponseEntity searchGroupScheduleByGroupId(@PathVariable int gid){
+        try {
+            List<ResultGroupSchedule> list = scheduleService.searchGroupScheduleByGroupId(gid);
+            return new ResponseEntity(list,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/v1/user/google-calander")
+    public ResponseEntity<String> addGoogleUrl(@RequestBody ICS ics){
+        try {
+            System.out.println("구글 url redis 저장");
+            String ans = redisService.addUrl(ics);
+            if(ans == null){
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }else{
+                return new ResponseEntity<String>(ans,HttpStatus.OK);
+            }
+
+        }catch (Exception e){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/v1/user/google-calander/{id}")
+    public ResponseEntity<String> getGoogleUrl(@PathVariable int id){
+        try {
+            System.out.println("구글 url redis 가져오기");
+            String ans = redisService.getUrl(id);
+            System.out.println(ans);
+            if(ans == null){
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }else{
+                return new ResponseEntity<String>(ans,HttpStatus.OK);
+            }
+
+        }catch (Exception e){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+
+
+
+
 }

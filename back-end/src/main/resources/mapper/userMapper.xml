@@ -2,19 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.help.back.backend.dao.UserDao">
-    <select id="getUsers"  resultType="user">
-        select id, email, name, phone_number , birthday from users
+    <select id="getUsers" resultType="resultUser">
+        SELECT u.id, u.email, u.name, u.phone_number , u.birthday, i.url
+        from users u LEFT OUTER JOIN profile_img p ON u.id = p.user_id
+        LEFT OUTER JOIN image i ON i.id = p.img_id
     </select>
-    <select id="getUsersByName" parameterType="String" resultType="user">
-        select id, email, name, phone_number  , birthday from users where name LIKE "%${value}%"
+    <select id="getUsersByName" parameterType="String" resultType="resultUser">
+        SELECT u.id, u.email, u.name, u.phone_number , u.birthday, i.url
+        from users u LEFT OUTER JOIN profile_img p ON u.id = p.user_id
+        LEFT OUTER JOIN image i ON i.id = p.img_id
+        WHERE u.name LIKE "%${value}%"
     </select>
-    <select id="getUsersByEmail" parameterType="String" resultType="user">
-        select id, email, name, phone_number , birthday from users where email LIKE "%${value}%"
+    <select id="getUsersByEmail" parameterType="String" resultType="resultUser">
+        SELECT u.id, u.email, u.name, u.phone_number , u.birthday, i.url
+        from users u LEFT OUTER JOIN profile_img p ON u.id = p.user_id
+        LEFT OUTER JOIN image i ON i.id = p.img_id
+        WHERE u.email LIKE "%${value}%"
     </select>
-    <select id="getUsersById" parameterType="int" resultType="user">
-        select id, email, name, phone_number , birthday from users where id = #{value}
+    <select id="getUsersById" parameterType="int" resultType="resultUser">
+        SELECT u.id, u.email, u.name, u.phone_number , u.birthday, i.url
+        from users u LEFT OUTER JOIN profile_img p ON u.id = p.user_id
+        LEFT OUTER JOIN image i ON i.id = p.img_id
+        WHERE u.id = #{value}
     </select>
-    <insert id="postUser" parameterType="user" useGeneratedKeys="true" keyProperty="id" >
+    <insert id="postUser" parameterType="user" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
         users(password, name, email, birthday, phone_number)
         Values(SHA2(#{password},256), #{name}, #{email}, #{birthday}, #{phoneNumber})
@@ -23,12 +34,25 @@
         UPDATE users SET password = SHA2(#{password},256), name = #{name}, email = #{email}, birthday = #{birthday}, phone_number = #{phoneNumber}
         WHERE id = #{id}
     </update>
+    <update id="updateUserPassword" parameterType="login">
+        UPDATE users SET password = SHA2(#{password},256)
+        WHERE email = #{email}
+    </update>
     <delete id="deleteUser" parameterType="int">
         DELETE FROM users WHERE id = #{value}
     </delete>
-    <select id="login" parameterType="login" resultType="user">
-        SELECT id, email, name, phone_number, birthday
-        FROM users
+    <select id="login" parameterType="login" resultType="resultUser">
+        SELECT u.id, u.email, u.name, u.phone_number , u.birthday, i.url
+        from users u LEFT OUTER JOIN profile_img p ON u.id = p.user_id
+        LEFT OUTER JOIN image i ON i.id = p.img_id
         WHERE email = #{email} AND password = SHA2(#{password}, 256)
+    </select>
+
+    <select id="searchGroupByUserId" parameterType="int" resultType="resultGroup">
+      SELECT g.id, g.name, gg.url
+        FROM groups g
+ 	        left outer JOIN (SELECT i.url , pimg.group_id FROM profile_img pimg INNER JOIN image i ON pimg.img_id = i.id) gg
+	        ON gg.group_id=g.id
+        WHERE g.id IN(SELECT group_id FROM user_group ug WHERE ug.user_id = #{value})
     </select>
 </mapper>

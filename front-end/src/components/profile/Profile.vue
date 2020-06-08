@@ -1,26 +1,20 @@
 <template>
   <v-content class="mt-12">
     <v-container fluid wrap>
-      <v-layout row my-10 class="justify-center">
+      <v-layout v-if="profileInfo" row my-10 class="justify-center">
         <v-flex lg6 md8 xs12 class="text-center">
-          <v-avatar v-if="userInfo.img" size="164"
-            ><v-img style="border-radius:70px" :src="userInfo.img"></v-img>
+          <v-avatar size="164"
+            ><v-img style="border-radius:70px" :src="profileInfo.url"></v-img>
           </v-avatar>
           <v-list>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item class="justify-center">
-                  <h2 class="headline font-weight-bold mb-3">
-                    <div class="underlined">{{ userInfo.name }}</div>
-                  </h2>
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-icon @click="updateUser()" v-on="on"
-                        >mdi-cog-outline</v-icon
-                      >
-                    </template>
-                    <span>프로필을 수정하세요!</span>
-                  </v-tooltip>
+                  <div class="headline font-weight-bold mb-3">
+                    <div class="">
+                      {{ profileInfo.name }}
+                    </div>
+                  </div>
                 </v-list-item>
               </v-list-item-content>
             </v-list-item>
@@ -32,7 +26,7 @@
               </v-list-item-content>
               <v-list-item-content>
                 <v-list-item-title>
-                  {{ userInfo.email }}
+                  {{ profileInfo.email }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -44,22 +38,23 @@
               </v-list-item-content>
               <v-list-item-content>
                 <v-list-item-title>
-                  {{ userInfo.phoneNumber }}
+                  {{ profileInfo.phone_number | phoneNumberFilter }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>
-                  <v-icon>{{ recommend_icon }}</v-icon> 친구 추천 코드
+                  <v-icon>{{ recommend_icon }}</v-icon> 찜 코드
                 </v-list-item-title>
               </v-list-item-content>
               <v-list-item-content>
                 <v-list-item-title>
-                  {{ userInfo.name }}#{{ userInfo.id }}
+                  {{ profileInfo.name }}#{{ userInfo.id }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <v-icon @click="updateUser()">mdi-cog-outline</v-icon>
           </v-list>
         </v-flex>
       </v-layout>
@@ -69,12 +64,31 @@
 
 <script>
 import { mdiEmailOutline, mdiKey, mdiPhone } from "@mdi/js";
+import phoneNumberFilter from "@/utils/filters/phoneNumberFilter.js";
+import axiosScript from "@/api/axiosScript.js";
 export default {
-  name: "HelloWorld",
+  filters: {
+    phoneNumberFilter: phoneNumberFilter,
+  },
   mounted() {
-    if (this.$route.params.id == null) {
+    console.log(`Profile mounted route parms.id : ${this.$route.params.id}`);
+    console.log(`Profile mounted userInfo.id : ${this.userInfo.id}`);
+
+    if (this.$route.params.id == this.userInfo.id) {
       console.log(`My Profile page`);
+      this.profileInfo = this.userInfo;
     }
+  },
+  watch: {
+    $route(to) {
+      if (to.params.id == this.userInfo.id) {
+        console.log("Profile watch route eq to.params.id and userInfo.id");
+        this.profileInfo = this.userInfo;
+        return;
+      }
+      console.log(`Profile watch route to.params.id : ${to.params.id}`);
+      this.bringProfile(to.params.id);
+    },
   },
   computed: {
     userInfo() {
@@ -82,10 +96,7 @@ export default {
     },
   },
   data: () => ({
-    name: "애용",
-    email: "dodyd@naver.com",
-    number: "010-1234-1234",
-    id: "A-yong",
+    profileInfo: null,
     email_icon: mdiEmailOutline,
     recommend_icon: mdiKey,
     phone_icon: mdiPhone,
@@ -93,6 +104,21 @@ export default {
   methods: {
     updateUser() {
       console.log("회원정보 수정하기");
+      this.$store.commit("snackbar", {
+        text: "서비스 준비중입니다..",
+        color: "warning",
+      });
+    },
+    bringProfile(id) {
+      axiosScript.searchUserByOptions(
+        id,
+        (res) => {
+          this.profileInfo = res.data[0];
+          console.log("Profile bringProfile method (bring favorite info) ");
+          console.log(res.data[0]);
+        },
+        (err) => console.log(err)
+      );
     },
   },
 };

@@ -14,5 +14,6 @@ public interface GroupDao {
     int deleteGroupUser(Map map);
     int updateGroupUser(GroupUser groupUser);
     List<GroupUser> getGroupUser(int group_id);
+    List<GroupUser> getGroupUserByUserid(int user_id);
     Group getGroupHavingUser(int id);
 }

@@ -2,6 +2,7 @@ package com.help.back.backend.web;
 
 import com.help.back.backend.domain.Favorite;
 import com.help.back.backend.domain.User;
+import com.help.back.backend.dto.ResultUser;
 import com.help.back.backend.service.FavoriteService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class FavoriteController {
     private final FavoriteService favoriteService;
 
     @GetMapping("/v1/favorite/{toId}")
-    public List<User> getById(@PathVariable int toId) {
+    public List<ResultUser> getById(@PathVariable int toId) {
         return favoriteService.getFavoritesByToId(toId);
     }
 

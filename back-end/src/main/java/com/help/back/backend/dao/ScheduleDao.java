@@ -1,6 +1,7 @@
 package com.help.back.backend.dao;
 
 import com.help.back.backend.domain.Schedule;
+import com.help.back.backend.dto.ResultGroupSchedule;
 import com.help.back.backend.dto.ScheduleDate;
 
 import java.util.List;
@@ -9,6 +10,7 @@ public interface ScheduleDao {
     List<Schedule> getTodoLists(int userId);
     int addTodo(Schedule schedule);
     int deleteTodo(int id);
+    int deleteCompleteTodo();
     int updateTodoState(Schedule schedule);
     int todoListToSchedule(Schedule schedule);
     List<Schedule> getPersonalSchedule(int userId);
@@ -21,4 +23,5 @@ public interface ScheduleDao {
     List<Schedule> getGroupScheduleByDate(ScheduleDate scheduleDate);
     int postGroupSchedule(Schedule schedule);
     int updateGroupSchedule(Schedule schedule);
+    List<ResultGroupSchedule> searchGroupScheduleByGroupId(int gid);
 }

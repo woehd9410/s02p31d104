@@ -23,6 +23,8 @@ public class GlobalPropertySource {
     @Value("${spring.datasource.password}")
     private String password;
 
+
+
     public String getDriverClassName() {
         return driverClassName;
     }

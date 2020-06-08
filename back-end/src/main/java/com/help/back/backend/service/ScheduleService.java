@@ -1,6 +1,7 @@
 package com.help.back.backend.service;
 
 import com.help.back.backend.domain.Schedule;
+import com.help.back.backend.dto.ResultGroupSchedule;
 import com.help.back.backend.dto.ScheduleDate;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public interface ScheduleService {
     List<Schedule> getTodoLists(int userId);
     int addTodo(Schedule schedule);
     int deleteTodo(int id);
+    int deleteCompleteTodo();
     int updateTodoState(Schedule schedule);
     int todoListToSchedule(Schedule schedule);
+    List<ResultGroupSchedule> searchGroupScheduleByGroupId(int gid);
 }
