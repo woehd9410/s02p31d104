@@ -17,6 +17,7 @@ import java.util.Map;
 
 @Api(tags = {"1. Group"})
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 @RestController
 public class GroupController {

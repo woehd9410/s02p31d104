@@ -1,5 +1,5 @@
 <template>
-  <v-row class="fill-height">
+  <v-row>
     <v-col>
       <v-sheet height="64">
         <v-toolbar flat color="white">
@@ -43,7 +43,7 @@
           ref="calendar"
           v-model="focus"
           color="primary"
-          :events="scheduleInfo"
+          :events="groupScheduleInfo"
           :event-color="getEventColor"
           :now="today"
           :type="type"
@@ -67,8 +67,8 @@
 </template>
 
 <script>
-import axiosScript from "@/api/axiosScript.js";
 import DetailSchedule from "@/components/schedule/DetailSchedule.vue";
+import axiosScript from "@/api/axiosScript.js";
 export default {
   data: () => ({
     focus: `${new Date().getFullYear()}-${
@@ -90,6 +90,19 @@ export default {
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
+    groupScheduleInfo: [],
+    colors: [
+      "blue",
+      "indigo",
+      "deep-purple",
+      "cyan",
+      "orange",
+      "grey darken-1",
+      "red",
+      "green",
+      "yellow",
+    ],
+    participateUser: [],
   }),
   computed: {
     userInfo() {
@@ -114,6 +127,18 @@ export default {
     },
   },
   watch: {
+    $route(to) {
+      if (to.params.id == this.userInfo.id) {
+        console.log("Profile watch route eq to.params.id and userInfo.id");
+        this.profileInfo = this.userInfo;
+        return;
+      }
+      console.log(`Profile watch route to.params.id : ${to.params.id}`);
+      this.participateUser = [];
+      this.groupScheduleInfo = [];
+      this.getGroupParticipateUserList();
+      this.searchGroupScheduleByGroupId();
+    },
     now(newValue) {
       this.focus = newValue;
     },
@@ -122,7 +147,8 @@ export default {
     },
   },
   mounted() {
-    this.getMySchedule();
+    this.getGroupParticipateUserList();
+    this.searchGroupScheduleByGroupId();
   },
   methods: {
     viewDay({ date }) {
@@ -157,48 +183,48 @@ export default {
 
       nativeEvent.stopPropagation();
     },
-    getMySchedule() {
+    getGroupParticipateUserList() {
+      console.log("schedule group Schedule getGroupParticipateUserList");
       this.$store.commit("taskCntUp");
-      axiosScript.searchScheduleById(
-        this.userInfo.id,
+      axiosScript.searchGroupUserListByGid(
+        this.$route.params.id,
         (res) => {
-          this.$store.commit("setScheduleInfo", res.data);
-          this.getGoogleCalendar();
+          this.participateUser = res.data.group_user;
         },
         (err) => console.log(err),
-        () => this.$store.commit("taskCntDown")
+        () => {
+          this.$store.commit("taskCntDown");
+        }
       );
     },
-    getGoogleCalendar() {
+    searchGroupScheduleByGroupId() {
+      console.log("schedule group schedule searchGroupScheduleByGroupId");
       this.$store.commit("taskCntUp");
-      let url = localStorage.getItem("iCal");
-      if (url == null) {
-        this.$store.commit("taskCntDown");
-        return;
-      }
-      console.log("MySchedule getGoogleCalendar");
-      axiosScript.searchImportByIcsUrl(
-        url,
+      axiosScript.searchGroupScheduleByGroupId(
+        this.$route.params.id,
         (res) => {
-          if (res.status == 200) {
-            console.log(res.data);
-            let schedules = res.data;
-            for (let s of schedules) {
-              s.color = localStorage.getItem("iCalColor");
-              s.user_id = this.userInfo.id;
-              this.$store.commit("pushScheduleInfo", s);
-            }
+          console.log(res.data);
+          for (let userSchedule of res.data) {
+            let s = new String(userSchedule.start_time).substr(0, 16);
+            let e = new String(userSchedule.end_time).substr(0, 16);
+
+            let scheduleInfo = {
+              name: userSchedule.title,
+              start: s,
+              end: e,
+              color: this.getUserColor(userSchedule.id),
+            };
+            this.groupScheduleInfo.push(scheduleInfo);
           }
         },
-        (err) => {
-          console.log(err);
-          this.$store.commit("snackbar", {
-            text: "올바르 않은 URL입니다..",
-            color: "error",
-          });
-        },
-        () => this.$store.commit("taskCntDown")
+        (err) => console.log(err),
+        () => {
+          this.$store.commit("taskCntDown");
+        }
       );
+    },
+    getUserColor(id) {
+      return this.colors[id % this.colors.length];
     },
   },
   components: {

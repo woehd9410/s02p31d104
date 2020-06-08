@@ -122,6 +122,7 @@ export default {
     },
     closeDialog(type) {
       console.log(`login type : ${type}`);
+      this.$emit("closeDialog");
     },
     login() {
       this.$store.commit("taskCntUp");
@@ -152,11 +153,19 @@ export default {
       this.joinState = true;
       // this.$router.push("/signup");
     },
+    kakaologin() {
+      console.log("kakao login");
+      this.$store.commit("snackbar", {
+        text: "서비스 준비중입니다..",
+        color: "warning",
+      });
+      // this.closeDialog("Kakao");
+    },
     naverlogin() {
       console.log("naver login");
       this.$store.commit("snackbar", {
         text: "서비스 준비중입니다..",
-        color: "error",
+        color: "warning",
       });
       // this.closeDialog("Naver");
     },

@@ -1,10 +1,16 @@
 <template>
   <div>
-    <v-row justify="center">
-      <v-dialog v-model="showDialog" persistent max-width="1100">
-        <login />
-      </v-dialog>
-    </v-row>
+    <div>
+      <v-row justify="center">
+        <v-dialog v-model="showDialog" persistent max-width="1100">
+          <login @closeDialog="reload" />
+        </v-dialog>
+      </v-row>
+    </div>
+    <div>
+      <router-view name="sidebar"> </router-view>
+      <router-view></router-view>
+    </div>
     <v-overlay :value="$store.state.ui.progress > 0">
       <v-progress-circular
         :width="4"
@@ -13,8 +19,6 @@
         indeterminate
       ></v-progress-circular>
     </v-overlay>
-    <router-view name="sidebar"> </router-view>
-    <router-view></router-view>
     <v-snackbar
       top
       :color="$store.state.ui.snackbarColor"
@@ -32,7 +36,11 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    reload() {
+      this.$router.go(0);
+    },
+  },
   computed: {
     showDialog() {
       return !this.$store.getters.userAuth;

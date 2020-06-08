@@ -1,4 +1,4 @@
-package com.help.back.backend.domain;
+package com.help.back.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.*;
@@ -8,14 +8,16 @@ import lombok.*;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@AllArgsConstructor
-public class User {
+public class ResultGroup {
 
     private int id;
-    private String password;
     private String name;
-    private String email;
-    private String birthday;
-    private String phoneNumber;
+    private String url;
 
+    @Builder
+    public ResultGroup(int id, String name, String url){
+        this.id = id;
+        this.name = name;
+        this.url = url;
+    }
 }

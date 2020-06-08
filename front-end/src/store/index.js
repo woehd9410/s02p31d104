@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     ui: {
       themeColor: "grey lighten-4",
-      drawer: false,
+      drawer: true,
       progress: 0,
       snackbar: false,
       snackbarText: "",
@@ -77,7 +77,7 @@ export default new Vuex.Store({
   },
   // method로 등록 (동기)
   mutations: {
-    snackbar(state, payload){
+    snackbar(state, payload) {
       state.ui.snackbar = true;
       state.ui.snackbarText = payload.text;
       state.ui.snackbarColor = payload.color;
