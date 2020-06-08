@@ -16,28 +16,28 @@
       </v-dialog>
       <v-progress-linear
         class="my-0"
-        color="success"
+        :color="commonColor"
         v-model="progressPercentage"
       />
       <v-card-actions class="px-3" v-show="items.length">
-        <span class="success--text" style="font-size:small;">
+        <span :color="commonColor" style="font-size:small;">
           {{ remaining }} {{ remaining | pluralize("item") }} left
         </span>
         <v-spacer></v-spacer>
         <v-btn-toggle
-          style="font-size:x-small;"
+          style="font-size:x-small; color:white;"
           class="elevation-0"
           mandatory
-          color="white"
+          :color="commonColor"
           v-show="items.length"
         >
-          <v-btn @click="changeList(1)" class="mx-0" color="success--text" small
+          <v-btn @click="changeList(1)" class="mx-0" :color="commonColor" small
             >all
           </v-btn>
-          <v-btn @click="changeList(2)" class="mx-0" color="success--text" small
+          <v-btn @click="changeList(2)" class="mx-0" :color="commonColor" small
             >active
           </v-btn>
-          <v-btn @click="changeList(3)" class="mx-0" color="success--text" small
+          <v-btn @click="changeList(3)" class="mx-0" :color="commonColor" small
             >complete
           </v-btn>
         </v-btn-toggle>
@@ -56,22 +56,22 @@
                   style="margin:5px 0 0 20px;"
                   v-model="item.is_completed"
                   @click="isCompleteTodo(item)"
-                  color="success"
+                  :color="commonColor"
                   hide-details
                 ></v-checkbox>
 
                 <v-list-item-title
                   v-if="item.is_completed"
-                  class="success--text"
-                  style="margin: 12px 0 10px 10px; flex:0; overflow:inherit; text-decoration:line-through;"
-                  v-text="item.title"
+                  :color="commonColor"
+                  style="margin: 12px 0 10px 10px; flex:0; overflow:inherit; text-decoration:line-through; opacity: 50%; "
                 >
+                  {{ item.title | longTextFilter }}
                 </v-list-item-title>
                 <v-list-item-title
                   v-else
                   style="margin: 12px 0 10px 10px; flex:0; overflow:inherit;"
-                  v-text="item.title"
                 >
+                  {{ item.title | longTextFilter }}
                 </v-list-item-title>
               </v-row>
             </v-list-item-content>
@@ -104,23 +104,25 @@
         </template>
       </v-list>
     </v-card>
-          <v-btn
-        @click="clearCompleted"
-        block
-        class="mt-3"
-        color="success"
-        depressed
-        rounded
-        v-show="items.length > remaining"
-      >
-        Clear completed
-      </v-btn>
+    <v-btn
+      @click="clearCompleted"
+      block
+      class="mt-3"
+      :color="commonColor"
+      style="color:white;"
+      depressed
+      rounded
+      v-show="items.length > remaining"
+    >
+      Clear completed
+    </v-btn>
   </v-flex>
 </template>
 
 <script>
 import axiosScript from "@/api/axiosScript.js";
 import WriteSchedule from "@/components/schedule/WriteSchedule.vue";
+import longTextFilter from "@/utils/filters/longTextFilter.js";
 export default {
   props: {
     items: {
@@ -139,7 +141,7 @@ export default {
       this.changeList(1);
       this.updateNum++;
     }
-    var elem = this.$el.querySelector("#todoContainer")
+    var elem = this.$el.querySelector("#todoContainer");
     elem.scrollTop = elem.scrollHeight;
   },
   computed: {
@@ -168,6 +170,7 @@ export default {
       typeName: "",
       btnNum: 0,
       updateNum: 0,
+      commonColor: "#455A64",
     };
   },
   methods: {
@@ -244,15 +247,17 @@ export default {
         (error) => console.log(error)
       );
     },
-    clearCompleted(){
+    clearCompleted() {
       axiosScript.deleteCompleteToDo(
-        (res) =>{
+        (res) => {
           console.log(res);
           this.$emit("deleteCompleteTodoEvent");
           this.changeList(this.btnNum);
         },
-        (error) => {console.log(error)}
-      )
+        (error) => {
+          console.log(error);
+        }
+      );
     },
     isCompleteTodo(item) {
       let isCompleted = 0;
@@ -295,6 +300,7 @@ export default {
   filters: {
     pluralize: (n, w) => (n === 1 ? w : w + "s"),
     capitalize: (s) => s.charAt(0).toUpperCase() + s.slice(1),
+    longTextFilter: longTextFilter,
   },
 };
 </script>
@@ -308,4 +314,3 @@ export default {
   cursor: pointer;
 }
 </style>
-No newline at end of file
