@@ -21,11 +21,11 @@
 </template>
 
 <script>
-import axiosScript from "@/api/axiosScript.js";
+
 export default {
+  props: ["showItems"],
   data() {
     return {
-      showItems: [],
     };
   },
   computed: {
@@ -34,25 +34,8 @@ export default {
     },
   },
   mounted() {
-    this.serachGroupById();
   },
   methods: {
-    serachGroupById() {
-      console.log("GroupList searchGroupById axios");
-
-      this.$store.commit("taskCntUp");
-      axiosScript.serachGroupByUserId(
-        this.userInfo.id,
-        (res) => {
-          if (res.status == 200) {
-            console.log(res.data);
-            this.showItems = res.data;
-          }
-        },
-        (err) => console.log(err),
-        () => this.$store.commit("taskCntDown")
-      );
-    },
     groupClickEvent(gid) {
       console.log("GroupList groupClickEvent");
       if (this.$route.name == "Schedule" && this.$route.params.id == gid) {

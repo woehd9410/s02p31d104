@@ -101,10 +101,21 @@ export default {
     },
     makeGroupButtonEvetn() {
       console.log("AddGroupScheduleButton makeGroupButtonEvent method");
-      this.$store.commit("snackbar", {
-        text: "서비스 준비중입니다..",
-        color: "warning",
-      });
+      this.$store.commit("taskCntUp");
+      this.groupInfo.members.push(this.userInfo.email);
+      axiosScript.createGroupByNameAndUsers(
+        this.groupInfo,
+        (res) => {
+          this.$emit("makeGroupEvent", res.data);
+          this.$store.commit("snackbar", {
+            text: "그룹 생성 완성",
+            color: "primary",
+          });
+          this.cancleScheduleModal();
+        },
+        (err) => console.log(err),
+        () => this.$store.commit("taskCntDown")
+      );
     },
     remove(item) {
       this.members.splice(this.members.indexOf(item), 1);
