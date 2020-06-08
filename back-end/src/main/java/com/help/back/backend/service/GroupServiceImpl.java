@@ -3,6 +3,7 @@ package com.help.back.backend.service;
 import com.help.back.backend.dao.GroupDao;
 import com.help.back.backend.domain.Group;
 import com.help.back.backend.domain.GroupUser;
+import com.help.back.backend.dto.GroupDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

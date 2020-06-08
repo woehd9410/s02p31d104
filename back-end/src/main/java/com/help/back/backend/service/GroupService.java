@@ -2,6 +2,7 @@ package com.help.back.backend.service;
 
 import com.help.back.backend.domain.Group;
 import com.help.back.backend.domain.GroupUser;
+import com.help.back.backend.dto.GroupDto;
 
 import java.util.List;
 import java.util.Map;

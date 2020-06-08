@@ -2,7 +2,11 @@ package com.help.back.backend.web;
 
 import com.help.back.backend.domain.Group;
 import com.help.back.backend.domain.GroupUser;
+import com.help.back.backend.domain.User;
+import com.help.back.backend.dto.GroupDto;
+import com.help.back.backend.dto.ResultUser;
 import com.help.back.backend.service.GroupService;
+import com.help.back.backend.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,9 @@ import java.util.Map;
 @RequestMapping("/api")
 @RestController
 public class GroupController {
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private GroupService groupService;
@@ -45,25 +52,36 @@ public class GroupController {
 
     @Transactional
     @PostMapping("v1/group")
-    public ResponseEntity<Group> postGroup(@RequestBody Group group) throws Exception{
+    public ResponseEntity<Group> postGroup(@RequestBody GroupDto groupDto) throws Exception{
         try {
             System.out.println("그룹 추가");
-            System.out.println(group.toString());
+            System.out.println(groupDto.toString());
+            Group group = new Group();
+            group.setName(groupDto.getName());
             int ans = groupService.postGroup(group);
             if(ans == 1){
                 System.out.println("그룹 추가 성공 : " + group.toString());
-                GroupUser groupUser = group.getGroupUser().get(0);
-                groupUser.setGroupId(group.getId());
-                ans = groupService.postGroupUser(groupUser);
-                if(ans == 1){
-                    System.out.println(groupUser);
-                    return new ResponseEntity<Group>(group, HttpStatus.OK);
+                for(String str : groupDto.getMembers()){
+                    GroupUser groupUser = new GroupUser();
+                    if(str.indexOf("#") > 0){
+                        groupUser.setGroupId(group.getId());
+                        String[] arr = str.split("#");
+                        groupUser.setUserId(Integer.parseInt(arr[1]));
+                        groupUser.setIsHost(0);
+                        groupService.postGroupUser(groupUser);
+                    }else if(str.indexOf("@") > 0){
+                        groupUser.setGroupId(group.getId());
+                        List<ResultUser> user = userService.getUsersByEmail(str);
+                        groupUser.setUserId(user.get(0).getId());
+                        groupUser.setIsHost(0);
+                        groupService.postGroupUser(groupUser);
+                    }
+                }
+                return new ResponseEntity<Group>(group, HttpStatus.OK);
                 }else{
                     return new ResponseEntity(HttpStatus.NO_CONTENT);
                 }
-            }else{
-                return new ResponseEntity(HttpStatus.NO_CONTENT);
-            }
+
         }catch(Exception e) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
