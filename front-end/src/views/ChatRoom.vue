@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import roomdetail from "@/components/chat/Roomdetail.vue";
+import roomdetail from "@/components/chat/roomdetail.vue";
 export default {
   components: {
     roomdetail
