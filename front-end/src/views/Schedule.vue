@@ -1,9 +1,9 @@
 <template>
   <v-content>
-    <v-container fluid wrap  v-if="isMySchedule" >
-      <MySchedule/>
+    <v-container fluid wrap v-if="isMySchedule">
+      <MySchedule />
     </v-container>
-      <GroupSchedule v-else class="ml-10 mr-10 mt-4"/>
+    <GroupSchedule v-else class="ml-10 mr-10 mt-4" />
   </v-content>
 </template>
 
@@ -31,7 +31,7 @@ export default {
         console.log("Schedule watch route eq to.params.id and userInfo.id");
         this.isMySchedule = true;
         return;
-      }
+      } 
       console.log(`Schedule watch route to.params.id : ${to.params.id}`);
       return (this.isMySchedule = false);
     },

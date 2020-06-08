@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <v-sheet height="64">
+      <v-sheet height="65">
         <v-toolbar flat color="white">
           <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
             Today
@@ -68,8 +68,9 @@
 
 <script>
 import DetailSchedule from "@/components/schedule/DetailSchedule.vue";
-import axiosScript from "@/api/axiosScript.js";
+
 export default {
+  props: ["groupScheduleInfo"],
   data: () => ({
     focus: `${new Date().getFullYear()}-${
       (new Date().getMonth() + 1).toString().length < 2
@@ -90,19 +91,6 @@ export default {
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
-    groupScheduleInfo: [],
-    colors: [
-      "blue",
-      "indigo",
-      "deep-purple",
-      "cyan",
-      "orange",
-      "grey darken-1",
-      "red",
-      "green",
-      "yellow",
-    ],
-    participateUser: [],
   }),
   computed: {
     userInfo() {
@@ -127,18 +115,6 @@ export default {
     },
   },
   watch: {
-    $route(to) {
-      if (to.params.id == this.userInfo.id) {
-        console.log("Profile watch route eq to.params.id and userInfo.id");
-        this.profileInfo = this.userInfo;
-        return;
-      }
-      console.log(`Profile watch route to.params.id : ${to.params.id}`);
-      this.participateUser = [];
-      this.groupScheduleInfo = [];
-      this.getGroupParticipateUserList();
-      this.searchGroupScheduleByGroupId();
-    },
     now(newValue) {
       this.focus = newValue;
     },
@@ -146,10 +122,7 @@ export default {
       this.$store.commit("setScheduleNow", newValue);
     },
   },
-  mounted() {
-    this.getGroupParticipateUserList();
-    this.searchGroupScheduleByGroupId();
-  },
+  mounted() {},
   methods: {
     viewDay({ date }) {
       this.focus = date;
@@ -182,49 +155,6 @@ export default {
       }
 
       nativeEvent.stopPropagation();
-    },
-    getGroupParticipateUserList() {
-      console.log("schedule group Schedule getGroupParticipateUserList");
-      this.$store.commit("taskCntUp");
-      axiosScript.searchGroupUserListByGid(
-        this.$route.params.id,
-        (res) => {
-          this.participateUser = res.data.group_user;
-        },
-        (err) => console.log(err),
-        () => {
-          this.$store.commit("taskCntDown");
-        }
-      );
-    },
-    searchGroupScheduleByGroupId() {
-      console.log("schedule group schedule searchGroupScheduleByGroupId");
-      this.$store.commit("taskCntUp");
-      axiosScript.searchGroupScheduleByGroupId(
-        this.$route.params.id,
-        (res) => {
-          console.log(res.data);
-          for (let userSchedule of res.data) {
-            let s = new String(userSchedule.start_time).substr(0, 16);
-            let e = new String(userSchedule.end_time).substr(0, 16);
-
-            let scheduleInfo = {
-              name: userSchedule.title,
-              start: s,
-              end: e,
-              color: this.getUserColor(userSchedule.id),
-            };
-            this.groupScheduleInfo.push(scheduleInfo);
-          }
-        },
-        (err) => console.log(err),
-        () => {
-          this.$store.commit("taskCntDown");
-        }
-      );
-    },
-    getUserColor(id) {
-      return this.colors[id % this.colors.length];
     },
   },
   components: {

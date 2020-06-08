@@ -68,6 +68,14 @@ export default {
       return this.$store.getters.userAuth;
     },
   },
+  watch: {
+    $route(to) {
+      console.log(
+        `app bar route path : ${this.categorys.indexOf(to.name.toLowerCase())}`
+      );
+      this.currentTab = this.categorys.indexOf(to.name.toLowerCase());
+    },
+  },
   methods: {
     switchSidebar() {
       this.$store.commit("switchDrawer");
@@ -75,10 +83,8 @@ export default {
     },
     goRoute(page = "home") {
       if (page == "home") {
-        this.currentTab = 0;
         page = "";
       } else if (page == "profile") {
-        this.currentTab = this.categorys.length - 1;
         page = `profile/${this.userInfo.id}`;
       } else if (page == "schedule") {
         page = `schedule/0`;

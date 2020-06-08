@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <H1 class="text-center">Chatting</H1>
-  </div>
+  <v-list height="415">
+    <v-subheader>Chat</v-subheader>
+  </v-list>
 </template>
 
 <script>

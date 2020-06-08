@@ -4,8 +4,8 @@
       <v-dialog v-model="toScheduleModal" dark persistent max-width="450px">
         <template v-slot:activator="{ on }">
           <v-btn block tile color="grey darken-1" dark v-on="on"
-            ><v-icon class="mr-1">mdi-account-multiple-outline</v-icon>Add Group
-            Schedule</v-btn
+            ><v-icon class="mr-1">mdi-account-multiple-outline</v-icon>Make
+            Group</v-btn
           >
         </template>
         <v-card>
