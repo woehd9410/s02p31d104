@@ -1,14 +1,15 @@
 <template>
-  <v-navigation-drawer :color="themeColor" v-model="$store.state.ui.drawer" app clipped>
+  <v-navigation-drawer
+    :color="themeColor"
+    v-model="$store.state.ui.drawer"
+    app
+    clipped
+  >
     <v-subheader>Calendar</v-subheader>
     <AddScheduleButton />
     <AddGroupScheduleButton @makeGroupEvent="makeGroup" />
     <SimpleScheduleCalendar class="mt-5" />
-<<<<<<< HEAD
     <GroupList :showItems="groupList" :key="groupList.rerender"></GroupList>
-=======
-    <!-- <GroupList></GroupList> -->
->>>>>>> develop
     <GetGoogleCalendarButton />
   </v-navigation-drawer>
 </template>
@@ -17,7 +18,7 @@
 import SimpleScheduleCalendar from "@/components/home/SimpleScheduleCalendar.vue";
 import AddScheduleButton from "@/components/modalButton/AddScheduleButton.vue";
 import AddGroupScheduleButton from "@/components/modalButton/AddGroupScheduleButton.vue";
-// import GroupList from "@/components/schedule/GroupList.vue";
+import GroupList from "@/components/schedule/GroupList.vue";
 import GetGoogleCalendarButton from "@/components/modalButton/GetGoogleCalendarButton.vue";
 import axiosScript from "@/api/axiosScript.js";
 
@@ -26,13 +27,14 @@ export default {
     return {
       groupList: [],
       rerender: 0,
+      chattingRoomList: []
     };
   },
   components: {
     AddScheduleButton,
     SimpleScheduleCalendar,
     AddGroupScheduleButton,
-    // GroupList,
+    GroupList,
     GetGoogleCalendarButton,
   },
   computed: {
@@ -67,6 +69,7 @@ export default {
         () => this.$store.commit("taskCntDown")
       );
     },
+
   },
 };
 </script>

@@ -2,12 +2,12 @@
   <div>
     <div v-if="!($vuetify.breakpoint.xs || $vuetify.breakpoint.sm)">
       <v-layout row wrap align-center v-if="!fullScreenCalendar">
-        <v-flex xs6>
+        <v-flex>
           <Schedule :groupScheduleInfo="groupScheduleInfo" />
         </v-flex>
-        <v-flex xs6>
+        <v-flex>
           <ParticipateUserList :participateUserList="participateUser" />
-          <Chat />
+          <Chat :key="rerender" @inChat="inChatEvent" />
         </v-flex>
       </v-layout>
       <Schedule v-else :groupScheduleInfo="groupScheduleInfo" />
@@ -46,18 +46,39 @@
           </v-btn>
         </template>
         <span>{{
-          !fullScreenCalendar ? "Full Screen Calendar" : "Show Chatting"
+          !fullScreenCalendar
+            ? "Full Screen Calendar"
+            : "Show Together Chatting"
         }}</span>
       </v-tooltip>
-      <v-btn
-        fab
-        dark
-        small
-        color="warning"
-        v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
-      >
-        <v-icon>mdi-chat</v-icon>
-      </v-btn>
+      <v-dialog v-model="chatModalFlag" persistent max-width="290">
+        <template v-slot:activator="{ on }">
+          <v-btn
+            fab
+            dark
+            small
+            color="warning"
+            v-on="on"
+            v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
+            @click="chatModalFlag = !chatModalFlag"
+          >
+            <v-icon>mdi-chat</v-icon>
+          </v-btn>
+        </template>
+        <v-card>
+          <Chat :key="rerender" />
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green darken-1" text @click="chatModalFlag = false"
+              >Disagree</v-btn
+            >
+            <v-btn color="green darken-1" text @click="chatModalFlag = false"
+              >Agree</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
@@ -131,6 +152,7 @@ export default {
     return {
       participateUser: [],
       groupScheduleInfo: [],
+      online: [],
       colors: [
         "blue",
         "indigo",
@@ -144,6 +166,8 @@ export default {
       ],
       fullScreenCalendar: false,
       onlyGroupSchedule: false,
+      rerender: 0,
+      chatModalFlag: false,
       actionButton: {
         direction: "top",
         fab: false,
@@ -155,18 +179,42 @@ export default {
     };
   },
   watch: {
-    $route() {
+    $route(to) {
       this.participateUser = [];
       this.groupScheduleInfo = [];
       this.getGroupParticipateUserList();
       this.searchGroupScheduleByGroupId();
+      this.rerender = to.params.id;
+    },
+    online(to) {
+      console.log("GroupSchedule watch online");
+      let tmpParticipateUser = [];
+      for (let pu of this.participateUser) {
+        for (let onUser of to) {
+          console.log(pu);
+          console.log(onUser);
+
+          if (pu.email === onUser) {
+            console.log("eq email ");
+
+            pu.online = true;
+          }
+        }
+        tmpParticipateUser.push(pu);
+      }
+      this.participateUser = tmpParticipateUser;
+      console.log(this.participateUser);
     },
   },
   mounted() {
     this.getGroupParticipateUserList();
     this.searchGroupScheduleByGroupId();
+    // this.getGroupInfo();
   },
   methods: {
+    inChatEvent(payload) {
+      this.online.push(payload);
+    },
     getGroupParticipateUserList() {
       console.log("schedule GroupSchedule getGroupParticipateUserList");
       this.$store.commit("taskCntUp");
@@ -175,10 +223,12 @@ export default {
         (res) => {
           for (let gsui of res.data) {
             let groupScheduleUserInfo = {
+              email: gsui.user.email,
               name: gsui.user.name,
               color: this.getUserColor(gsui.user.id),
+              online: false,
             };
-            this.getGoogleUrl(gsui.user.id,this.getUserColor(gsui.user.id))
+            this.getGoogleUrl(gsui.user.id, this.getUserColor(gsui.user.id));
             this.participateUser.push(groupScheduleUserInfo);
           }
         },

@@ -20,10 +20,9 @@
         SELECT id, name FROM groups WHERE id = #{value}
     </select>
 
-    <select id="getGroupHavingUser" parameterType="int" resultMap="groupHavingUser">
-        SELECT g.id, g.name, ug.ug_id, ug.user_id, ug.group_id, ug.is_host
-        FROM groups g LEFT OUTER JOIN user_group ug
-        ON g.id = ug.group_id
+    <select id="getGroupHavingUser" parameterType="int" resultType="group">
+        SELECT g.id, g.name
+        FROM groups g
         WHERE g.id = #{value}
     </select>
 

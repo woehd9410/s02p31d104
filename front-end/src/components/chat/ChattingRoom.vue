@@ -5,7 +5,10 @@
         <div id="chatHeader">{{ selected_chatRoom.name }}</div>
         <div id="chatLog">
           <div v-for="(item, idx) in messages" :key="idx">
-            <div class="anotherMsg" v-if="item.email != userInfo.email && item.type != enter">
+            <div
+              class="anotherMsg"
+              v-if="item.email != userInfo.email && item.type != enter"
+            >
               <span class="anotherName">{{ item.sender }}</span>
               <span class="msg">{{ item.message }}</span>
             </div>
@@ -14,7 +17,10 @@
               <span class="msg">{{ item.message }}</span>
             </div>
 
-            <div class="myMsg" v-if="item.email == userInfo.email && item.type != enter">
+            <div
+              class="myMsg"
+              v-if="item.email == userInfo.email && item.type != enter"
+            >
               <span class="msg">{{ item.message }}</span>
             </div>
           </div>
@@ -45,7 +51,6 @@ import axios from "axios";
 // import { EventBus } from "../../plugins/eventBus.js";
 
 export default {
-  props: ["selected_chatRoom"],
   data() {
     return {
       room: {},
@@ -68,23 +73,25 @@ export default {
     console.log("-------------------------------------");
     console.log("--------------채팅방 입장~~!!---------------");
     console.log("-------------------------------------");
+    this.roomId = this.$route.params.id;
 
-    console.log(this.selected_chatRoom);
-    console.log("-------------------------------------");
-    this.roomId = this.selected_chatRoom.roomId;
     this.findAllChattings();
     this.connect();
   },
   methods: {
+    getGroupInfo(){
+    },
     findAllChattings: async function() {
-      await axios.get("http://localhost:8082/chat/chattings/" + this.roomId).then((response) => {
-        if (response.data != "") {
-          this.messages = response.data;
-          console.log("------------메세지 불러오기 성공--------------");
-          console.log("불러온 메세지:::");
-          console.log(this.messages);
-        }
-      });
+      await axios
+        .get("http://localhost:8082/chat/chattings/" + this.roomId)
+        .then((response) => {
+          if (response.data != "") {
+            this.messages = response.data;
+            console.log("------------메세지 불러오기 성공--------------");
+            console.log("불러온 메세지:::");
+            console.log(this.messages);
+          }
+        });
     },
     connect: async function() {
       this.socket = new SockJS("http://localhost:8082//ws-stomp");
@@ -96,11 +103,14 @@ export default {
           this.status = "connected";
           this.connected = true;
           console.log(frame);
-          this.stompClient.subscribe("/sub/chat/room/" + this.roomId, (tick) => {
-            console.log(JSON.parse(tick.body));
-            var recv = JSON.parse(tick.body);
-            this.recvMessage(recv);
-          });
+          this.stompClient.subscribe(
+            "/sub/chat/room/" + this.roomId,
+            (tick) => {
+              console.log(JSON.parse(tick.body));
+              var recv = JSON.parse(tick.body);
+              this.recvMessage(recv);
+            }
+          );
           this.stompClient.send(
             "/pub/chat/message",
             JSON.stringify({
@@ -120,9 +130,11 @@ export default {
       );
     },
     findRoom: function() {
-      axios.get("http://localhost:8082/chat/room/" + this.roomId).then((response) => {
-        this.room = response.data;
-      });
+      axios
+        .get("http://localhost:8082/chat/room/" + this.roomId)
+        .then((response) => {
+          this.room = response.data;
+        });
     },
     sendMessage: function() {
       this.stompClient.send(

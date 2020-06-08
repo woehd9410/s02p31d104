@@ -17,4 +17,11 @@ export default {
       .catch((err) => error(err))
       .finally(() => final());
   },
+  searchGroupInfo(param, success, error, final) {
+    http
+      .get(`group/${param}`)
+      .then((res) => success(res))
+      .catch((err) => error(err))
+      .finally(() => final());
+  },
 };

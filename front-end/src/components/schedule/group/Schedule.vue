@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row class="mr-1"> 
     <v-col>
       <v-sheet height="65">
         <v-toolbar flat color="white">

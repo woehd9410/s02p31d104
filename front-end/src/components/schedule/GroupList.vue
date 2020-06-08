@@ -9,7 +9,7 @@
           @click="groupClickEvent(item.id)"
         >
           <v-list-item-avatar>
-            <v-img :src="item.url"></v-img>
+            <v-img :src="item.url == null ? 'https://images.unsplash.com/photo-1584202532967-6390de14ecac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=693&q=80': item.url"></v-img>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title v-text="item.name"></v-list-item-title>
@@ -21,20 +21,17 @@
 </template>
 
 <script>
-
 export default {
   props: ["showItems"],
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     userInfo() {
       return this.$store.getters.getUserInfo;
     },
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     groupClickEvent(gid) {
       console.log("GroupList groupClickEvent");
