@@ -173,7 +173,14 @@ export default {
       axiosScript.searchGroupUserListByGid(
         this.$route.params.id,
         (res) => {
-          this.participateUser = res.data.group_user;
+          for (let gsui of res.data) {
+            let groupScheduleUserInfo = {
+              name: gsui.user.name,
+              color: this.getUserColor(gsui.user.id),
+            };
+            this.getGoogleUrl(gsui.user.id,this.getUserColor(gsui.user.id))
+            this.participateUser.push(groupScheduleUserInfo);
+          }
         },
         (err) => console.log(err),
         () => {
@@ -202,6 +209,38 @@ export default {
           }
         },
         (err) => console.log(err),
+        () => {
+          this.$store.commit("taskCntDown");
+        }
+      );
+    },
+    getGoogleUrl(userId, color) {
+      console.log("GroupSchedule getGoogleUrl method ");
+      this.$store.commit("taskCntUp");
+      axiosScript.getGoogleUrl(
+        userId,
+        (res) => {
+          if (res.status == 200) {
+            console.log(res.data);
+            let schedules = res.data;
+            for (let s of schedules) {
+              let scheduleInfo = {
+                name: s.title,
+                start: s.start_time,
+                end: s.end_time,
+                color: color,
+              };
+              this.groupScheduleInfo.push(scheduleInfo);
+            }
+          }
+        },
+        (err) => {
+          console.log(err);
+          this.$store.commit("snackbar", {
+            text: `${userId}의 구글 캘린더 가져오기 실패.`,
+            color: "error",
+          });
+        },
         () => {
           this.$store.commit("taskCntDown");
         }

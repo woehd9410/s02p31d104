@@ -10,7 +10,9 @@
       </thead>
       <tbody>
         <tr v-for="item in participateUserList" :key="item.name">
-          <td>{{ item }}</td>
+          <td>{{ item.name }}</td>
+          <td><v-icon :color="item.color">mdi-circle</v-icon></td>
+          <td>{{ item.online ? "🟢" : "⚪" }}</td>
         </tr>
       </tbody>
     </template>
