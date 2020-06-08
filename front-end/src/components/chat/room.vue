@@ -1,26 +1,34 @@
 <template>
-  <div>
-    <v-content>
-      <div id="roomWrap">
-        <div id="roomList">
-          <div id="roomHeader">채팅 방 목록</div>
-          <div id="roomSelect">
-            <div
-              class="list-group-item list-group-item-action"
-              v-for="item in chatrooms"
-              v-bind:key="item.roomId"
-              v-on:click="enterRoom(item.roomId)"
-            >{{item.name}}</div>
-            <div class="roomEl" data-id="2">VueJS</div>
-            <div class="roomEl" data-id="3">ReactJS</div>
-            <div class="roomEl" data-id="4">AngularJS</div>
+  <v-content>
+    <v-container>
+      <div class="container" id="app" v-cloak>
+        <div class="row">
+          <div class="col-md-12">
+            <h3>채팅방 리스트</h3>
           </div>
         </div>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <label class="input-group-text">방제목</label>
+          </div>
+          <input type="text" class="form-control" v-model="room_name" v-on:keyup.enter="createRoom" />
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button" @click="createRoom">채팅방 개설</button>
+          </div>
+        </div>
+        <ul class="list-group">
+          <li
+            class="list-group-item list-group-item-action"
+            v-for="item in chatrooms"
+            v-bind:key="item.roomId"
+            v-on:click="enterRoom(item.roomId)"
+          >{{item.name}}</li>
+        </ul>
       </div>
-    </v-content>
-  </div>
+    </v-container>
+  </v-content>
 </template>
-
+    
 <script>
 import axios from "axios";
 export default {
@@ -34,15 +42,12 @@ export default {
   created() {
     this.findGroup();
   },
-  computed: {
-    userInfo() {
-      return this.$store.getters.getUserInfo;
-    }
-  },
+
+  computed: {},
   methods: {
     findGroup: async function() {
       await axios
-        .get("http://localhost:9000/api/v1/group-user/id/" + this.userInfo.id)
+        .get("http://localhost:9000/api/v1/group-user/id/" + 2)
         .then(response => {
           this.groups = response.data;
           console.log(this.groups);
@@ -53,6 +58,7 @@ export default {
             .get("http://localhost:8082/chat/room/" + this.groups[i].group_id)
             .then(response => {
               this.chatrooms.push(response.data);
+              console.log("Aaaa");
               console.log(this.chatrooms);
             });
         }
@@ -98,39 +104,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-#roomWrap {
-  width: 200px;
-}
-
-#roomList {
-  border: 1px solid #0084ff;
-  border-radius: 5px;
-}
-
-#roomHeader {
-  background-color: #0084ff;
-  color: #fff;
-  height: 40px;
-  font-size: 18px;
-  line-height: 40px;
-  text-align: center;
-  border-radius: 5px;
-}
-
-.roomEl {
-  text-align: center;
-  border-bottom: 1px solid #f0f0f0;
-  padding: 10px 0px;
-  cursor: pointer;
-}
-
-.roomEl:hover {
-  background: #f0f0f0;
-}
-
-.roomEl.active {
-  background: #f0f0f0;
-}
-</style>

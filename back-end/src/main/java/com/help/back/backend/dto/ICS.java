@@ -1,4 +1,4 @@
-package com.help.back.backend.domain;
+package com.help.back.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.*;
@@ -9,12 +9,7 @@ import lombok.*;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class GroupUser {
-    private int ugId;
-    private int userId;
-    private int groupId;
-    private int isHost;
-
-    private User user;
-
+public class ICS {
+    private int id;
+    private String url;
 }
