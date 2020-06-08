@@ -283,15 +283,17 @@ public class ScheduleController {
         }
     }
 
-    @PostMapping("/v1/user/google-calander")
-    public ResponseEntity<String> addGoogleUrl(@RequestBody ICS ics){
+    @PostMapping("/v1/user/google-calender")
+    public ResponseEntity<List<Schedule>> addGoogleUrl(@RequestBody ICS ics){
+        List<Schedule> list = null;
         try {
             System.out.println("구글 url redis 저장");
             String ans = redisService.addUrl(ics);
             if(ans == null){
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }else{
-                return new ResponseEntity<String>(ans,HttpStatus.OK);
+                list =  new ICS_File().getSchedule(ans);
+                return new ResponseEntity<List<Schedule>>(list,HttpStatus.OK);
             }
 
         }catch (Exception e){
@@ -299,7 +301,18 @@ public class ScheduleController {
         }
     }
 
-    @GetMapping("/v1/user/google-calander/{id}")
+    @DeleteMapping("/v1/user/google-calender/{id}")
+    public ResponseEntity<String> addGoogleUrl(@PathVariable("id") int id){
+        try {
+            System.out.println("구글 url redis 삭제");
+            redisService.deleteUrl(id);
+            return new ResponseEntity(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/v1/user/google-calender/{id}")
     public ResponseEntity<String> getGoogleUrl(@PathVariable int id){
         try {
             System.out.println("구글 url redis 가져오기");

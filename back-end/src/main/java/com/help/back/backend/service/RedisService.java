@@ -40,4 +40,9 @@ public class RedisService {
         }
     }
 
+    public void deleteUrl(int id){
+        vop.delete(GoogleUrl, id);
+        return;
+    }
+
 }
