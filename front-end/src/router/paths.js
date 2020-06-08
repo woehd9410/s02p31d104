@@ -1,8 +1,7 @@
-export default [
-  {
-    path: '/',
-    view: 'Home',
-    name: 'Home'
+export default [{
+    path: "/",
+    view: "Home",
+    name: "Home",
   },
   {
     path: "/profile/:id",
