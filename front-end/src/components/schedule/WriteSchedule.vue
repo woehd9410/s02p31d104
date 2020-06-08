@@ -233,16 +233,36 @@
             </v-date-picker>
           </v-menu>
         </template>
-
+         
         <v-row>
-          <v-col cols="12">
+          <v-col cols="10">
             <v-text-field
               prepend-icon="mdi-alpha-a-box-outline"
               label="address"
+              readonly
               v-model="scheduleInfo.address"
               required
             ></v-text-field>
+           
           </v-col>
+           <v-col cols="2" style="margin:15px 0 0 -15px; padding-right:5px">
+            <v-dialog v-model="MapView" dark persistent max-width="450px">
+              <template v-slot:activator="{ on }">
+                <v-btn dark v-on="on" style="min-width:30px;"
+                  ><v-icon color="white">mdi-map</v-icon></v-btn
+                >
+              </template>
+              <MapForSelectAddr 
+              @cancleButtonEvent="MapView = false"
+              @setLatLng="setLatLng"
+              />
+            </v-dialog>
+            </v-col>
+            <v-col 
+            cols="12"
+            v-if="this.showMap == true">
+              <MapForView :items="latLng" ref="MapForView" />
+            </v-col>
           <v-col cols="12">
             <v-textarea
               v-model="scheduleInfo.content"
@@ -267,8 +287,15 @@
 </template>
 
 <script>
+
 import axiosScript from "@/api/axiosScript.js";
+import MapForSelectAddr from "@/components/map/MapForSelectAddr.vue"
+import MapForView from "@/components/map/MapForView.vue"
 export default {
+  components: {
+    MapForSelectAddr,
+    MapForView,
+  },
   data() {
     return {
       scheduleInfo: {
@@ -294,12 +321,36 @@ export default {
         "green",
         "yellow",
       ],
+      latLng :{
+        latitude: "",
+        longitude: "",    
+      },
       startCalendar: false,
       startClock: false,
       endCalendar: false,
       endClock: false,
       visible: true,
+      MapView: false,
+      showMap: false,
     };
+  },
+  mounted () {
+      if (navigator.geolocation) { // GPS를 지원하면
+          navigator.geolocation.getCurrentPosition(function(position) {
+          
+          localStorage.setItem("myLat", position.coords.latitude);
+          localStorage.setItem("myLng", position.coords.longitude);
+
+          }, function(error) {
+          console.error(error);
+          }, {
+          enableHighAccuracy: false,
+          maximumAge: 0,
+          timeout: Infinity
+          });
+      } else {
+          alert('GPS를 지원하지 않습니다');
+      }
   },
   methods: {
     cancleScheduleModal() {
@@ -316,7 +367,8 @@ export default {
         typeName: "",
         color: "blue",
       }),
-        this.$emit("cancleButtonEvent");
+      this.showMap = false;
+      this.$emit("cancleButtonEvent");
     },
     updateSchedule() {
       console.log(
@@ -389,6 +441,14 @@ export default {
     },
     chooseColor(item) {
       this.scheduleInfo.color = item;
+    },
+    setLatLng(data){
+      this.latLng.latitude = data.lat;
+      this.latLng.longitude = data.lng;
+      if(!this.showMap) this.showMap = true;
+      else this.$refs.MapForView.initMap();
+      
+      this.scheduleInfo.address = data.addr;
     },
   },
   computed: {
