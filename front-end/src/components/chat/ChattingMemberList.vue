@@ -5,7 +5,7 @@
         <div id="memberList">
           <div id="memberHeader">채팅 멤버</div>
           <div v-for="member in members" v-bind:key="member.user_id">
-            {{ member.user_id }}
+            {{ member.user.name }}
           </div>
         </div>
       </div>
@@ -48,7 +48,7 @@ export default {
           console.log("그룹 멤버 가져오기 성공");
           console.log(res.data);
           console.log("---------------------------");
-          this.members = res.data.group_user;
+          this.members = res.data;
           console.log("---------------------------");
           console.log("멤버들 찍어보기");
           console.log(this.members);

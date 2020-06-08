@@ -15,14 +15,14 @@ export default [
     name: "Schedule",
   },
   {
-    path: "/board",
-    view: "Board",
-    name: "Board",
+    path: '/board',
+    view: 'Board',
+    name: 'Board'
   },
   {
-    path: "/alarm",
-    view: "Alarm",
-    name: "Alarm",
+    path: '/alarm',
+    view: 'Alarm',
+    name: 'Alarm'
   },
   {
     path: "/kakaoSucc",

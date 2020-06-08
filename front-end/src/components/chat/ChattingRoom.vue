@@ -6,7 +6,7 @@
         <div id="chatLog">
           <div v-for="(item, idx) in messages" :key="idx">
             <div class="anotherMsg" v-if="item.email != userInfo.email && item.type != enter">
-              <span class="anotherName">Jo</span>
+              <span class="anotherName">{{ item.sender }}</span>
               <span class="msg">{{ item.message }}</span>
             </div>
 
@@ -194,11 +194,11 @@ export default {
 }
 
 .anotherMsg > .msg {
-  background-color: #f1f0f0;
+  background-color: #b0bec5;
 }
 
 .myMsg > .msg {
-  background-color: #0084ff;
+  background-color: #546e7a;
   color: #fff;
 }
 

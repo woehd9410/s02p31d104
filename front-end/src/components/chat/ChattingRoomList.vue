@@ -19,8 +19,6 @@
 
       <chattingmemberlist :selected_roodId="selected_roomId" v-if="flag != 0" :key="flag"></chattingmemberlist>
       <chattingroom :selected_chatRoom="selected_chatRoom" v-if="flag != 0" :key="flag + 1"></chattingroom>
-
-      <!-- <roomDetail :selected_roodId="selected_roomId" v-if="flag != 0" :key="flag + 1"></roomDetail> -->
     </v-content>
   </div>
 </template>
@@ -29,14 +27,11 @@
 import axios from "axios";
 import chattingroom from "@/components/chat/ChattingRoom";
 import chattingmemberlist from "@/components/chat/ChattingMemberList";
-// import roomDetail from "@/components/chat/roomdetail";
-// import { EventBus } from "../../plugins/eventBus.js";
 
 export default {
   components: {
     chattingroom,
     chattingmemberlist,
-    // roomDetail,
   },
   data() {
     return {
@@ -136,12 +131,12 @@ export default {
 }
 
 #roomList {
-  border: 1px solid #0084ff;
+  border: 1px solid #b0bec5;
   border-radius: 5px;
 }
 
 #roomHeader {
-  background-color: #0084ff;
+  background-color: #546e7a;
   color: #fff;
   height: 40px;
   font-size: 18px;
