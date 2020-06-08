@@ -4,11 +4,9 @@
       <div id="memberWrap">
         <div id="memberList">
           <div id="memberHeader">채팅 멤버</div>
-          <div id="memberSelect">홍성욱</div>
-          <div id="memberSelect">이옥주</div>
-          <div id="memberSelect">이응재</div>
-          <div id="memberSelect">박재동</div>
-          <div id="memberSelect">이성준</div>
+          <div v-for="member in members" v-bind:key="member.user_id">
+            {{ member.user_id }}
+          </div>
         </div>
       </div>
     </v-content>
@@ -16,7 +14,54 @@
 </template>
 
 <script>
-export default {};
+import groupAxios from "../../api/v1/groupAxiosScript";
+// import { EventBus } from "../../plugins/eventBus.js";
+
+export default {
+  props: ["selected_roodId"],
+
+  data() {
+    return {
+      members: [],
+    };
+  },
+  mounted() {
+    console.log(`in chating component select rood id : ${this.selected_roodId}`);
+  },
+  created() {
+    console.log("----------------------채팅멤버 뷰--------------------");
+    console.log(this.selected_roodId);
+    this.findGroupUser(this.selected_roodId);
+    // EventBus.$on("chatDetail-eventbus", (selected_roomId) => {
+    //   this.roomId = selected_roomId;
+    //   console.log(this.roomId);
+
+    //   this.findGroupUser(this.roomId);
+    // });
+  },
+  methods: {
+    findGroupUser(roomId) {
+      groupAxios.searchGroupUserListByGid(
+        roomId,
+        (res) => {
+          console.log("---------------------------");
+          console.log("그룹 멤버 가져오기 성공");
+          console.log(res.data);
+          console.log("---------------------------");
+          this.members = res.data.group_user;
+          console.log("---------------------------");
+          console.log("멤버들 찍어보기");
+          console.log(this.members);
+          console.log("---------------------------");
+        },
+        (err) => {
+          console.log(err);
+        },
+        () => {}
+      );
+    },
+  },
+};
 </script>
 
 <style scoped>

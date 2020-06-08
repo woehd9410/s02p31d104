@@ -6,19 +6,13 @@
     :color="themeColor"
     dark
     src="https://images.unsplash.com/photo-1583078156135-8e04f60c2606?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+    :key="rerender"
   >
     <v-app-bar-nav-icon @click.stop="switchSidebar"></v-app-bar-nav-icon>
 
     <template v-slot:extension>
-      <v-tabs
-        :align-with-title="!($vuetify.breakpoint.xs || $vuetify.breakpoint.sm)"
-        v-model="currentTab"
-      >
-        <v-tab
-          v-for="category in categorys"
-          :key="category.id"
-          @click="goRoute(category)"
-        >{{ category }}</v-tab>
+      <v-tabs :align-with-title="!($vuetify.breakpoint.xs || $vuetify.breakpoint.sm)" v-model="currentTab">
+        <v-tab v-for="category in categorys" :key="category.id" @click="goRoute(category)">{{ category }}</v-tab>
       </v-tabs>
     </template>
     <v-toolbar-title id="appbarTitle" @click="goRoute()">Helpromise</v-toolbar-title>
@@ -41,8 +35,9 @@ export default {
   data() {
     return {
       currentTab: "home",
-      categorys: ["home", "schedule", "board", "alarm", "profile", "chat"],
-      dialog: false
+      categorys: ["home", "schedule", "board", "alarm", "profile"],
+      dialog: false,
+      rerender: 0,
     };
   },
   computed: {
@@ -57,7 +52,7 @@ export default {
     },
     userAuth() {
       return this.$store.getters.userAuth;
-    }
+    },
   },
   methods: {
     switchSidebar() {
@@ -70,18 +65,23 @@ export default {
         page = "";
       } else if (page == "profile") {
         this.currentTab = this.categorys.length - 1;
-        page = `profile${this.userInfo.id}`;
+        page = `profile/${this.userInfo.id}`;
+      } else if (page == "schedule") {
+        page = `schedule/0`;
       }
       console.log(`go to route ${page}.vue page`);
-      if (this.$route.path == `/${page}`) return;
+      if (this.$route.path == `/${page}`) {
+        this.rerender++;
+        return;
+      }
       this.$router.push(`/${page}`);
 
       // this.$router.push({ name: page });
     },
     login() {
       console.log(`show login modal`);
-    }
-  }
+    },
+  },
 };
 </script>
 

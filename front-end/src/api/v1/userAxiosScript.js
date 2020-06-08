@@ -75,4 +75,12 @@ export default {
       .then((res) => success(res))
       .catch((err) => error(err));
   },
+
+  serachGroupByUserId: (param, success, error, finall) => {
+    http
+      .get(`user/${param}/group`)
+      .then((res) => success(res))
+      .catch((err) => error(err))
+      .finally(() => finall());
+  },
 };

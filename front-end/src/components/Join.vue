@@ -82,7 +82,10 @@ export default {
 
     department() {
       console.log("부서 로그인 폼 띄우기");
-      alert("서비스 준비 중 입니다.");
+      this.$store.commit("snackbar", {
+        text: "서비스 준비중입니다..",
+        color: "warning",
+      });
     },
   },
 };

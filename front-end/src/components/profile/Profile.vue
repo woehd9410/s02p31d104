@@ -104,7 +104,10 @@ export default {
   methods: {
     updateUser() {
       console.log("회원정보 수정하기");
-      alert("서비스 준비중입니다.");
+      this.$store.commit("snackbar", {
+        text: "서비스 준비중입니다..",
+        color: "warning",
+      });
     },
     bringProfile(id) {
       axiosScript.searchUserByOptions(

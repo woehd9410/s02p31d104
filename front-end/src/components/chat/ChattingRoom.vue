@@ -2,78 +2,157 @@
   <div>
     <v-content>
       <div id="chatWrap">
-        <div id="chatHeader">채팅방 이름 or 그룹 이름</div>
+        <div id="chatHeader">{{ selected_chatRoom.name }}</div>
         <div id="chatLog">
-          <div class="anotherMsg">
-            <span class="anotherName">Jo</span>
-            <span class="msg">Hello, Nice to meet you.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
-          </div>
-          <div class="myMsg">
-            <span class="msg">Nice to meet you, too.</span>
+          <div v-for="(item, idx) in messages" :key="idx">
+            <div class="anotherMsg" v-if="item.email != userInfo.email && item.type != enter">
+              <span class="anotherName">Jo</span>
+              <span class="msg">{{ item.message }}</span>
+            </div>
+
+            <div v-if="item.type == enter" style="text-align:center;">
+              <span class="msg">{{ item.message }}</span>
+            </div>
+
+            <div class="myMsg" v-if="item.email == userInfo.email && item.type != enter">
+              <span class="msg">{{ item.message }}</span>
+            </div>
           </div>
         </div>
-        <form id="chatForm">
-          <input type="text" autocomplete="off" size="30" id="message" placeholder="메시지를 입력하세요" />
-          <input type="submit" value="보내기" />
-        </form>
+        <div id="chatForm">
+          <input
+            type="text"
+            autocomplete="off"
+            size="30"
+            id="message"
+            placeholder="메시지를 입력하세요"
+            v-model="message"
+            v-on:keypress.enter="sendMessage"
+          />
+          <button type="button" @click="sendMessage">
+            보내기
+          </button>
+        </div>
       </div>
     </v-content>
   </div>
 </template>
 
 <script>
-export default {};
+import SockJS from "sockjs-client";
+import Stomp from "webstomp-client";
+import axios from "axios";
+// import { EventBus } from "../../plugins/eventBus.js";
+
+export default {
+  props: ["selected_chatRoom"],
+  data() {
+    return {
+      room: {},
+      sender: "테스트중",
+      message: "",
+      messages: [],
+      reconnect: 0,
+      connected: false,
+      status: "disconnected",
+      roomId: "",
+      enter: "ENTER",
+    };
+  },
+  computed: {
+    userInfo() {
+      return this.$store.getters.getUserInfo;
+    },
+  },
+  created() {
+    console.log("-------------------------------------");
+    console.log("--------------채팅방 입장~~!!---------------");
+    console.log("-------------------------------------");
+
+    console.log(this.selected_chatRoom);
+    console.log("-------------------------------------");
+    this.roomId = this.selected_chatRoom.roomId;
+    this.findAllChattings();
+    this.connect();
+  },
+  methods: {
+    findAllChattings: async function() {
+      await axios.get("http://localhost:8082/chat/chattings/" + this.roomId).then((response) => {
+        if (response.data != "") {
+          this.messages = response.data;
+          console.log("------------메세지 불러오기 성공--------------");
+          console.log("불러온 메세지:::");
+          console.log(this.messages);
+        }
+      });
+    },
+    connect: async function() {
+      this.socket = new SockJS("http://localhost:8082//ws-stomp");
+      this.stompClient = Stomp.over(this.socket);
+      await this.stompClient.connect(
+        {},
+        (frame) => {
+          console.log("연결요");
+          this.status = "connected";
+          this.connected = true;
+          console.log(frame);
+          this.stompClient.subscribe("/sub/chat/room/" + this.roomId, (tick) => {
+            console.log(JSON.parse(tick.body));
+            var recv = JSON.parse(tick.body);
+            this.recvMessage(recv);
+          });
+          this.stompClient.send(
+            "/pub/chat/message",
+            JSON.stringify({
+              type: "ENTER",
+              roomId: this.roomId,
+              email: this.userInfo.email,
+              sender: this.userInfo.name,
+            }),
+            {}
+          );
+        },
+        (error) => {
+          console.log("에러요");
+          console.log(error);
+          this.connected = false;
+        }
+      );
+    },
+    findRoom: function() {
+      axios.get("http://localhost:8082/chat/room/" + this.roomId).then((response) => {
+        this.room = response.data;
+      });
+    },
+    sendMessage: function() {
+      this.stompClient.send(
+        "/pub/chat/message",
+        JSON.stringify({
+          type: "TALK",
+          roomId: this.roomId,
+          sender: this.userInfo.name,
+          email: this.userInfo.email,
+          message: this.message,
+        }),
+        {}
+      );
+      this.message = "";
+    },
+    recvMessage: async function(recv) {
+      console.log(recv);
+      var temp = {
+        type: recv.type,
+        sender: recv.type == "ENTER" ? "[알림]" : recv.sender,
+        email: recv.email,
+        message: recv.message,
+      };
+      console.log(temp);
+      console.log("받기라고요");
+      await this.messages.push(temp);
+      console.log(this.messages);
+    },
+  },
+};
 </script>
 
 <style scoped>
