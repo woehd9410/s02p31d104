@@ -1,15 +1,10 @@
 <template>
-  <div>
-    <roomdetail></roomdetail>
-  </div>
+  <div></div>
 </template>
 
 <script>
-import roomdetail from "@/components/chat/roomdetail.vue";
 export default {
-  components: {
-    roomdetail
-  }
+  components: {},
 };
 </script>
 

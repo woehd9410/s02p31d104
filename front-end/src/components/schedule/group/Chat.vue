@@ -1,11 +1,16 @@
 <template>
   <v-list height="415">
-    <v-subheader>Chat</v-subheader>
+    <chattingroom></chattingroom>
   </v-list>
 </template>
 
 <script>
-export default {};
+import chattingroom from "@/components/chat/ChattingRoom";
+export default {
+  components: {
+    chattingroom,
+  },
+};
 </script>
 
 <style></style>

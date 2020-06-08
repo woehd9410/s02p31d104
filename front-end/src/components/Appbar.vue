@@ -11,31 +11,17 @@
     <v-app-bar-nav-icon @click.stop="switchSidebar"></v-app-bar-nav-icon>
 
     <template v-slot:extension>
-      <v-tabs
-        :align-with-title="!($vuetify.breakpoint.xs || $vuetify.breakpoint.sm)"
-        v-model="currentTab"
-      >
-        <v-tab
-          v-for="category in categorys"
-          :key="category.id"
-          @click="goRoute(category)"
-          >{{ category }}</v-tab
-        >
+      <v-tabs :align-with-title="!($vuetify.breakpoint.xs || $vuetify.breakpoint.sm)" v-model="currentTab">
+        <v-tab v-for="category in categorys" :key="category.id" @click="goRoute(category)">{{ category }}</v-tab>
       </v-tabs>
     </template>
-    <v-toolbar-title id="appbarTitle" @click="goRoute()"
-      >Helpromise</v-toolbar-title
-    >
+    <v-toolbar-title id="appbarTitle" @click="goRoute()">Helpromise</v-toolbar-title>
     <v-spacer></v-spacer>
     <div v-if="userInfo">
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-avatar v-on="on" style="cursor: pointer;">
-            <img
-              :src="userInfo.url"
-              :alt="userInfo.name"
-              @click="goRoute('profile')"
-            />
+            <img :src="userInfo.url" :alt="userInfo.name" @click="goRoute('profile')" />
           </v-avatar>
         </template>
         <span>{{ userInfo.name }}</span>

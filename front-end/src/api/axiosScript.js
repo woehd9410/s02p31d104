@@ -43,6 +43,7 @@ const axiosFunction = {
   // // group
   // createGroup: groupAxiosScript.createGroup,
   searchGroupUserListByGid: groupAxiosScript.searchGroupUserListByGid,
+  createGroupByNameAndUsers: groupAxiosScript.createGroupByNameAndUsers,
   // deleteGroupById: groupAxiosScript.deleteGroupById,
   // updateGroup: groupAxiosScript.updateGroup,
   // // ----------- group-user

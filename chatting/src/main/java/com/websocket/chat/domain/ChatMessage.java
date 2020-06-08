@@ -11,11 +11,13 @@ import java.io.Serializable;
 @ToString
 public class ChatMessage implements Serializable {
 
-    public enum MessageType{
+    public enum MessageType {
         ENTER, TALK
     }
+
     private MessageType type;
     private int roomId;
     private String sender;
+    private String email;
     private String message;
 }
