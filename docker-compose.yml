@@ -1,0 +1,23 @@
+version: "3"
+services:
+  test_web:
+    container_name: test_web
+    build:
+      context: .
+      dockerfile: ./front-end/Dockerfile
+    ports:
+      - 8081:8081
+    depends_on:
+      - test_spring_boot
+  test_spring_boot:
+    container_name: test_spring_boot
+    build:
+      context: .
+      dockerfile: ./back-end/Dockerfile
+    ports:
+      - 8082:8082
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://helpromisedb.cdodk6n2a4uc.ap-northeast-2.rds.amazonaws.com:3306/helpromise
+      SPRING_DATASOURCE_USERNAME: dev
+      SPRING_DATASOURCE_PASSWORD: q1w2e3r4
+      SPRING_DATASOURCE_DRIFER_CLASS_NAME: org.mariadb.jdbc.Driver

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.help.back.backend.dao.ProfileImgDao">
+    <select id="getUserProfileImg" parameterType="int" resultMap="profileImgHavingUrl">
+        SELECT p.img_id, p.user_id, p.group_id, p.department_id, i.id, i.url, i.keyword
+        FROM profile_img p LEFT OUTER JOIN image i
+        ON p.img_id = i.id
+        WHERE user_id = #{value}
+    </select>
+    <insert id="postUserProfileImg" parameterType="profileImg" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        profile_img(user_id, img_id)
+        VALUES(#{userId}, #{imgId})
+    </insert>
+    <update id="updateUserProfileImg" parameterType="profileImg">
+        UPDATE profile_img
+        SET img_id = #{imgId}
+        WHERE user_id = #{userId}
+    </update>
+    <delete id="deleteUserProfileImg" parameterType="int">
+        DELETE FROM profile_img
+        WHERE user_id = #{value}
+    </delete>
+
+    <select id="getGroupProfileImg" parameterType="int" resultMap="profileImgHavingUrl">
+        SELECT p.img_id, p.user_id, p.group_id, p.department_id, i.id, i.url, i.keyword
+        FROM profile_img p LEFT OUTER JOIN image i
+        ON p.img_id = i.id
+        WHERE group_id = #{value}
+    </select>
+
+    <insert id="postGroupProfileImg" parameterType="profileImg" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        profile_img(group_id, img_id)
+        VALUES(#{groupId}, #{imgId})
+    </insert>
+    <update id="updateGroupProfileImg" parameterType="profileImg">
+        UPDATE profile_img
+        SET img_id = #{imgId}
+        WHERE group_id = #{groupId}
+    </update>
+    <delete id="deleteGroupProfileImg" parameterType="int">
+        DELETE FROM profile_img
+        WHERE group_id = #{value}
+    </delete>
+
+    <select id="getAllImg" resultMap="image">
+        SELECT id, url, keyword
+        FROM image
+    </select>
+    <!-- resultmap   -->
+    <resultMap type="profileImg" id="profileImgHavingUrl">
+        <result column="user_id" property="userId" />
+        <result column="group_id" property="groupId" />
+        <result column="department_id" property="departmentId" />
+        <result column="img_id" property="imgId" />
+        <collection property="image" resultMap="image"/>
+    </resultMap>
+
+    <resultMap type="image" id="image">
+        <id column="id" property="id" />
+        <result column="url" property="url" />
+        <result column="keyword" property="keyword" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.help.back.backend.dao.FavoriteDao">
+    <sql id="getUserV1">
+        SELECT u.id, u.email, u.name, u.phone_number, u.birthday ,i.url
+        from users u LEFT OUTER JOIN profile_img p ON u.id = p.user_id
+        LEFT OUTER JOIN image i ON i.id = p.img_id
+    </sql>
+
+    <select id="getFavoritesByToId" parameterType="int" resultType="resultUser">
+        <include refid="getUserV1"/>
+        WHERE  u.id IN(SELECT f.from_user_id FROM favorite f WHERE f.to_user_id = #{value} )
+    </select>
+    <insert id="postFavorite" parameterType="favorite">
+        INSERT INTO favorite(to_user_id,from_user_id) VALUES(#{toUserId},#{fromUserId})
+    </insert>
+    <delete id="deleteFavorite" parameterType="favorite">
+        DELETE FROM favorite WHERE to_user_id = #{toUserId} AND from_user_id = #{fromUserId}
+    </delete>
+</mapper>
