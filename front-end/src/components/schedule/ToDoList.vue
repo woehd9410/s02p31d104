@@ -20,12 +20,12 @@
         v-model="progressPercentage"
       />
       <v-card-actions class="px-3" v-show="items.length">
-        <span class="success--text" style="font-size:small;">
+        <span class="success--text" style="font-size: small">
           {{ remaining }} {{ remaining | pluralize("item") }} left
         </span>
         <v-spacer></v-spacer>
         <v-btn-toggle
-          style="font-size:x-small;"
+          style="font-size: x-small"
           class="elevation-0"
           mandatory
           color="white"
@@ -44,7 +44,7 @@
       </v-card-actions>
       <v-list
         id="todoContainer"
-        style="padding-top:0px; overflow-y:hidden;"
+        style="padding-top: 0px; overflow-y: hidden"
         height="310"
         class="overflow-y-auto"
       >
@@ -53,7 +53,7 @@
             <v-list-item-content>
               <v-row class="pointerEffect" @click="isCompleteTodo(item)">
                 <v-checkbox
-                  style="margin:5px 0 0 20px;"
+                  style="margin: 5px 0 0 20px"
                   v-model="item.is_completed"
                   @click="isCompleteTodo(item)"
                   color="success"
@@ -63,23 +63,28 @@
                 <v-list-item-title
                   v-if="item.is_completed"
                   class="success--text"
-                  style="margin: 12px 0 10px 10px; flex:0; overflow:inherit; text-decoration:line-through;"
+                  style="
+                    margin: 12px 0 10px 10px;
+                    flex: 0;
+                    overflow: inherit;
+                    text-decoration: line-through;
+                  "
                   v-text="item.title"
                 >
                 </v-list-item-title>
                 <v-list-item-title
                   v-else
-                  style="margin: 12px 0 10px 10px; flex:0; overflow:inherit;"
+                  style="margin: 12px 0 10px 10px; flex: 0; overflow: inherit"
                   v-text="item.title"
                 >
                 </v-list-item-title>
               </v-row>
             </v-list-item-content>
             <v-list-item-action>
-              <v-row style="margin-bottom:5px; margin-right:-1px;">
+              <v-row style="margin-bottom: 5px; margin-right: -1px">
                 <v-btn
                   icon
-                  style="margin-top:10px;"
+                  style="margin-top: 10px"
                   @click="
                     toScheduleModal = true;
                     changeScheduleId(item.id);
@@ -88,7 +93,7 @@
                 >
                 <v-btn
                   icon
-                  style="margin-top:9.5px;"
+                  style="margin-top: 9.5px"
                   @click="deleteTodo(item.id)"
                   ><v-icon color="red"> mdi-delete </v-icon></v-btn
                 >
@@ -99,22 +104,22 @@
           <v-divider
             v-if="index + 1 < items.length"
             :key="index"
-            style="margin-top:0px; margin-bottom:0px;"
+            style="margin-top: 0px; margin-bottom: 0px"
           ></v-divider>
         </template>
       </v-list>
     </v-card>
-          <v-btn
-        @click="clearCompleted"
-        block
-        class="mt-3"
-        color="success"
-        depressed
-        rounded
-        v-show="items.length > remaining"
-      >
-        Clear completed
-      </v-btn>
+    <v-btn
+      @click="clearCompleted"
+      block
+      class="mt-3"
+      color="success"
+      depressed
+      rounded
+      v-show="items.length > remaining"
+    >
+      Clear completed
+    </v-btn>
   </v-flex>
 </template>
 
@@ -139,7 +144,7 @@ export default {
       this.changeList(1);
       this.updateNum++;
     }
-    var elem = this.$el.querySelector("#todoContainer")
+    var elem = this.$el.querySelector("#todoContainer");
     elem.scrollTop = elem.scrollHeight;
   },
   computed: {
@@ -244,15 +249,17 @@ export default {
         (error) => console.log(error)
       );
     },
-    clearCompleted(){
+    clearCompleted() {
       axiosScript.deleteCompleteToDo(
-        (res) =>{
+        (res) => {
           console.log(res);
           this.$emit("deleteCompleteTodoEvent");
           this.changeList(this.btnNum);
         },
-        (error) => {console.log(error)}
-      )
+        (error) => {
+          console.log(error);
+        }
+      );
     },
     isCompleteTodo(item) {
       let isCompleted = 0;
